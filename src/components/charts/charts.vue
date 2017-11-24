@@ -1,6 +1,5 @@
 <template>
-<div>
-  <div class="row " id="vueRow">
+  <div class="charts">
     <!--左侧导航区-->
     <div class="col-lg-2 col-md-2">
       <div class="dataChoose">
@@ -18,7 +17,7 @@
                 </select>
                 <span class="dropLabel">年</span>
                 <select id="moth" v-model="selectMonth">
-                  <option v-for="month in months" :value="month">{{month}}</option>
+                  <option v-for="month in 12" :value="month">{{month}}</option>
                 </select>
                 <span class="dropLabel">月</span>
                 <select id="day" v-model="selectDay">
@@ -84,7 +83,6 @@
       <hr>
     </div>
   </div>
-</div>
 </template>
 <script type="text/ecmascript-6">
   import echarts from 'echarts';
@@ -103,8 +101,7 @@
         },
         selectYear: '',
         selectMonth: '1',
-        selectDay: '1',
-        months: [1,2,3,4,5,6,7,8,9,10,11,12]
+        selectDay: '1'
       }
     },
     computed: {
@@ -199,7 +196,7 @@
           xAxis: {
 //                获取json中第二个数据作为横坐标
             data: this.demoData.map(function (item) {
-              return item.date;
+              return new Date(item.date * 1000).toLocaleString();
             })
           },
           yAxis: {
@@ -274,7 +271,7 @@
           xAxis: {
 //                获取json中第二个数据作为横坐标
             data: this.demoData.map(function (item) {
-              return item.date;
+              return new Date(item.date * 1000).toLocaleString();
             })
           },
           yAxis: {
@@ -382,6 +379,7 @@
       });
     },
     methods: {
+//      初始化图表
       myInit() {
         let temperature = echarts.init(document.getElementById('temperature'));
         let humidity = echarts.init(document.getElementById('humidity'));
@@ -405,6 +403,7 @@
         let yearVal = parseInt(val);
         return (yearVal % 100 === 0 && yearVal % 400 === 0)||(yearVal % 4 === 0);
       },
+//      改变图标类型
       turnSeriesType(type,e) {
         if(type === this.chartData.seriesType){
           e.stopPropagation();

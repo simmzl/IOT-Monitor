@@ -37,3 +37,9 @@ b() {
 总结：
 vm.$options用于当前 Vue 实例的初始化选项。需要在选项中包含自定义属性时会有用处；
 [官方文档vm.$options](https://cn.vuejs.org/v2/api/#vm-options)
+### git
+1.在本地目录下关联远程repository ：
+git remote add origin git@github.com:git@github.com:username/repository-name.git
+2.取消本地目录下关联的远程库：
+git remote remove origin
+

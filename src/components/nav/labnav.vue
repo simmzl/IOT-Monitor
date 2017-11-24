@@ -1,5 +1,4 @@
 <template>
-<div>
   <nav class="navbar navbar-default nav-justified" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -33,7 +32,6 @@
       </div>
     </div>
   </nav>
-</div>
 </template>
 <script type="text/ecmascript-6">
 export default {}
@@ -41,7 +39,7 @@ export default {}
 <style>
   nav{
     position: fixed!important;
-    z-index: 999;
+    z-index: 1001;
     top: 0;
     box-shadow: 0 0 1px rgba(0,0,0,0.25);
     padding: 10px;
