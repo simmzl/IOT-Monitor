@@ -1,0 +1,331 @@
+body {
+    padding: 0;
+    background-color: rgb(255, 255, 255);
+    margin: 0;
+    /*font-family: '微软雅黑';*/
+}
+nav{
+    position: fixed!important;
+    z-index: 999;
+    top: 0;
+    box-shadow: 0 0 1px rgba(0,0,0,0.25);
+    padding: 10px;
+}
+.navbar-default{
+    border: none;
+    border-radius: 0;
+    background-color: #fff;
+}
+.navbar-default a{
+    color: #000!important;
+}
+.navbar-header button{
+    border: none!important;
+}
+.main {
+    padding-top: 100px;
+    /*margin-bottom: 50px;*/
+}
+button{
+    outline:none!important ;
+}
+a:hover{
+text-decoration: none;
+}
+.clear{
+    clear: both;
+}
+.pre_next span{
+    cursor: pointer;
+}
+select{
+    border:1px solid #ccc!important;
+}
+.a_title{
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px 8px;
+}
+.btn-success{
+    background-color: #5cb85c;
+    color: #fff;
+}
+.btn-group.open .dropdown-toggle {
+    box-shadow: none;
+}
+.dis_block{
+    display: block;
+}
+.dropdown-menu{
+    padding: 0;
+}
+.chart_type ul{
+    padding: 0;
+    min-width: 100%;
+}
+.chart_type ul li a{
+    padding: 3px 0;
+    text-align: center;
+}
+.dataChoose{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    margin-bottom: 20px;
+}
+.dataChoose i{
+    text-align: center;
+    display: inline-block;
+    margin-right: 5px;
+    width: 20px;
+}
+.dataChoose i.history{
+    margin-right: 2px;
+}
+#noData{
+    /*text-align: center;*/
+    display: none;
+    color: #575757;
+    margin-left: 25px;
+}
+.dropdown-menu>li>a.aActive,.dropdown-menu>li>a.historyActive{
+    background-color:rgb(92,184,92);
+    color:#ffffff;
+}
+.pointer{
+    cursor: pointer;
+}
+.dropSelects{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.dropSelects{
+    padding: 3px 30px 3px 30px ;
+}
+select,.dropLabel{
+    font-size: 13px;
+    background-color: #fff;
+}
+
+.button-font{
+    font-size: 12px;
+    padding-bottom: 0!important;
+    padding-top: 0!important;
+    margin-top: -3px!important;
+    height: 21px;
+}
+.pre_next .fa{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+/*我的信息*/
+/*.myInfoData {*/
+    /*padding-left: 20px;*/
+    /*line-height: 40px;*/
+    /*border-bottom: 1px solid #e6e6e6;*/
+    /*overflow: hidden;*/
+/*}*/
+/*.editInfo {*/
+    /*line-height: 40px;*/
+    /*margin-top: 15px;*/
+    /*margin-right: 20px;*/
+/*}*/
+/*.fa {*/
+    /*margin-right: 10px;*/
+    /*width: 16px;*/
+    /*height: 14px;*/
+/*}*/
+/*.editInfo>i.fa{*/
+    /*margin-right: 5px;*/
+/*}*/
+
+/* 登录 */
+
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: .75;
+    filter: opacity(75);
+    z-index: 1000;
+}
+
+.login {
+    position: fixed;
+    border-radius: 10px;
+    z-index: 1001;
+    background: #fff;
+}
+
+
+/* 地图 */
+
+@media screen and (min-width: 450px) {
+    #l-map {
+        height: 700px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 449px) {
+    #l-map {
+        height: 550px;
+        width: 100%;
+    }
+}
+
+.BMap_bubble_title {
+    text-align: center;
+}
+
+.map-table {
+    width: 100%;
+    height: 100px;
+}
+.map-table td {
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    width: 33%;
+}
+.map-table td span {
+    height: 100%;
+    width: 90%;
+    line-height: 34px;
+    font-size: 16px;
+    font-weight: 700;
+    display: inline-block;
+    padding-top: 10px;
+    background: #1163b9;
+}
+
+/* footer */
+
+.footer {
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    width: 100%;
+    color: #fff;
+    background: #575757;
+}
+/*manage*/
+/*.input_group .info{*/
+    /*margin: 20px ;*/
+    /*font-size: 0;*/
+/*}*/
+/*!*.edit_pwd_wrapper{*!*/
+    /*!*display: none;*!*/
+/*!*}*!*/
+/*.input_group span.edit_desc{*/
+    /*width: auto;*/
+    /*font-weight: normal;*/
+/*}*/
+/*.input_group input{*/
+    /*border-radius: 4px 4px;*/
+    /*margin: 0 0 0 10px;*/
+    /*height: 36px;*/
+    /*width: 240px;*/
+    /*border: 1px solid #e6e6e6;*/
+    /*outline: none;*/
+    /*padding-left: 8px;*/
+/*}*/
+/*textarea{*/
+    /*width: 60%;*/
+    /*min-width: 240px;*/
+    /*border-radius: 4px 4px;*/
+    /*margin: 0 0 0 10px;*/
+    /*outline: none;*/
+    /*padding-left: 8px;*/
+    /*border: 1px solid #e6e6e6;*/
+/*}*/
+/*.input_group span{*/
+    /*display: inline-block;*/
+    /*width: 65px;*/
+    /*font-weight: bold;*/
+    /*font-size: 14px;*/
+/*}*/
+/*.textarea span{*/
+    /*vertical-align:top;*/
+/*}*/
+/*.submit{*/
+    /*padding-left: 0!important;*/
+    /*text-decoration: none;*/
+    /*text-align: center;*/
+    /*display: inline-block;*/
+    /*font-size: 14px;*/
+    /*!*margin-left: 99px!important;*!*/
+    /*background-color: #000000;*/
+    /*color: #fff;*/
+    /*height: 40px!important;*/
+/*}*/
+/*#error.error_reg,#error_pwd{*/
+    /*display: inline-block;*/
+    /*box-sizing: border-box;*/
+    /*width: 240px;*/
+    /*height: 24px;*/
+    /*border: 1px solid #faccc6;*/
+    /*padding: 3px 10px;*/
+    /*margin-left: 10px;*/
+    /*!*margin:-15px 0 -15px 10px;*!*/
+    /*font-size: 12px;*/
+    /*line-height: 16px;*/
+    /*color: #e4393c;*/
+    /*background: #ffebeb;*/
+    /*opacity: 0;*/
+    /*border-radius: 2px 2px;*/
+/*}*/
+/*.err_info.info{*/
+    /*margin-top: -15px;*/
+    /*margin-bottom: -15px;*/
+/*}*/
+/*!*.err_info.info error*!*/
+/*!*search*!*/
+/*.equip_search input{*/
+    /*max-width: 720px;*/
+    /*width: calc(100% - 30px);*/
+    /*height: 40px;*/
+    /*border: 1px solid #e6e6e6;*/
+    /*outline: none;*/
+    /*padding-left: 8px;*/
+    /*border-radius: 4px 4px;*/
+    /*display: inline!important;*/
+    /*margin-bottom: 20px;*/
+/*}*/
+/*.equip_search span{*/
+    /*display: inline-block;*/
+    /*width: 20px;*/
+    /*margin-left: 10px;*/
+    /*cursor: pointer;*/
+/*}*/
+/*.equip_all{*/
+    /*margin-bottom: 20px;*/
+/*}*/
+table a{
+    color: #2277da;
+}
+.equip_search_all,.equip_repair{
+    display: none;
+}
+#collapseOne table,#collapseTwo table{
+    border: none;
+    margin-bottom: 0;
+}
+.panel-body{
+    padding: 0;
+}
+@media  screen and ( max-width: 700px) {
+    /*nav*/
+    .dataChoose i{
+        display: none;
+    }
+    .equip a{
+        font-size: 12px;
+    }
+}

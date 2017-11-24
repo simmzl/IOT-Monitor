@@ -1,0 +1,26 @@
+body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, fieldset, table, td, img, div, dl, dt, dd, input {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+button, input, select {
+    outline: none;
+    border: none;
+    background: none;
+}
+input{
+    -webkit-appearance: none;
+}
+/*background:none 针对IE6而言*/
+textarea {
+    resize: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
