@@ -14,9 +14,8 @@
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav navbar-right main-nav">
           <li><a href="manage.html">设备管理</a></li>
-          <!--<li><a href="http://movie.simmzl.cn/monitor/admin.php?controller=admin&method=admin">数据监测</a></li>-->
-          <li><router-link to="/charts">数据检测</router-link></li>
-          <li><a href="">视频监控</a></li>
+          <li><router-link to="/charts">数据监测</router-link></li>
+          <li><router-link to="/video">视频监控</router-link></li>
           <li><a href="">文档管理</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

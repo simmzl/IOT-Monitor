@@ -4,8 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
+
 import info from './components/info/info';
-import charts from './components/charts/charts'
+import charts from './components/charts/charts';
+import labvideo from './components/video/labvideo';
+import equipment from './components/equipment/equipment';
 
 Vue.config.productionTip = false;
 
@@ -14,22 +17,24 @@ Vue.use(VueRouter);
 
 let routes = [
   { path: '/info', component: info },
-  { path: '/charts', component: charts }
+  { path: '/charts', component: charts },
+  { path: '/video', component: labvideo },
+  { path: '/equipment', component: equipment}
 ];
 
 let router = new VueRouter({
   linkActiveClass: 'active',
-  routes // （缩写）相当于 routes: routes
+  routes
 });
 
-let vm = new Vue({
+new Vue({
   el: '#app',
   router,
   template: '<App/>',
   components: { App },
   methods: {}
 });
-router.push('charts');
+router.push('equipment');
 
 Vue.prototype.isNumber = data => {
   return /^\d{1,10}$/.test(data);

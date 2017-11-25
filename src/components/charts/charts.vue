@@ -1,8 +1,8 @@
 <template>
   <div class="charts">
     <!--左侧导航区-->
-    <div class="col-lg-2 col-md-2">
-      <div class="dataChoose">
+    <div class="col-lg-3 col-md-3 auto-padding">
+      <div class="dataChoose" >
         <div class="btn-group">
           <a  class="dropdown-toggle a_title" data-toggle="dropdown" style='width: 100%'>
             <span><i class='fa fa-calendar-check-o history'></i></span>
@@ -41,14 +41,14 @@
       </div>
     </div>
     <!--数据展示区-->
-    <div class="col-lg-10  col-md-10 ">
+    <div class="col-lg-9 col-md-9 no-padding">
       <!--<hr>-->
       <!--按钮设置区-->
       <div id="noData"><p>暂无数据...</p></div>
       <!--数据展示-->
       <div id="showData">
         <!--温度数据-->
-        <div class="">
+        <div class="chart-wrapper">
           <div id="temperature" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
             <span class='pre_day' >上一天</span>
@@ -59,7 +59,7 @@
         </div>
         <hr>
         <!--湿度数据-->
-        <div class="">
+        <div class="chart-wrapper">
           <div id="humidity" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
             <span class='pre_day' >上一天</span>
@@ -70,7 +70,7 @@
         </div>
         <hr>
         <!--风速数据-->
-        <div class="">
+        <div class="chart-wrapper">
           <div id="wind" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
             <span class='pre_day' id="pre">上一天</span>
@@ -426,5 +426,37 @@
   .dropSelects{
     padding-bottom: 8px;
     margin-bottom: 0;
+  }
+  .no-padding{
+    padding: 0;
+  }
+  .chart-wrapper{
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  .dataChoose{
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  .container{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .auto-padding{
+    padding-right: 30px;
+  }
+  @media  screen and ( min-width: 992px) {
+    .dataChoose{
+      padding-left: 30px;
+    }
+  }
+  @media  screen and ( max-width: 991px) {
+    .auto-padding{
+      padding: 0;
+    }
   }
 </style>

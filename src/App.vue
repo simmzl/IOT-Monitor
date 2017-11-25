@@ -3,10 +3,9 @@
     <labnav></labnav>
     <div class='container main clearfix'>
       <div class="containter-main">
-        <!--<info></info>-->
-        <keep-alive>
+        <!--<keep-alive>-->
           <router-view></router-view>
-        </keep-alive>
+        <!--</keep-alive>-->
       </div>
     </div>
     <labfooter></labfooter>
@@ -16,13 +15,14 @@
 <script>
   import labnav from './components/nav/labnav'
   import labfooter from './components/footer/labfooter'
-  import info from './components/info/info'
 
   export default {
+    data() {
+      return {}
+    },
     components: {
       labnav,
-      labfooter,
-      info
+      labfooter
     }
   }
 </script>
