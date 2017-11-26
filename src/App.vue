@@ -29,24 +29,35 @@
 
 <style>
   @import "common/css/main.css";
+  @import "common/css/reset.css";
 
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100%;
-}
-.container.main.clearfix{
-  min-height: 100%;
-}
-.containter-main{
-  padding-bottom: 180px;
-}
-.clearfix:after {
-  display: block;
-  content: '';
-  clear: both;
-  height: 0;
-  visibility: hidden
-}
+  .container{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  body{
+    background: #f6f6f6;
+  }
+  .main {
+    padding-top: 100px;
+  }
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+  }
+  .container.main.clearfix{
+    min-height: 100%;
+  }
+  .containter-main{
+    padding-bottom: 180px;
+  }
+  .clearfix:after {
+    display: block;
+    content: '';
+    clear: both;
+    height: 0;
+    visibility: hidden
+  }
 </style>

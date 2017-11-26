@@ -2,13 +2,15 @@ body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, fieldset, table, td, img, div
     margin: 0;
     padding: 0;
 }
-
+body,html{
+  height: 100%;
+}
 li {
     list-style: none;
 }
 
 button, input, select {
-    outline: none;
+    outline: none!important;
     border: none;
     background: none;
 }
@@ -19,8 +21,19 @@ input{
 textarea {
     resize: none;
 }
-
 a {
     text-decoration: none;
     color: #000000;
+}
+a:hover{
+  text-decoration: none;
+}
+.clear{
+  clear: both;
+}
+select{
+  border:1px solid #ccc!important;
+}
+.no-padding{
+  padding: 0;
 }

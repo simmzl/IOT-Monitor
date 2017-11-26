@@ -22,7 +22,7 @@
         <a class="pull-right editInfo" id='back' href="javascript:;" title='返回' @click="showEdit"><i class="fa fa-reply"></i>返回</a>
         <h3>编辑资料</h3>
       </div>
-      <div class="input_group equip_input">
+      <div class="input_group">
         <form action="">
           <div class="info">
             <span>学号:</span>
@@ -140,8 +140,6 @@ export default {
     },
 //    修改密码前验证
     canPwdSubmit(e) {
-      console.log(!this.editPwd.oriPwd || !this.editPwd.pwd || !this.editPwd.pwdConf);
-      console.log(this.editPwd.pwd === this.editPwd.pwdConf);
       let result = () =>{
         if(!this.editPwd.oriPwd || !this.editPwd.pwd || !this.editPwd.pwdConf){
           this.editPwd.errShow = true;
@@ -151,11 +149,14 @@ export default {
           if(this.editPwd.pwd.length<6){
             this.editPwd.errShow = true;
             this.editPwd.err = "密码不能少于6个字符";
+            return false;
           }else {
             this.editPwd.errShow = false;
+            return true;
           }
         }else {
           this.editPwd.err = "两次输入的密码不同";
+          return false;
         }
         };
       if(!result()) e.preventDefault();
@@ -254,8 +255,5 @@ export default {
     width: 20px;
     margin-left: 10px;
     cursor: pointer;
-  }
-  .equip_all{
-    margin-bottom: 20px;
   }
 </style>

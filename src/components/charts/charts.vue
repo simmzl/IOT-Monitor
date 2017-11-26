@@ -42,11 +42,9 @@
     </div>
     <!--数据展示区-->
     <div class="col-lg-9 col-md-9 no-padding">
-      <!--<hr>-->
-      <!--按钮设置区-->
-      <div id="noData"><p>暂无数据...</p></div>
+      <div class="no-data" v-show="hasData">暂无数据...</div>
       <!--数据展示-->
-      <div id="showData">
+      <div id="showData" v-show="!hasData">
         <!--温度数据-->
         <div class="chart-wrapper">
           <div id="temperature" style="width: 100%;height:400px;"></div>
@@ -80,7 +78,6 @@
           </div>
         </div>
       </div>
-      <hr>
     </div>
   </div>
 </template>
@@ -101,7 +98,8 @@
         },
         selectYear: '',
         selectMonth: '1',
-        selectDay: '1'
+        selectDay: '1',
+        hasData: false
       }
     },
     computed: {
@@ -373,9 +371,12 @@
     created() {
       this.$http.get('static/data/demo.json').then((res) => {
         this.demoData = res.body;
+        if(this.hasData) this.hasData=false;
         this.$nextTick(() => {
           this.myInit();
         });
+      },function () {
+        if(!this.hasData) this.hasData=true;
       });
     },
     methods: {
@@ -422,13 +423,31 @@
   }
 </script>
 <style>
-  @import "../../common/css/reset.css";
+  .no-data{
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    color: #e4393c;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+  .chart_type ul{
+    padding: 0;
+    min-width: 100%;
+  }
+  .chart_type ul li a{
+    padding: 3px 0;
+    text-align: center;
+  }
+  .pre_next span{
+    cursor: pointer;
+  }
+  .pre_next .fa{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .dropSelects{
     padding-bottom: 8px;
     margin-bottom: 0;
-  }
-  .no-padding{
-    padding: 0;
   }
   .chart-wrapper{
     background-color: #ffffff;
@@ -442,11 +461,7 @@
     border-radius: 10px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   }
-  .container{
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .auto-padding{
+  .charts .auto-padding{
     padding-right: 30px;
   }
   @media  screen and ( min-width: 992px) {
@@ -455,7 +470,7 @@
     }
   }
   @media  screen and ( max-width: 991px) {
-    .auto-padding{
+    .charts .auto-padding{
       padding: 0;
     }
   }

@@ -1,0 +1,22 @@
+.dataChoose{
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+.auto-padding{
+  padding-right: 30px;
+}
+.no-padding{
+  padding: 0;
+}
+@media  screen and ( min-width: 992px) {
+  .dataChoose{
+    padding-left: 30px;
+  }
+}
+@media  screen and ( max-width: 991px) {
+  .auto-padding{
+    padding: 0;
+  }
+}

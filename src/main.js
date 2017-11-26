@@ -9,7 +9,9 @@ import info from './components/info/info';
 import charts from './components/charts/charts';
 import labvideo from './components/video/labvideo';
 import equipment from './components/equipment/equipment';
-
+import equipinput from './components/equipment/equipinput';
+import equipsearch from './components/equipment/equipsearch';
+import equiprepair from './components/equipment/equiprepair';
 Vue.config.productionTip = false;
 
 Vue.use(VueResource);
@@ -19,7 +21,15 @@ let routes = [
   { path: '/info', component: info },
   { path: '/charts', component: charts },
   { path: '/video', component: labvideo },
-  { path: '/equipment', component: equipment}
+  {
+    path: '/equipment',
+    component: equipment,
+    redirect: '/equipinput',
+    children: [
+      { path: '/equipinput', components: {equip :equipinput}},
+      { path: '/equipsearch', components: {equip :equipsearch}},
+      { path: '/equiprepair', components: {equip :equiprepair}}
+  ]},
 ];
 
 let router = new VueRouter({

@@ -1,6 +1,6 @@
 <template>
-<div>
-  <div class="col-lg-9 col-md-9">
+<div class="labvideo">
+  <div class="col-lg-9 col-md-9 auto-padding">
     <div class="video-wrapper" style="width: 100%">
       <div class="video-title">视频监控</div>
       <video-player class="vjs-custom-skin" ref="videoPlayer" :options="typeOptions">
@@ -10,7 +10,7 @@
       </div>
     </div>
   </div>
-  <div class='col-lg-3 col-md-3'>
+  <div class='col-lg-3 col-md-3 auto-padding'>
     <div class="video-title">监控信息</div>
     <div class="video-info-wrapper">
       <p>地点：工学院</p>
@@ -52,9 +52,6 @@
   }
 </script>
 <style>
-  body{
-    background: #f0f0f0;
-  }
   .video-wrapper{
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     background: #fff;
@@ -97,5 +94,10 @@
   }
   .video-js:hover .vjs-big-play-button, .vjs-custom-skin > .video-js .vjs-big-play-button:focus, .vjs-custom-skin > .video-js .vjs-big-play-button:active{
     background: rgba(0,0,0,0.4)!important;
+  }
+  @media  screen and ( max-width: 991px) {
+    .labvideo .auto-padding{
+      padding: 0;
+    }
   }
 </style>
