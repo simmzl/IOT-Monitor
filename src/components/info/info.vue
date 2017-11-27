@@ -1,12 +1,12 @@
 <template>
 <div class="labinfo">
-  <div class='col-lg-2 col-md-2'></div>
+  <div class='col-lg-1 col-md-1'></div>
   <!--我的信息-->
-  <div class="col-lg-8 col-md-8">
-    <div id="myInfo" v-show="!isShowEdit">
+  <div class="col-lg-9 col-md-9 no-padding">
+    <div class="basicInfo" v-show="!isShowEdit">
       <div class="myInfoData">
         <a class="pull-right editInfo" id='edit' href="javascript:;" title="编辑" @click="showEdit"><i class="fa fa-pencil"></i>编辑</a>
-        <h3>基础资料</h3>
+        <h3 class="title">基础资料</h3>
       </div>
       <div class="myInfoData">
         <span>学号：</span>
@@ -18,11 +18,11 @@
       </div>
     </div>
     <div id='edit_info' v-show="isShowEdit">
-      <div class="myInfoData">
-        <a class="pull-right editInfo" id='back' href="javascript:;" title='返回' @click="showEdit"><i class="fa fa-reply"></i>返回</a>
-        <h3>编辑资料</h3>
-      </div>
-      <div class="input_group">
+      <div class="editInfoWrapper input_group">
+        <div class="myInfoData">
+          <a class="pull-right editInfo" id='back' href="javascript:;" title='返回' @click="showEdit"><i class="fa fa-reply"></i>返回</a>
+          <h3 class="title">编辑资料</h3>
+        </div>
         <form action="">
           <div class="info">
             <span>学号:</span>
@@ -38,13 +38,15 @@
           </div>
           <div class="info">
             <span></span>
-            <input type="submit" class='submit' id="submit_info" @click="canSubmit">
+            <input type="submit" class='submit' id="submit_info" @click="canSubmit" value="提交">
           </div>
         </form>
+      </div>
+      <div class="input_group">
         <div class="edit_pwd">
           <div class="myInfoData">
             <a class="pull-right editInfo" id='edit_pwd' href="javascript:;" title='' @click="showPwd"><i id="edit_pwd_turn" class="fa fa-pencil"></i><span class="edit_desc">{{editPwd.content}}</span></a>
-            <h3>更改密码</h3>
+            <h3 class="title">更改密码</h3>
           </div>
           <div class="edit_pwd_wrapper" v-show="isShowPwd">
             <form action="">
@@ -66,7 +68,7 @@
               </div>
               <div class="info">
                 <span></span>
-                <input type="submit" class='submit' id="submit_pwd" @click="canPwdSubmit">
+                <input type="submit" class='submit' id="submit_pwd" @click="canPwdSubmit" value="提交">
               </div>
             </form>
           </div>
@@ -165,6 +167,18 @@ export default {
 }
 </script>
 <style>
+  .labinfo .title{
+    line-height: 60px;
+  }
+  .basicInfo,.editInfoWrapper,.edit_pwd{
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+  }
+  .editInfoWrapper{
+    margin-bottom: 40px;
+  }
   .myInfoData {
     padding-left: 20px;
     line-height: 40px;

@@ -341,7 +341,7 @@
         let myDate = new Date;
         let result=[];
         let nowYear = myDate.getFullYear();
-        for (let i=2017;i<=2090;i++){
+        for (let i=2017;i<=nowYear;i++){
           result.push(i);
         }
         this.selectYear = nowYear;

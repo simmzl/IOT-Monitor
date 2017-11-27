@@ -7,7 +7,7 @@
       </div>
       <div class="info">
         <span>生产日期:</span>
-        <input type="text" placeholder="19700101" v-model="edit.date">
+        <input type="text" placeholder="格式：19700101" v-model="edit.date">
       </div>
       <div class="info">
         <span>供应商:</span>
@@ -23,7 +23,7 @@
       </div>
       <div class="info">
         <span style="font-size: 0"></span>
-        <input type="submit" class='submit' id="submit">
+        <input type="submit" class='submit' id="submit" @click="canSubmit" value="提交">
       </div>
     </form>
   </div>
@@ -44,6 +44,31 @@
     },
     computed: {
 
+    },
+    methods: {
+      canSubmit(e) {
+        let result = () =>{
+          if(!this.edit.id || !this.edit.date || !this.edit.vendor || !this.edit.person){
+            this.edit.errShow = true;
+            this.edit.err = "请完成输入";
+            return false;
+          }else if (!this.isNumber(this.edit.id)){
+              this.edit.errShow = true;
+              this.edit.err = "请输入正确的编号（纯数字）";
+              return false;
+            }else if (!this.isDate(this.edit.date)){
+              this.edit.errShow = true;
+            let myDate = new Date;
+            let rightFormat = myDate.getFullYear() + '' + (myDate.getMonth()+1) + '' + myDate.addZero(myDate.getDate()) ;
+              this.edit.err = `请输入正确的日期（如：${rightFormat}）`;
+              return false;
+            }else {
+              if(this.edit.errShow === true) this.edit.errShow = false;
+              return true;
+          }
+        };
+        if(!result()) e.preventDefault();
+      }
     }
   }
 </script>
@@ -88,5 +113,23 @@
     font-weight: bold;
     font-size: 14px;
   }
-
+  #error.error_reg{
+    display: inline-block;
+    box-sizing: border-box;
+    width: 240px;
+    height: 24px;
+    border: 1px solid #faccc6;
+    padding: 3px 10px;
+    margin-left: 10px;
+    /*margin:-15px 0 -15px 10px;*/
+    font-size: 12px;
+    line-height: 16px;
+    color: #e4393c;
+    background: #ffebeb;
+    border-radius: 2px 2px;
+  }
+  .err_info.info{
+    margin-top: -15px;
+    margin-bottom: -15px;
+  }
 </style>

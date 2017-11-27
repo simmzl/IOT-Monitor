@@ -1,35 +1,65 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 
+import login from './components/login/login';
+import signUp from './components/signup/signup';
+
 import info from './components/info/info';
-import charts from './components/charts/charts';
-import labvideo from './components/video/labvideo';
-import equipment from './components/equipment/equipment';
-import equipinput from './components/equipment/equipinput';
-import equipsearch from './components/equipment/equipsearch';
-import equiprepair from './components/equipment/equiprepair';
+
+// admin
+import admin from './components/admin/admin'
+import charts from './components/admin/charts/charts';
+import labVideo from './components/admin/video/labvideo';
+import equipment from './components/admin/equipment/equipment';
+import equipInput from './components/admin/equipment/equipinput';
+import equipSearch from './components/admin/equipment/equipsearch';
+import equipRepair from './components/admin/equipment/equiprepair';
+import file from './components/admin/file/file';
+
+// user
+import user from './components/user/user';
+import userFiles from './components/user/userFiles/userFiles'
+import bookRepair from './components/user/bookRepair/bookRepair'
+
 Vue.config.productionTip = false;
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
 
 let routes = [
-  { path: '/info', component: info },
-  { path: '/charts', component: charts },
-  { path: '/video', component: labvideo },
+  { path: '/', component: login },
+  { path: '/signUp', component: signUp },
   {
-    path: '/equipment',
-    component: equipment,
-    redirect: '/equipinput',
+    path: '/admin',
+    component: admin,
+    redirect: '/charts',
     children: [
-      { path: '/equipinput', components: {equip :equipinput}},
-      { path: '/equipsearch', components: {equip :equipsearch}},
-      { path: '/equiprepair', components: {equip :equiprepair}}
-  ]},
+      { path: '/info', component: info },
+      { path: '/charts', component: charts },
+      { path: '/video', component: labVideo },
+      {
+        path: '/equipment',
+        component: equipment,
+        redirect: '/equipInput',
+        children: [
+          { path: '/equipInput', components: {equip :equipInput}},
+          { path: '/equipSearch', components: {equip :equipSearch}},
+          { path: '/equipRepair', components: {equip :equipRepair}}
+        ]},
+      { path: '/file', component: file }
+    ]
+  },
+  {
+    path: '/user',
+    component: user,
+    redirect: '/userFiles',
+    children: [
+      { path: '/userFiles', component: userFiles },
+      { path: '/bookRepair', component: bookRepair }
+    ]
+  }
 ];
 
 let router = new VueRouter({
@@ -44,13 +74,17 @@ new Vue({
   components: { App },
   methods: {}
 });
-router.push('equipment');
+router.push('/');
 
 Vue.prototype.isNumber = data => {
   return /^\d{1,10}$/.test(data);
 };
 Vue.prototype.isEmail = data => {
   return   /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(data);
+};
+Vue.prototype.isDate = data => {
+  let reg = /(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})(((0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)/g;
+  return reg.test(data);
 };
 Date.prototype.addZero = function (num) {
   if (num < 10) {

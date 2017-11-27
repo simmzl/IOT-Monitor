@@ -1,0 +1,17 @@
+[ {
+    "name": "实验室操作手册",
+    "path": "../../../static/data/demo.txt"
+  },
+  {
+    "name": "实验室设备管理条例",
+    "path": "../../../static/data/demo.txt"
+  },
+  {
+    "name": "标本管理制度",
+    "path": "../../../static/data/demo.txt"
+  },
+  {
+    "name": "设备使用指南",
+    "path": "../../../static/data/demo.txt"
+  }
+]

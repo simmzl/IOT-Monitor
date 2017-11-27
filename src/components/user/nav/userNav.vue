@@ -13,17 +13,15 @@
       </div>
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav navbar-right main-nav">
-          <li><router-link to="/equipment">设备管理</router-link></li>
-          <li><router-link to="/charts">数据监测</router-link></li>
-          <li><router-link to="/video">视频监控</router-link></li>
-          <li><router-link to="/file">文档管理</router-link></li>
+          <li><a href="./tpl/member/repair.html">设备报修</a></li>
+          <li><a href="">文档中心</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               个人中心
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><router-link to="/info">个人信息</router-link></li>
+              <li><a href=" ./tpl/member/information.html">个人信息</a></li>
               <li><a href="javascript:;" id="loginOut">退出登录</a></li>
             </ul>
           </li>
@@ -33,26 +31,8 @@
   </nav>
 </template>
 <script type="text/ecmascript-6">
-
-export default {}
+  export default {}
 </script>
-<style>
-  nav{
-    position: fixed!important;
-    z-index: 1001;
-    top: 0;
-    box-shadow: 0 0 1px rgba(0,0,0,0.25);
-    padding: 10px;
-  }
-  .navbar-default{
-    border: none;
-    border-radius: 0;
-    background-color: #fff;
-  }
-  .navbar-default a{
-    color: #000!important;
-  }
-  .navbar-header button{
-    border: none!important;
-  }
+<style >
+
 </style>
