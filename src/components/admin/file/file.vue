@@ -1,7 +1,7 @@
 <template>
 <div class="fileManage">
   <div class='col-lg-1 col-md-1'></div>
-  <div class="col-lg-9 col-md-9 no-padding">
+  <div class="col-lg-10 col-md-10 no-padding">
     <div class="upload clearfix">
       <h3>上传文件</h3>
       <hr class="hr">

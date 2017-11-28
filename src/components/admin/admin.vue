@@ -1,22 +1,33 @@
 <template>
   <div class="admin">
-    <labNav></labNav>
+    <lab-nav></lab-nav>
     <div class='container main clearfix'>
       <div class="containter-main clearfix">
         <router-view></router-view>
       </div>
     </div>
-    <labFooter></labFooter>
+    <lab-footer></lab-footer>
   </div>
 </template>
 
 <script>
   import labNav from '../../components/nav/labnav'
   import labFooter from '../../components/footer/labfooter'
+  import { setCookie,getCookie,delCookie } from '../../common/js/cookie.js'
 
   export default {
     data() {
-      return {}
+      return {
+        name: ''
+      }
+    },
+    mounted() {
+      let uName = getCookie('username');
+      this.name = uName;
+      /*如果cookie不存在，则跳转到登录页*/
+      if(uName === ""){
+        this.$router.push('/')
+      }
     },
     components: {
       labNav,

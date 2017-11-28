@@ -2,7 +2,7 @@
 <div class="labinfo">
   <div class='col-lg-1 col-md-1'></div>
   <!--我的信息-->
-  <div class="col-lg-9 col-md-9 no-padding">
+  <div class="col-lg-10 col-md-10 no-padding">
     <div class="basicInfo" v-show="!isShowEdit">
       <div class="myInfoData">
         <a class="pull-right editInfo" id='edit' href="javascript:;" title="编辑" @click="showEdit"><i class="fa fa-pencil"></i>编辑</a>
@@ -240,7 +240,6 @@ export default {
     border: 1px solid #faccc6;
     padding: 3px 10px;
     margin-left: 10px;
-    /*margin:-15px 0 -15px 10px;*/
     font-size: 12px;
     line-height: 16px;
     color: #e4393c;

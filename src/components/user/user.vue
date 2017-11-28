@@ -1,12 +1,12 @@
 <template>
 <div class="user">
-  <userNav></userNav>
+  <user-nav></user-nav>
   <div class='container main clearfix'>
     <div class="containter-main clearfix">
       <router-view></router-view>
     </div>
   </div>
-  <labFooter></labFooter>
+  <lab-footer></lab-footer>
 </div>
 </template>
 <script type="text/ecmascript-6">

@@ -13,16 +13,16 @@
       </div>
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav navbar-right main-nav">
-          <li><a href="./tpl/member/repair.html">设备报修</a></li>
-          <li><a href="">文档中心</a></li>
+          <li><router-link to="/user/bookRepair">设备报修</router-link></li>
+          <li><router-link to="/user/userFiles">文档中心</router-link></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               个人中心
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><a href=" ./tpl/member/information.html">个人信息</a></li>
-              <li><a href="javascript:;" id="loginOut">退出登录</a></li>
+              <li><router-link to="/user/info">个人信息</router-link></li>
+              <li><a href="javascript:;" @click="quit">退出登录</a></li>
             </ul>
           </li>
         </ul>
@@ -31,8 +31,15 @@
   </nav>
 </template>
 <script type="text/ecmascript-6">
-  export default {}
-</script>
-<style >
+  import { delCookie } from '../../../common/js/cookie.js'
 
+  export default {
+    methods: {
+      quit() {
+        delCookie('username');
+      }
+    }
+  }
+</script>
+<style>
 </style>

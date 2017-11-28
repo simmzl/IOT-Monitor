@@ -34,30 +34,31 @@ let routes = [
   {
     path: '/admin',
     component: admin,
-    redirect: '/charts',
+    redirect: '/admin/charts',
     children: [
-      { path: '/info', component: info },
-      { path: '/charts', component: charts },
-      { path: '/video', component: labVideo },
+      { path: 'info', component: info },
+      { path: 'charts', component: charts },
+      { path: 'video', component: labVideo },
       {
-        path: '/equipment',
+        path: 'equipment',
         component: equipment,
-        redirect: '/equipInput',
+        redirect: '/admin/equipment/equipInput',
         children: [
-          { path: '/equipInput', components: {equip :equipInput}},
-          { path: '/equipSearch', components: {equip :equipSearch}},
-          { path: '/equipRepair', components: {equip :equipRepair}}
+          { path: 'equipInput', components: {equip :equipInput}},
+          { path: 'equipSearch', components: {equip :equipSearch}},
+          { path: 'equipRepair', components: {equip :equipRepair}}
         ]},
-      { path: '/file', component: file }
+      { path: 'file', component: file }
     ]
   },
   {
     path: '/user',
     component: user,
-    redirect: '/userFiles',
+    redirect: '/user/userFiles',
     children: [
-      { path: '/userFiles', component: userFiles },
-      { path: '/bookRepair', component: bookRepair }
+      { path: 'info', component: info },
+      { path: 'userFiles', component: userFiles },
+      { path: 'bookRepair', component: bookRepair }
     ]
   }
 ];
