@@ -85,35 +85,41 @@
           if(this.errShow !== true)  this.errShow = true;
         }else {
 //            测试
-          this.isLoginSuccess = true;
-          this.err = "登录成功";
-          this.errShow = true;
-          setCookie('username',this.username,1000*60);
-          setTimeout(function(){
-            this.$router.push('/admin')
-          }.bind(this),500);
+//          this.isLoginSuccess = true;
+//          this.err = "登录成功";
+//          this.errShow = true;
+//          setCookie('username',this.username,1000*60);
+//          setTimeout(function(){
+//            this.$router.push('/admin')
+//          }.bind(this),500);
 
           let data = {'username':this.username,'password':this.password};
 //          /*接口请求*/
-          this.$http.post('/url',data).then((res)=>{
+          this.$http.post('./login.php', data).then((res)=>{
             console.log(res);
-            /*接口的传值是(-1,该用户不存在),(0,密码错误)，同时还会检测管理员账号的值*/
-            if(res.data === -1){
-              this.err = "该用户不存在";
+//            0 错误 1 admin 2 user
+            if(res.data === 0){
+              this.err = "用户名或密码错误";
               this.errShow = true;
-            }else if(res.data === 0){
-              this.err = "密码输入错误";
-              this.errShow = true;
-            }else if(res.data === 'admin'){
-              this.$router.push('/admin');
-            }else{
+            }else if(res.data === 1){
               this.isLoginSuccess = true;
-              this.err = "登录成功";
+              this.err = "管理员登录成功";
               this.errShow = true;
               setCookie('username',this.username,1000*60);
               setTimeout(function(){
                 this.$router.push('/admin')
               }.bind(this),500);
+            }else if(res.data === 2){
+              this.isLoginSuccess = true;
+              this.err = "登录成功";
+              this.errShow = true;
+              setCookie('username',this.username,1000*60);
+              setTimeout(function(){
+                this.$router.push('/user')
+              }.bind(this),500);
+            }else {
+              this.err = "登录失败";
+              this.errShow = true;
             }
           })
 
@@ -141,7 +147,7 @@
           this.signUp.errShow = true;
           this.username = this.signUp.username;
           this.password = '';
-//          /*注册成功之后再跳回登录页*/
+          /*注册成功之后再跳回登录页*/
 //          setTimeout(function(){
 //            this.isSignUp = false;
 //            this.errShow = false;
