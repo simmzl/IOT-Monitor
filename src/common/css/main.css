@@ -1,3 +1,36 @@
+body{
+  background: #f6f6f6;
+}
+/*nav*/
+nav{
+  position: fixed!important;
+  z-index: 1001;
+  top: 0;
+  box-shadow: 0 0 1px rgba(0,0,0,0.25);
+  background-color: rgba(255,255,255,0.95);
+}
+.navbar-default{
+  border: none;
+  border-radius: 0;
+  background-color: #fff;
+}
+.navbar-default a{
+  color: #000!important;
+}
+.navbar-header button{
+  border: none!important;
+}
+li a.router-link-exact-active.active {
+  /*color: #5cb85c!important;*/
+  /*background-color: #000000;*/
+  color: #fff!important;
+  background-color: #5cb85c;
+}
+.navbar-default .navbar-nav>li>a.router-link-exact-active.active:hover,.navbar-default .navbar-nav>li>a.router-link-exact-active.active:focus {
+  color: #fff!important;
+  background-color: #5cb85c;
+}
+
 .a_title {
   font-size: 16px;
   display: inline-block;
@@ -139,16 +172,6 @@ select, .dropLabel {
   font-size: 14px;
 }
 
-textarea {
-  width: 60%;
-  min-width: 240px;
-  border-radius: 4px 4px;
-  margin: 0 0 0 10px;
-  outline: none;
-  padding-left: 8px;
-  border: 1px solid #e6e6e6;
-}
-
 .input_group span {
   display: inline-block;
   width: 65px;
@@ -156,18 +179,12 @@ textarea {
   font-size: 14px;
 }
 
-.textarea span {
-  vertical-align: top;
-}
-
 .submit {
   padding-left: 0 !important;
   text-decoration: none;
   text-align: center;
   display: inline-block;
-  display: inline-block;
   font-size: 14px;
-  /*margin-left: 99px!important;*/
   background-color: #000000;
   color: #fff;
   height: 40px !important;
@@ -186,6 +203,11 @@ textarea {
 
   .equip a {
     font-size: 12px;
+  }
+}
+@media  screen and ( max-width: 991px) {
+  .auto-padding {
+    padding: 0!important;
   }
 }
 

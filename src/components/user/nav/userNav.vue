@@ -37,6 +37,8 @@
     methods: {
       quit() {
         delCookie('username');
+        delCookie('info');
+        this.$router.push('/');
       }
     }
   }

@@ -12,9 +12,9 @@ export default {}
     background: #555;
     color: #fff;
     text-align: center;
-    height: 80px;
-    line-height: 80px;
-    margin-top: -80px;
+    height: 60px;
+    line-height: 60px;
+    margin-top: -60px;
     clear: both;
   }
 </style>

@@ -3,7 +3,7 @@ export function setCookie(name, value, expire) {
   let date = new Date();
   date.setSeconds(date.getSeconds() + expire);
   document.cookie = name + "=" + escape(value) + "; expires=" + date.toGMTString();
-  console.log(document.cookie);
+  // console.log(document.cookie);
 }
 
 /*获取cookie*/

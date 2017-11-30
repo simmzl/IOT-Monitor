@@ -61,12 +61,11 @@
           err: '',
           errShow: false,
           isSignUpSuccess: false
+        },
+        info: {
+          name: '',
+          pwd: ''
         }
-      }
-    },
-    mounted() {
-      if(getCookie('username')){
-        this.$router.push('/admin');
       }
     },
     methods: {
@@ -84,39 +83,32 @@
           this.err = ("请输入正确的学号（数字）");
           if(this.errShow !== true)  this.errShow = true;
         }else {
-//            测试
-//          this.isLoginSuccess = true;
-//          this.err = "登录成功";
-//          this.errShow = true;
-//          setCookie('username',this.username,1000*60);
-//          setTimeout(function(){
-//            this.$router.push('/admin')
-//          }.bind(this),500);
-
           let data = {'username':this.username,'password':this.password};
 //          /*接口请求*/
-          this.$http.post('./login.php', data).then((res)=>{
+          this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
             console.log(res);
 //            0 错误 1 admin 2 user
-            if(res.data === 0){
+            if(res.data === '0'){
               this.err = "用户名或密码错误";
               this.errShow = true;
-            }else if(res.data === 1){
+            }else if(res.data === '1'){
               this.isLoginSuccess = true;
               this.err = "管理员登录成功";
               this.errShow = true;
               setCookie('username',this.username,1000*60);
+              setCookie('info',this.password,1000*60);
               setTimeout(function(){
-                this.$router.push('/admin')
-              }.bind(this),500);
-            }else if(res.data === 2){
+                this.$router.push('/admin');
+              }.bind(this),1000);
+            }else if(res.data === '2'){
               this.isLoginSuccess = true;
               this.err = "登录成功";
               this.errShow = true;
               setCookie('username',this.username,1000*60);
+              setCookie('info',this.password,1000*60);
               setTimeout(function(){
-                this.$router.push('/user')
-              }.bind(this),500);
+                this.$router.push('/user');
+              }.bind(this),1000);
             }else {
               this.err = "登录失败";
               this.errShow = true;
@@ -157,9 +149,9 @@
 //          }.bind(this),1000);
 
           let data = {'username':this.sign.username, 'email':this.sign.email, 'password':this.sign.pwd};
-          this.$http.post('/url',data).then((res)=>{
+          this.$http.post('/signup.php',data,{emulateJSON:true}).then((res)=>{
             console.log(res);
-            if(res.data === "ok"){
+            if(res.data === "1"){
               this.signUp.err = "注册成功";
               this.signUp.isSignUpSuccess = true;
               this.signUp.errShow = true;
@@ -172,7 +164,7 @@
                 this.err = false;
                 this.signUp.isSignUpSuccess = false;
                 this.signUp.errShow = false;
-              }.bind(this),1000);
+              }.bind(this),500);
             }
           })
 
@@ -279,16 +271,14 @@
           &:hover
             color #565656
 
-  @media screen and (max-width: 767px) {
-    img {
+  @media screen and (max-width: 767px)
+    img
       display: none;
-    }
-    body {
-     background-color: #fff;
-    }
-
-    .index {
-     width: auto;
-    }
- }
+    .index
+      width: auto;
+      box-shadow: none;
+    .index .index_r
+      background-color: #f6f6f6;
+      box-shadow: none;
+      border: none;
 </style>

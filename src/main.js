@@ -4,7 +4,6 @@ import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 
 import login from './components/login/login';
-import signUp from './components/signup/signup';
 
 import info from './components/info/info';
 
@@ -30,7 +29,6 @@ Vue.use(VueRouter);
 
 let routes = [
   { path: '/', component: login },
-  { path: '/signUp', component: signUp },
   {
     path: '/admin',
     component: admin,

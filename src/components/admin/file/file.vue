@@ -101,6 +101,7 @@
     font-size: 12px;
     border: 1px solid #adadad;
     transition: all 0.2s;
+    cursor: pointer;
   }
   .uploadLabel:hover,.uploadBtn:hover{
     background-color: #000;

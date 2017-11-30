@@ -18,15 +18,25 @@
   export default {
     data() {
       return {
-        name: ''
+        name: '',
+        pwd: ''
       }
     },
-    mounted() {
+    beforeCreate() {
       let uName = getCookie('username');
+      let uPwd = getCookie('info');
       this.name = uName;
+      this.pwd = uPwd;
       /*如果cookie不存在，则跳转到登录页*/
       if(uName === ""){
-        this.$router.push('/')
+        this.$router.push('/');
+      }else {
+        let data = {'username':this.name,'password':this.pwd};
+        this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
+          if(res.data !== '1'){
+            this.$router.push('/');
+          }
+        });
       }
     },
     components: {
@@ -41,11 +51,8 @@
     padding-left: 10px;
     padding-right: 10px;
   }
-  body{
-    background: #f6f6f6;
-  }
   .main {
-    padding-top: 100px;
+    padding-top: 90px;
   }
   .admin {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;

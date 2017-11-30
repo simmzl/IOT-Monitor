@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div class="col-lg-2 col-md-2"></div>
-    <div class="col-lg-10  col-md-10">
+  <div class="bookRepair">
+    <div class="col-lg-1 col-md-1"></div>
+    <div class="col-lg-10  col-md-10 auto-padding">
       <div class="input_group equip_input">
         <form>
           <div class="info">
@@ -14,7 +14,7 @@
           </div >
           <div class="textarea info" >
             <span>故障描述:</span>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea cols="30" rows="10"></textarea>
           </div>
           <div class="info">
             <span></span>
@@ -26,7 +26,27 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  export default {}
+  export default {
+  }
 </script>
-<style>
+<style lang="stylus" scoped>
+  .bookRepair
+    .input_group
+      .info
+        input
+          border 1px solid #949494
+    .textarea
+      span
+        vertical-align top
+      textarea
+        background transparent
+        width 60%
+        min-width 240px
+        border-radius 4px 4px
+        margin 0 0 0 10px
+        outline none
+        padding-left 8px
+        border 1px solid #949494
+        height 200px
+        font-size 14px
 </style>
