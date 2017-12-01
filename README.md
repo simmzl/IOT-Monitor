@@ -38,11 +38,13 @@ b() {
 vm.$options用于当前 Vue 实例的初始化选项。需要在选项中包含自定义属性时会有用处；
 [官方文档vm.$options](https://cn.vuejs.org/v2/api/#vm-options)
 ### git
+这个操作慎用，会导致git仓库之前的历史记录全部丢失！
+#### 取消本地目录下关联的远程库：
+git remote remove origin
+
 #### 在本地目录下关联远程repository ：
 git remote add origin git@github.com:username/repository-name.git
 
-#### 取消本地目录下关联的远程库：
-git remote remove origin
 ### 防止组件style污染全局
 使用`scoped`
 ```html
@@ -120,4 +122,18 @@ router.push('/');
   ]
 }
 ```
+### 使用MD5加密数据
+```javascript
+// package.json中添加依赖
+"dependencies": {
+  "md5": "^1.3.0"
+}
+// 引入
+import md from 'md5'
+// 加密
+md('abcdef');//e80b5017098950fc58aad83c8c14978e
+```
+MD5反向破解目前来说还是不可能的，目前的碰撞方法是在已有的明文密码基础上制作彩虹表进行反查，所以不要设置常见的简单密码、纯数字或者纯字母等；
+
+
 

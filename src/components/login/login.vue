@@ -19,7 +19,7 @@
             <a class='reg' @click="showSignUp">没有账号？点我注册</a>
           </div>
           <div style="font-size: 12px; color:#aaaaaabd;margin-top: 10px">
-            测试：管理员账号：1495 密码：abcd 普通用户可以自行注册
+            测试：管理员账号：1495131008 密码：abcdef 普通用户可以自行注册
           </div>
         </div>
         <div class="signup" v-show="isSignUp">
@@ -43,6 +43,7 @@
 </template>
 <script type="text/ecmascript-6">
   import {setCookie, getCookie} from '../../common/js/cookie.js'
+  import md from 'md5'
 
   export default {
     data() {
@@ -50,6 +51,7 @@
         isSignUp: false,
         username: '',
         password: '',
+        mdPwd: '',
         err: '',
         errShow: false,
         isLoginSuccess: false,
@@ -57,6 +59,7 @@
           username: '',
           email: '',
           pwd: '',
+          mdPwd: '',
           pwdConf: '',
           err: '',
           errShow: false,
@@ -67,6 +70,18 @@
           pwd: ''
         }
       }
+    },
+    created() {
+      let uName = getCookie('username');
+      let uPwd = getCookie('info');
+      let data = {'username':uName,'password':uPwd};
+      this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
+        if(res.data === '1'){
+          this.$router.push('/admin');
+        }else if(res.data === '2'){
+          this.$router.push('/user');
+        }
+      });
     },
     methods: {
       showSignUp() {
@@ -79,14 +94,13 @@
         if(!this.username || !this.password){
           this.err = ("请输入学号或密码");
           this.errShow = true;
-        }else if (!this.isNumber(this.username)){
-          this.err = ("请输入正确的学号（数字）");
+        }else if (!this.isNumber(this.username) || this.username.length < 8){
+          this.err = ("请输入正确的学号（8-10位数字）");
           if(this.errShow !== true)  this.errShow = true;
         }else {
-          let data = {'username':this.username,'password':this.password};
-//          /*接口请求*/
+          this.mdPwd = md(this.password);
+          let data = {'username':this.username,'password':this.mdPwd};
           this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
-            console.log(res);
 //            0 错误 1 admin 2 user
             if(res.data === '0'){
               this.err = "用户名或密码错误";
@@ -96,7 +110,7 @@
               this.err = "管理员登录成功";
               this.errShow = true;
               setCookie('username',this.username,1000*60);
-              setCookie('info',this.password,1000*60);
+              setCookie('info',this.mdPwd,1000*60);
               setTimeout(function(){
                 this.$router.push('/admin');
               }.bind(this),1000);
@@ -105,7 +119,7 @@
               this.err = "登录成功";
               this.errShow = true;
               setCookie('username',this.username,1000*60);
-              setCookie('info',this.password,1000*60);
+              setCookie('info',this.mdPwd,1000*60);
               setTimeout(function(){
                 this.$router.push('/user');
               }.bind(this),1000);
@@ -121,8 +135,8 @@
         if(!this.signUp.username || !this.signUp.email || !this.signUp.pwd || !this.signUp.pwdConf){
           this.signUp.err = ("请完成输入");
           if(this.signUp.errShow === false )this.signUp.errShow = true;
-        }else if(!this.isNumber(this.signUp.username)){
-          this.signUp.err = ("请输入正确的学号（纯数字）");
+        }else if(!this.isNumber(this.signUp.username) || this.signUp.username.length < 8){
+          this.signUp.err = ("请输入正确的学号（8-10位数字）");
           if(this.signUp.errShow === false )this.signUp.errShow = true;
         }else if(!this.isEmail(this.signUp.email)){
           this.signUp.err = ("邮箱格式错误");
@@ -134,28 +148,14 @@
           this.signUp.err = ("密码不能少于6位");
           if(this.signUp.errShow === false )this.signUp.errShow = true;
         }else{
-          this.signUp.err = "注册成功";
-          this.signUp.isSignUpSuccess = true;
-          this.signUp.errShow = true;
-          this.username = this.signUp.username;
-          this.password = '';
-          /*注册成功之后再跳回登录页*/
-//          setTimeout(function(){
-//            this.isSignUp = false;
-//            this.errShow = false;
-//            this.err = false;
-//            this.signUp.isSignUpSuccess = false;
-//            this.signUp.errShow = false;
-//          }.bind(this),1000);
-
-          let data = {'username':this.sign.username, 'email':this.sign.email, 'password':this.sign.pwd};
+          this.signUp.mdPwd = md(this.signUp.pwd);
+          let data = {'username':this.signUp.username, 'email':this.signUp.email, 'password':this.signUp.mdPwd};
           this.$http.post('/signup.php',data,{emulateJSON:true}).then((res)=>{
-            console.log(res);
             if(res.data === "1"){
               this.signUp.err = "注册成功";
               this.signUp.isSignUpSuccess = true;
               this.signUp.errShow = true;
-              this.username = this.signUp.username;
+              this.username = '';
               this.password = '';
 //          /*注册成功之后再跳回登录页*/
               setTimeout(function(){
@@ -164,7 +164,10 @@
                 this.err = false;
                 this.signUp.isSignUpSuccess = false;
                 this.signUp.errShow = false;
-              }.bind(this),500);
+              }.bind(this),1000);
+            }else{
+              this.signUp.err = "用户名已存在";
+              this.signUp.errShow = true;
             }
           })
 

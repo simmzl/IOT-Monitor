@@ -13,7 +13,7 @@
 <script>
   import labNav from '../../components/nav/labnav'
   import labFooter from '../../components/footer/labfooter'
-  import { setCookie,getCookie,delCookie } from '../../common/js/cookie.js'
+  import { getCookie } from '../../common/js/cookie.js'
 
   export default {
     data() {

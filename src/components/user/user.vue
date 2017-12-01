@@ -14,7 +14,7 @@
   import labFooter from '../footer/labfooter'
   import userFiles from './userFiles/userFiles'
   import bookRepair from './bookRepair/bookRepair'
-  import { setCookie,getCookie,delCookie } from '../../common/js/cookie.js'
+  import { getCookie } from '../../common/js/cookie.js'
 
   export default {
     data() {
