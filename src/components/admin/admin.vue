@@ -27,7 +27,6 @@
       let uPwd = getCookie('info');
       this.name = uName;
       this.pwd = uPwd;
-      /*如果cookie不存在，则跳转到登录页*/
       if(uName === ""){
         this.$router.push('/');
       }else {

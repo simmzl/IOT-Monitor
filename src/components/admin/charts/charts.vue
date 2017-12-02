@@ -24,13 +24,13 @@
                   <option v-for="day in setDay" :value="day">{{day}}</option>
                 </select>
                 <span class="dropLabel">日</span>
-                <button type="button" id="query" class="btn btn-primary btn-xs button-font" >确定</button>
+                <button type="button" id="query" class="btn btn-primary btn-xs button-font" @click="pastDay">确定</button>
               </div>
             </li>
           </ul>
         </div>
-        <a class="realTimeBtn a_title btn-group" id='realTimeBtn' style="outline: none" onclick="turn()" title="每三分钟自动刷新">
-          <span><i class='fa fa-clock-o'></i></span>实时数据</a>
+        <a class="realTimeBtn a_title btn-group" :class="{'im':im}" @click="turnIm" title="每三分钟自动刷新">
+          <span><i class='fa fa-clock-o' ></i></span>实时数据</a>
         <div class="btn-group chart_type">
           <a class="dropdown-toggle a_title" data-toggle="dropdown"><span><i class='fa fa-bar-chart-o'></i></span>图表类型</a>
           <ul class="dropdown-menu" role="menu" >
@@ -42,17 +42,17 @@
     </div>
     <!--数据展示区-->
     <div class="col-lg-9 col-md-9 no-padding">
-      <div class="no-data" v-show="hasData">暂无数据...</div>
+      <div class="no-data" v-show="noData">暂无数据...</div>
       <!--数据展示-->
-      <div id="showData" v-show="!hasData">
+      <div id="showData" v-show="!noData">
         <!--温度数据-->
         <div class="chart-wrapper">
           <div id="temperature" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
-            <span class='pre_day' >上一天</span>
+            <span class='pre_day' @click="nextOrPastDay('past')" >上一天</span>
             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
             <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
-            <span class='next_day' >下一天</span>
+            <span class='next_day' @click="nextOrPastDay('next')">下一天</span>
           </div>
         </div>
         <hr>
@@ -60,10 +60,10 @@
         <div class="chart-wrapper">
           <div id="humidity" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
-            <span class='pre_day' >上一天</span>
+            <span class='pre_day' @click="nextOrPastDay('past')">上一天</span>
             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
             <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
-            <span class='next_day' id="">下一天</span>
+            <span class='next_day' @click="nextOrPastDay('next')">下一天</span>
           </div>
         </div>
         <hr>
@@ -71,10 +71,10 @@
         <div class="chart-wrapper">
           <div id="wind" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
-            <span class='pre_day' id="pre">上一天</span>
+            <span class='pre_day' @click="nextOrPastDay('past')">上一天</span>
             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
             <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
-            <span class='next_day' id="next">下一天</span>
+            <span class='next_day' @click="nextOrPastDay('next')">下一天</span>
           </div>
         </div>
       </div>
@@ -88,18 +88,21 @@
     data() {
       return {
         demoData: {
-          type: Object
+          type: Array
         },
+        im: false,
+        timer: null,
+        nextOrPast: 0,
         chartData: {
           name: '',
-          subText: '测试',
+          subText: '',
           myStartValue: '',
           seriesType: 'line'
         },
         selectYear: '',
         selectMonth: '1',
         selectDay: '1',
-        hasData: false
+        noData: false
       }
     },
     computed: {
@@ -369,15 +372,7 @@
       }
     },
     created() {
-      this.$http.get('static/data/demo.json').then((res) => {
-        this.demoData = res.body;
-        if(this.hasData) this.hasData=false;
-        this.$nextTick(() => {
-          this.myInit();
-        });
-      },function () {
-        if(!this.hasData) this.hasData=true;
-      });
+      this.updateDemoData();
     },
     methods: {
 //      初始化图表
@@ -407,8 +402,7 @@
 //      改变图标类型
       turnSeriesType(type,e) {
         if(type === this.chartData.seriesType){
-          e.stopPropagation();
-          return;
+          return e.stopPropagation();
         }else {
           if (this.chartData.seriesType === 'line') {
             this.chartData.seriesType = 'bar';
@@ -418,11 +412,88 @@
             this.myInit();
           }
         }
+      },
+//      请求并更新数据
+      updateDemoData() {
+        let myDate = new Date();
+        let sqlDate = Math.floor(myDate.getTime()/1000);
+        let data = { 'date': sqlDate, 'uid': 2 };
+        this.$http.post('./echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
+          console.log(res);
+          this.demoData = res.data;
+          if(!this.demoData[0]){
+            if(!this.noData) this.noData=true;
+          }else {
+            if(this.noData) this.noData=false;
+            if(this.im){
+              this.chartData.subText = this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
+            }else {
+              this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+            }
+            this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
+            this.myInit();
+          }
+        });
+      },
+//      切换实时显示数据状态
+      turnIm() {
+        this.im = !this.im;
+        let self = this;
+        if(this.im){
+          clearInterval(this.timer);
+          this.timer = setInterval(function () {
+            self.updateDemoData();
+          },1000);
+        }else {
+          clearInterval(this.timer);
+        }
+      },
+      pastDay() {
+        let dateStr = `${this.selectYear}-${this.selectMonth}-${this.selectDay} 01:00:00`;
+        let selectDate = new Date(dateStr).getTime();
+        selectDate = Math.floor(selectDate/1000);
+        let data = { 'date': selectDate, 'uid': 2 };
+        this.$http.post('./echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
+          console.log(res);
+          this.demoData = res.data;
+          if(!this.demoData[0]){
+            if(!this.noData) this.noData=true;
+          }else {
+            if(this.noData) this.noData=false;
+            this.chartData.subText = this.selectYear + '/' + this.addZero(this.selectMonth) + '/' + this.addZero(this.selectDay);
+            this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
+          }
+        });
+      },
+      nextOrPastDay(str) {
+        if (str === 'next') {
+          this.nextOrPast++;
+        }else {
+          this.nextOrPast--;
+        }
+        let myDate = new Date();
+        let selectDay = myDate.getTime() + 86400000 * this.nextOrPast;
+        selectDay = Math.floor(selectDay/1000);
+        let data = { 'date': selectDay, 'uid': 2 };
+        this.$http.post('./echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
+          console.log(res);
+          this.demoData = res.data;
+          if(!this.demoData[0]){
+            if(!this.noData) this.noData=true;
+          }else {
+            if(this.noData) this.noData=false;
+            this.chartData.subText = new Date(selectDay).getFullYear() + '/' + this.addZero(new Date(selectDay).getMonth()+1) + '/' + this.addZero(new Date(selectDay).getDate());
+            this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
+          }
+        });
       }
     }
   }
 </script>
 <style>
+  .im{
+    color: #5cb85c;
+  }
   .no-data{
     padding: 20px;
     background-color: #ffffff;

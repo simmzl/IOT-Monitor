@@ -135,5 +135,20 @@ md('abcdef');//e80b5017098950fc58aad83c8c14978e
 ```
 MD5反向破解目前来说还是不可能的，目前的碰撞方法是在已有的明文密码基础上制作彩虹表进行反查，所以不要设置常见的简单密码、纯数字或者纯字母等；
 
+## 后端PHP
+### 定时执行PHP程序
+php没有自带定时器，在centos系统中可以使用crontab执行php定时任务:
+
+- vi编辑/var/spool/cron下的root文件
+- 添加一行, 每一分钟请求一次http://localhost/1.php
+```
+*/1  * * * * /usr/bin/curl http://localhost/1.php
+```
+- 重启crond服务
+``` 
+service crond restart
+```
+参考：[PHP实现执行定时任务的几种思路详解](https://segmentfault.com/a/1190000002955509)
+
 
 
