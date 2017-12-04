@@ -63,7 +63,7 @@
     padding-right: 10px;
   }
   .main {
-    padding-top: 90px;
+    padding-top: 80px;
   }
   .user {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;

@@ -7,7 +7,7 @@
           <a  class="dropdown-toggle a_title" data-toggle="dropdown" style='width: 100%'>
             <span><i class='fa fa-calendar-check-o history'></i></span>
             历史数据 </a>
-          <ul class="dropdown-menu"role="menu" style="min-width: 300px">
+          <ul class="dropdown-menu" role="menu" style="min-width: 300px">
             <li id="today" class="today"><a class="pointer historyActive">今天</a></li>
             <li id="oneDay" @click="stop">
               <a href="javascript:;">历史日期：</a>
@@ -49,10 +49,14 @@
         <div class="chart-wrapper">
           <div id="temperature" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
-            <span class='pre_day' @click="nextOrPastDay('past')" >上一天</span>
-            <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
-            <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
-            <span class='next_day' @click="nextOrPastDay('next')">下一天</span>
+           <span @click="nextOrPastDay('past')">
+             <span class='pre_day'  >上一天</span>
+             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
+           </span>
+           <span @click="nextOrPastDay('next')">
+              <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
+              <span class='next_day' >下一天</span>
+            </span>
           </div>
         </div>
         <hr>
@@ -60,10 +64,14 @@
         <div class="chart-wrapper">
           <div id="humidity" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
-            <span class='pre_day' @click="nextOrPastDay('past')">上一天</span>
-            <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
-            <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
-            <span class='next_day' @click="nextOrPastDay('next')">下一天</span>
+            <span @click="nextOrPastDay('past')">
+             <span class='pre_day'  >上一天</span>
+             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
+            </span>
+            <span @click="nextOrPastDay('next')">
+              <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
+              <span class='next_day' >下一天</span>
+            </span>
           </div>
         </div>
         <hr>
@@ -71,10 +79,14 @@
         <div class="chart-wrapper">
           <div id="wind" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
-            <span class='pre_day' @click="nextOrPastDay('past')">上一天</span>
-            <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
-            <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
-            <span class='next_day' @click="nextOrPastDay('next')">下一天</span>
+            <span @click="nextOrPastDay('past')">
+             <span class='pre_day'  >上一天</span>
+             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
+            </span>
+            <span @click="nextOrPastDay('next')">
+              <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
+              <span class='next_day' >下一天</span>
+            </span>
           </div>
         </div>
       </div>
@@ -90,9 +102,11 @@
         demoData: {
           type: Array
         },
+//        实时状态
         im: false,
-        timer: null,
+//        下一天上一天选择状态
         nextOrPast: 0,
+//        图标属性
         chartData: {
           name: '',
           subText: '',
@@ -373,6 +387,7 @@
     },
     created() {
       this.updateDemoData();
+      this.im = false;
     },
     methods: {
 //      初始化图表
@@ -425,9 +440,7 @@
             if(!this.noData) this.noData=true;
           }else {
             if(this.noData) this.noData=false;
-            if(this.im){
-              this.chartData.subText = this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
-            }else {
+            if(!this.im){
               this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
             }
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
@@ -439,13 +452,16 @@
       turnIm() {
         this.im = !this.im;
         let self = this;
+        let myDate = new Date();
+        this.chartData.subText = this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
         if(this.im){
-          clearInterval(this.timer);
-          this.timer = setInterval(function () {
-            self.updateDemoData();
+          setInterval(function () {
+            if(self.im) {
+              self.updateDemoData();
+            }
           },1000);
         }else {
-          clearInterval(this.timer);
+          this.im = false;
         }
       },
       pastDay() {
@@ -462,6 +478,7 @@
             if(this.noData) this.noData=false;
             this.chartData.subText = this.selectYear + '/' + this.addZero(this.selectMonth) + '/' + this.addZero(this.selectDay);
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
+            this.myInit();
           }
         });
       },
@@ -482,8 +499,9 @@
             if(!this.noData) this.noData=true;
           }else {
             if(this.noData) this.noData=false;
-            this.chartData.subText = new Date(selectDay).getFullYear() + '/' + this.addZero(new Date(selectDay).getMonth()+1) + '/' + this.addZero(new Date(selectDay).getDate());
+            this.chartData.subText = new Date(selectDay*1000).getFullYear() + '/' + this.addZero(new Date(selectDay*1000).getMonth()+1) + '/' + this.addZero(new Date(selectDay*1000).getDate());
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
+            this.myInit();
           }
         });
       }
@@ -512,9 +530,10 @@
   .pre_next span{
     cursor: pointer;
   }
-  .pre_next .fa{
+  .pre_next .fa, .pre_next .fa{
+    margin-right: 0;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 20px;
   }
   .dropSelects{
     padding-bottom: 8px;
@@ -534,6 +553,18 @@
   }
   .charts .auto-padding{
     padding-right: 30px;
+  }
+  .pre_next{
+    font-size: 0;
+  }
+  .pre_next .pre_day, .pre_next .next_day {
+    font-size: 14px;
+  }
+  .pre_next .fa-lg{
+    font-size: 18px;
+  }
+  .realTimeBtn.a_title.btn-group.im:hover{
+    color: #5cb85c!important;
   }
   @media  screen and ( min-width: 992px) {
     .dataChoose{

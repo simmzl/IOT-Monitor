@@ -22,22 +22,22 @@
         pwd: ''
       }
     },
-    beforeCreate() {
-      let uName = getCookie('username');
-      let uPwd = getCookie('info');
-      this.name = uName;
-      this.pwd = uPwd;
-      if(uName === ""){
-        this.$router.push('/');
-      }else {
-        let data = {'username':this.name,'password':this.pwd};
-        this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
-          if(res.data !== '1'){
-            this.$router.push('/');
-          }
-        });
-      }
-    },
+//    beforeCreate() {
+//      let uName = getCookie('username');
+//      let uPwd = getCookie('info');
+//      this.name = uName;
+//      this.pwd = uPwd;
+//      if(uName === ""){
+//        this.$router.push('/');
+//      }else {
+//        let data = {'username':this.name,'password':this.pwd};
+//        this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
+//          if(res.data !== '1'){
+//            this.$router.push('/');
+//          }
+//        });
+//      }
+//    },
     components: {
       labNav,
       labFooter
@@ -51,7 +51,7 @@
     padding-right: 10px;
   }
   .main {
-    padding-top: 90px;
+    padding-top: 80px;
   }
   .admin {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
