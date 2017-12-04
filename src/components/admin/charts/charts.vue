@@ -8,7 +8,7 @@
             <span><i class='fa fa-calendar-check-o history'></i></span>
             历史数据 </a>
           <ul class="dropdown-menu" role="menu" style="min-width: 300px">
-            <li id="today" class="today"><a class="pointer historyActive">今天</a></li>
+            <li id="today" class="today" @click="today"><a class="pointer" :class="{'historyActive': isToday}">今天</a></li>
             <li id="oneDay" @click="stop">
               <a href="javascript:;">历史日期：</a>
               <div class="dropSelects">
@@ -102,8 +102,11 @@
         demoData: {
           type: Array
         },
+        isToday: true,
 //        实时状态
         im: false,
+//        定时器
+        timer: null,
 //        下一天上一天选择状态
         nextOrPast: 0,
 //        图标属性
@@ -383,7 +386,7 @@
           }
           return result;
         }
-      }
+      },
     },
     created() {
       this.updateDemoData();
@@ -430,6 +433,8 @@
       },
 //      请求并更新数据
       updateDemoData() {
+        this.nextOrPast = 0;
+        this.isToday = true;
         let myDate = new Date();
         let sqlDate = Math.floor(myDate.getTime()/1000);
         let data = { 'date': sqlDate, 'uid': 2 };
@@ -450,22 +455,36 @@
       },
 //      切换实时显示数据状态
       turnIm() {
+        this.isToday = !this.isToday;
         this.im = !this.im;
         let self = this;
         let myDate = new Date();
         if(this.im){
+          this.clearAllTimer();
           this.chartData.subText = this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
-          setInterval(function () {
-            if(self.im) {
-              self.updateDemoData();
-            }
-          },1000);
+          if(!this.timer){
+            this.timer = setInterval(function () {
+              if(self.im) {
+                self.updateDemoData();
+              }
+            },1000);
+          }
         }else {
+          this.clearAllTimer();
           this.im = false;
           this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
         }
       },
+      clearAllTimer() {
+        if(!!this.timer){
+          for(let i=1; i<this.timer;i++){
+            clearInterval(i);
+          }
+        }
+      },
       pastDay() {
+        this.isToday = false;
+        this.im = false;
         let dateStr = `${this.selectYear}-${this.selectMonth}-${this.selectDay} 01:00:00`;
         let selectDate = new Date(dateStr).getTime();
         selectDate = Math.floor(selectDate/1000);
@@ -484,6 +503,8 @@
         });
       },
       nextOrPastDay(str) {
+        this.isToday = false;
+        this.im = false;
         if (str === 'next') {
           this.nextOrPast++;
         }else {
@@ -505,6 +526,10 @@
             this.myInit();
           }
         });
+      },
+      today() {
+        this.im = false;
+        this.updateDemoData();
       }
     }
   }
