@@ -453,8 +453,8 @@
         this.im = !this.im;
         let self = this;
         let myDate = new Date();
-        this.chartData.subText = this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
         if(this.im){
+          this.chartData.subText = this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
           setInterval(function () {
             if(self.im) {
               self.updateDemoData();
@@ -462,6 +462,7 @@
           },1000);
         }else {
           this.im = false;
+          this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
         }
       },
       pastDay() {
