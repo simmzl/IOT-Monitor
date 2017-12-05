@@ -3,7 +3,9 @@
     <lab-nav></lab-nav>
     <div class='container main clearfix'>
       <div class="containter-main clearfix">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </div>
     </div>
     <lab-footer></lab-footer>
@@ -71,6 +73,11 @@
     clear: both;
     height: 0;
     visibility: hidden;
+  }
+  @media  screen and ( max-width: 991px) {
+    .main{
+      padding-top: 70px;
+    }
   }
 </style>
 

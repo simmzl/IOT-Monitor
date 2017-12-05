@@ -84,4 +84,9 @@
     height: 0;
     visibility: hidden;
   }
+  @media  screen and ( max-width: 991px) {
+    .main{
+      padding-top: 70px;
+    }
+  }
 </style>

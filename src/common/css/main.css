@@ -32,7 +32,7 @@ li a.router-link-exact-active.active {
 }
 
 .a_title {
-  font-size: 16px;
+  font-size: 15px;
   display: inline-block;
   padding: 10px;
   cursor: pointer;
@@ -58,6 +58,9 @@ li a.router-link-exact-active.active {
   padding: 0;
 }
 
+.dataChoose{
+  font-size: 15px!important;
+}
 .dataChoose {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -200,7 +203,6 @@ select, .dropLabel {
   .dataChoose i {
     display: none;
   }
-
   .equip a {
     font-size: 12px;
   }
@@ -209,8 +211,19 @@ select, .dropLabel {
   .auto-padding {
     padding: 0!important;
   }
+  .dataChoose{
+    padding: 10px!important;
+    margin-bottom: 20px!important;
+  }
 }
 
 .admin,.user,#app{
   height: 100%;
+}
+
+.paddingWrapper{
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }

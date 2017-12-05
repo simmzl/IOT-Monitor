@@ -135,6 +135,16 @@ md('abcdef');//e80b5017098950fc58aad83c8c14978e
 ```
 MD5反向破解目前来说还是不可能的，目前的碰撞方法是在已有的明文密码基础上制作彩虹表进行反查，所以不要设置常见的简单密码、纯数字或者纯字母等；
 
+### VUE生命周期
+在使用路由时，在一个路由中定义了一个定时器，更改路由时，按照官方文档里说，原来的组件已经销毁，但setInterval()依然会不断运行。这里的问题不在于组件是否销毁，因为setInterval事件本身和组件没有关系，和vue的生命周期没有关系。
+
+**那么如何实现在切换路由时clearInterval()？**
+
+vue的生命周期中有`activated`和`deactivated`这两个生命周期钩子函数，当组件在` <keep-alive> `内被切换时，其钩子函数会被对应执行，主要用于保留组件状态或避免重新渲染。
+所以，在之前的问题中，使用`<keep-alive>`包裹`<router-view>`路由插座，并在`deactivated`钩子函数中设置`clearInterval()`即可实现在路由切换时清除定时器；
+
+参考：[stackoverflow](https://stackoverflow.com/questions/35104770/how-to-destroy-a-component-when-building-spa-with-vue-js-and-vue-router)
+[keep-alive官方文档](https://cn.vuejs.org/v2/api/#keep-alive)
 ## 后端PHP
 ### 定时执行PHP程序
 php没有自带定时器，在centos系统中可以使用crontab执行php定时任务:

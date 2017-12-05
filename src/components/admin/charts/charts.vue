@@ -2,7 +2,7 @@
   <div class="charts">
     <!--左侧导航区-->
     <div class="col-lg-3 col-md-3 auto-padding">
-      <div class="dataChoose" >
+      <div class="dataChoose paddingWrapper" >
         <div class="btn-group">
           <a  class="dropdown-toggle a_title" data-toggle="dropdown" style='width: 100%'>
             <span><i class='fa fa-calendar-check-o history'></i></span>
@@ -39,14 +39,15 @@
           </ul>
         </div>
       </div>
+
     </div>
     <!--数据展示区-->
     <div class="col-lg-9 col-md-9 no-padding">
-      <div class="no-data" v-show="noData">暂无数据...</div>
+      <div class="no-data paddingWrapper" v-show="noData">暂无数据...</div>
       <!--数据展示-->
       <div id="showData" v-show="!noData">
         <!--温度数据-->
-        <div class="chart-wrapper">
+        <div class="chart-wrapper paddingWrapper">
           <div id="temperature" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
            <span @click="nextOrPastDay('past')">
@@ -61,11 +62,11 @@
         </div>
         <hr>
         <!--湿度数据-->
-        <div class="chart-wrapper">
+        <div class="chart-wrapper paddingWrapper">
           <div id="humidity" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
             <span @click="nextOrPastDay('past')">
-             <span class='pre_day'  >上一天</span>
+             <span class='pre_day'>上一天</span>
              <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
             </span>
             <span @click="nextOrPastDay('next')">
@@ -76,7 +77,7 @@
         </div>
         <hr>
         <!--风速数据-->
-        <div class="chart-wrapper">
+        <div class="chart-wrapper paddingWrapper">
           <div id="wind" style="width: 100%;height:400px;"></div>
           <div class='text-center pre_next'>
             <span @click="nextOrPastDay('past')">
@@ -386,11 +387,18 @@
           }
           return result;
         }
-      },
+      }
     },
     created() {
       this.updateDemoData();
       this.im = false;
+    },
+    deactivated() {
+      this.im = false;
+      this.clearAllTimer();
+      let myDate = new Date();
+      this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+      this.myInit();
     },
     methods: {
 //      初始化图表
@@ -462,17 +470,19 @@
         if(this.im){
           this.clearAllTimer();
           this.chartData.subText = this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
+          this.myInit();
           if(!this.timer){
             this.timer = setInterval(function () {
               if(self.im) {
                 self.updateDemoData();
               }
-            },1000);
+            },2000);
           }
         }else {
           this.clearAllTimer();
           this.im = false;
           this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+          this.myInit();
         }
       },
       clearAllTimer() {
@@ -539,11 +549,7 @@
     color: #5cb85c;
   }
   .no-data{
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
     color: #e4393c;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   }
   .chart_type ul{
     padding: 0;
@@ -565,18 +571,6 @@
     padding-bottom: 8px;
     margin-bottom: 0;
   }
-  .chart-wrapper{
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  }
-  .dataChoose{
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  }
   .charts .auto-padding{
     padding-right: 30px;
   }
@@ -592,11 +586,11 @@
   .realTimeBtn.a_title.btn-group.im:hover{
     color: #5cb85c!important;
   }
-  @media  screen and ( min-width: 992px) {
-    .dataChoose{
-      padding-left: 30px;
-    }
-  }
+  /*@media  screen and ( min-width: 992px) {*/
+    /*.dataChoose{*/
+      /*padding-left: 30px;*/
+    /*}*/
+  /*}*/
   @media  screen and ( max-width: 991px) {
     .charts .auto-padding{
       padding: 0;

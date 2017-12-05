@@ -51,4 +51,7 @@
   }
 </script>
 <style>
+  .navbar.navbar-default.nav-justified{
+    background-color: rgba(255,255,255,.95);
+  }
 </style>
