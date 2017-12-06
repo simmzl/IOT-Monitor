@@ -12,7 +12,8 @@
       <hr>
       <div class="uploadSubmit">
         <form id="uploadForm" enctype="multipart/form-data">
-          　　<input id="file" class="fileInput" type="file" name="file" ref="upload" @change="getFileSelect">
+          　　<input id="file" class="fileInput" type="file" name="myFile" ref="upload" @change="getFileSelect" accept="application/pdf,application/msword,text/plain">
+              <input type="hidden" name="MAX_FILE_SIZE" value="10455040">
           　　<input type="submit" name="submit" class="uploadBtn pull-right" value="上传" @click.stop.prevent="canSubmit">
         </form>
         <div class="fileWarn" :class="{'fileSuccess': isSuccess}">{{err}}</div>
@@ -57,10 +58,18 @@
           this.err = '警告：未选择任何文件。';
         }else {
           let myData = new FormData();
-          myData.append('userfile',this.$refs.upload.files[0]);
-          this.$http.post('http://simmzl.cn', myData).then(function() {
-            this.isSuccess = true;
-            this.err = '上传成功！';
+          console.log(this.$refs.upload.files[0]);
+          myData.append('myFile',this.$refs.upload.files[0]);
+          let data = {'myFile':this.$refs.upload.files[0]};
+          this.$http.post('./php/files/uploadFile.php', data).then(function(res) {
+            console.log(res);
+            if(res.data === '上传失败'){
+              if(this.isSuccess) this.isSuccess = false;
+              this.err = res.data;
+            }else {
+              this.isSuccess = true;
+              this.err = res.data;
+            }
           }, function(error) {
             if(this.isSuccess) this.isSuccess = false;
             this.err = '上传失败!';
