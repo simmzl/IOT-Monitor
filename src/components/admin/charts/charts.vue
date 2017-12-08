@@ -48,7 +48,7 @@
       <div id="showData" v-show="!noData">
         <!--温度数据-->
         <div class="chart-wrapper paddingWrapper">
-          <div id="temperature" style="width: 100%;height:400px;"></div>
+          <div id="temperature" class="temperature"></div>
           <div class='text-center pre_next'>
            <span @click="nextOrPastDay('past')">
              <span class='pre_day'  >上一天</span>
@@ -63,7 +63,7 @@
         <hr>
         <!--湿度数据-->
         <div class="chart-wrapper paddingWrapper">
-          <div id="humidity" style="width: 100%;height:400px;"></div>
+          <div id="humidity" class="humidity"></div>
           <div class='text-center pre_next'>
             <span @click="nextOrPastDay('past')">
              <span class='pre_day'>上一天</span>
@@ -78,7 +78,7 @@
         <hr>
         <!--风速数据-->
         <div class="chart-wrapper paddingWrapper">
-          <div id="wind" style="width: 100%;height:400px;"></div>
+          <div id="wind" class="wind"></div>
           <div class='text-center pre_next'>
             <span @click="nextOrPastDay('past')">
              <span class='pre_day'  >上一天</span>
@@ -446,7 +446,7 @@
         let myDate = new Date();
         let sqlDate = Math.floor(myDate.getTime()/1000);
         let data = { 'date': sqlDate, 'uid': 2 };
-        this.$http.post('./echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
+        this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
           console.log(res);
           this.demoData = res.data;
           if(!this.demoData[0]){
@@ -499,7 +499,7 @@
         let selectDate = new Date(dateStr).getTime();
         selectDate = Math.floor(selectDate/1000);
         let data = { 'date': selectDate, 'uid': 2 };
-        this.$http.post('./echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
+        this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
           console.log(res);
           this.demoData = res.data;
           if(!this.demoData[0]){
@@ -524,7 +524,7 @@
         let selectDay = myDate.getTime() + 86400000 * this.nextOrPast;
         selectDay = Math.floor(selectDay/1000);
         let data = { 'date': selectDay, 'uid': 2 };
-        this.$http.post('./echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
+        this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
           console.log(res);
           this.demoData = res.data;
           if(!this.demoData[0]){
@@ -586,6 +586,13 @@
   .realTimeBtn.a_title.btn-group.im:hover{
     color: #5cb85c!important;
   }
+  .humidity,.temperature,.wind{
+    width: 100%!important;
+    height:400px;
+  }
+  /*.humidity div, .humidity div canvas,  .temperature div, .temperature div canvas, .wind div, .wind div canvas{*/
+    /*width: 100%!important;*/
+  /*}*/
   /*@media  screen and ( min-width: 992px) {*/
     /*.dataChoose{*/
       /*padding-left: 30px;*/

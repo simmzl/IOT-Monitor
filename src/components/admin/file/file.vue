@@ -7,12 +7,12 @@
       <hr class="hr">
       <div class="uploadSelect">
         <label for="file" class="uploadLabel pull-right">选择文件</label>
-        <div>所选文件路径：{{fileSelect}}</div>
+        <div>所选文件：{{fileSelect}}</div>
       </div>
       <hr>
       <div class="uploadSubmit">
         <form id="uploadForm" enctype="multipart/form-data">
-          　　<input id="file" class="fileInput" type="file" name="myFile" ref="upload" @change="getFileSelect" accept="application/pdf,application/msword,text/plain">
+          　　<input id="file" class="fileInput" type="file" name="myFile" ref="upload" @change="getFileSelect" accept="application/pdf,application/msword,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation">
               <input type="hidden" name="MAX_FILE_SIZE" value="10455040">
           　　<input type="submit" name="submit" class="uploadBtn pull-right" value="上传" @click.stop.prevent="canSubmit">
         </form>
@@ -48,31 +48,45 @@
     },
     methods: {
       getFileSelect() {
-        this.fileSelect = this.$refs.upload.value;
+        this.fileSelect = this.$refs.upload.files[0].name;
         if (this.fileSelect) {
           this.err = '';
         }
       },
       canSubmit() {
         if (!this.fileSelect) {
+          if(this.isSuccess) this.isSuccess = false;
           this.err = '警告：未选择任何文件。';
         }else {
           let myData = new FormData();
           console.log(this.$refs.upload.files[0]);
-          myData.append('myFile',this.$refs.upload.files[0]);
-          let data = {'myFile':this.$refs.upload.files[0]};
-          this.$http.post('./php/files/uploadFile.php', data).then(function(res) {
+          let selectFile = this.$refs.upload.files[0];
+          myData.append('myFile',selectFile);
+          let allowArray = ['text/plain','application/pdf',
+            'application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel','application/vnd.ms-powerpoint',
+            ' application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+          if(selectFile.size > 10455040){
+            if(this.isSuccess) this.isSuccess = false;
+            this.err = '请选择小于10M的文件';
+            return;
+          }else if (allowArray.indexOf(selectFile.type) === -1 ) {
+            if(this.isSuccess) this.isSuccess = false;
+            this.err = '文件类型不合法,允许类型：pdf、doc、docx、txt、xls、ppt、pptx';
+            return;
+          }
+          this.$http.post('./php/files/uploadFile.php', myData).then(function(res) {
             console.log(res);
-            if(res.data === '上传失败'){
-              if(this.isSuccess) this.isSuccess = false;
-              this.err = res.data;
-            }else {
+            if(res.data === '文件上传成功'){
               this.isSuccess = true;
+              this.err = '上传成功!';
+            }else {
+              if(this.isSuccess) this.isSuccess = false;
               this.err = res.data;
             }
           }, function(error) {
             if(this.isSuccess) this.isSuccess = false;
-            this.err = '上传失败!';
+            this.err = '上传失败';
           });
         }
       }

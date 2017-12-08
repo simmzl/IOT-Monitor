@@ -1,17 +1,16 @@
 <?php 
 header("content-type:text/html;charset=utf-8");
-header("content-type:text/plain;charset=utf-8");
+// header("content-type:text/plain;charset=utf-8");
 // $_FILES
-$filename=iconv("UTF-8","GB2312",$_FILES['myFile']['name']);  
-// $filename=$_FILES['myFile']['name'];
+// $filename=iconv("UTF-8","GB2312",$_FILES['myFile']['name']);  
+$filename=$_FILES['myFile']['name'];
 $type=$_FILES['myFile']['type'];
 $tmp_name=$_FILES['myFile']['tmp_name'];
 $error=$_FILES['myFile']['error'];
 $size=$_FILES['myFile']['size'];
-$allowExt=array("pdf","doc","docx","txt");
+$allowExt=array("pdf","doc","docx","txt",'xls','ppt','pptx');
 // 10M
 $maxSize=10455040;
-$imgFlag=true;
 // echo $filename;
 function getExt($filename) {
   return strtolower(end(explode(".",$filename)));
@@ -32,13 +31,8 @@ if($error==UPLOAD_ERR_OK){
     exit;
   }
   //需要判断下文件是否是通过HTTP POST方式上传上来的
-  //is_uploaded_file($tmp_name):
   
-  // $filename=getUniName().".".$ext;
   $path="uploads";
-  // if(!file_exists($path)){
-  //   mkdir($path,0777,true);
-  // }
   $destination=$path."/".$filename;
   if(is_uploaded_file($tmp_name)){
     if(move_uploaded_file($tmp_name, $destination)){
@@ -47,7 +41,7 @@ if($error==UPLOAD_ERR_OK){
       $mes="文件移动失败";
     }
   }else{
-    $mes="BUS HTTP POST方式上传上来的";
+    $mes="文件不是通过HTTP POST方式上传上来的";
   }
 }else{
   switch($error){
@@ -80,9 +74,6 @@ echo $mes;
 //2》;upload_tmp_dir =临时文件保存目录
 //3》upload_max_filesize = 2M默认值是2M，上传的最大大小2M
 //4》post_max_size = 8M，表单以POST方式发送数据的最大值，默认8M
-//客户端进行配置
-//<input type="hidden" name="MAX_FILE_SIZE" value="1024"  />
-//<input type="file" name="myFile" accept="文件的MIME类型,..."/>
 
 
 

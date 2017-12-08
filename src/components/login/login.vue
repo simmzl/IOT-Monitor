@@ -100,7 +100,7 @@
         }else {
           this.mdPwd = md(this.password);
           let data = {'username':this.username,'password':this.mdPwd};
-          this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
+          this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
 //            0 错误 1 admin 2 user
             if(res.data === '0'){
               this.err = "用户名或密码错误";
@@ -150,7 +150,7 @@
         }else{
           this.signUp.mdPwd = md(this.signUp.pwd);
           let data = {'username':this.signUp.username, 'email':this.signUp.email, 'password':this.signUp.mdPwd};
-          this.$http.post('/signup.php',data,{emulateJSON:true}).then((res)=>{
+          this.$http.post('./php/signup.php',data,{emulateJSON:true}).then((res)=>{
             if(res.data === "1"){
               this.signUp.err = "注册成功";
               this.signUp.isSignUpSuccess = true;
