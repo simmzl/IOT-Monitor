@@ -20,11 +20,29 @@
       </div>
     </div>
     <div class="fileList">
-      <h3>文件列表</h3>
-      <hr>
-      <ul>
-        <li v-if="!!fileList" v-for="file in fileList"><a :href="file.path">{{file.name}}</a></li>
-      </ul>
+      <h3 class="fileList-title">文件列表</h3>
+      <hr class="hr">
+      <div class='table-responsive' v-show="!!fileList.length">
+        <table class='table table-striped table-bordered table-hover'>
+          <thead>
+          <tr>
+            <th>文件名</th>
+            <th>上传日期</th>
+            <th>内容</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr  v-if="!!fileList.length" v-for="file in fileList">
+            <td>{{file.filename}}</td>
+            <td>{{file.date}}</td>
+            <td><a target="_blank" :href="'http://lab.simmzl.cn/php/files/uploads/'+ file.filename">查看</a></td>
+            <td><span class='pointer fileWarn' @click="deleteFile(file)">删除</span></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="fileWarn" v-show="!fileList.length">暂无文件...</div>
     </div>
   </div>
 </div>
@@ -42,11 +60,17 @@
     computed: {
     },
     created() {
-      this.$http.get('static/data/file.json').then((res) => {
-        this.fileList = res.body;
-      });
+      this.initFileList();
     },
     methods: {
+      initFileList(){
+        let data = {'operation': 'echoAllFiles'};
+        this.$http.post('./php/files/deleteOrEcho.php',data,{emulateJSON:true}).then((res) => {
+          if(res.status === 200){
+            this.fileList = res.body;
+          }
+        })
+      },
       getFileSelect() {
         this.fileSelect = this.$refs.upload.files[0].name;
         if (this.fileSelect) {
@@ -59,13 +83,13 @@
           this.err = '警告：未选择任何文件。';
         }else {
           let myData = new FormData();
-          console.log(this.$refs.upload.files[0]);
+//          console.log(this.$refs.upload.files[0]);
           let selectFile = this.$refs.upload.files[0];
           myData.append('myFile',selectFile);
           let allowArray = ['text/plain','application/pdf',
             'application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/vnd.ms-excel','application/vnd.ms-powerpoint',
-            ' application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
           if(selectFile.size > 10455040){
             if(this.isSuccess) this.isSuccess = false;
             this.err = '请选择小于10M的文件';
@@ -76,10 +100,11 @@
             return;
           }
           this.$http.post('./php/files/uploadFile.php', myData).then(function(res) {
-            console.log(res);
+//            console.log(res);
             if(res.data === '文件上传成功'){
               this.isSuccess = true;
               this.err = '上传成功!';
+              this.initFileList();
             }else {
               if(this.isSuccess) this.isSuccess = false;
               this.err = res.data;
@@ -87,6 +112,16 @@
           }, function(error) {
             if(this.isSuccess) this.isSuccess = false;
             this.err = '上传失败';
+          });
+        }
+      },
+      deleteFile(file) {
+        if(confirm('确认删除'+name+'?')){
+          let index = this.fileList.indexOf(file);
+          this.fileList.splice(index,1);
+          let data = { 'operation':'delete', 'deleteFileName': file.filename };
+          this.$http.post('./php/files/deleteAndEcho.php',data,{emulateJSON:true}).then(() => {
+            alert('删除成功');
           });
         }
       }
@@ -102,6 +137,13 @@
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+  }
+  .fileList{
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+  }
+  .fileList-title{
+    padding-left: 20px;
   }
   .fileList ul li {
     color: #337ab7;

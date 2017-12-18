@@ -27,8 +27,8 @@ if (!$con)
 
 mysql_select_db("XXX", $con);
 
-	$sql = "INSERT INTO `machine_data` 
-	(`id`,`date`,`wind_speed`,`temperature`,`humidity`,`uid`)
+	$sql = "INSERT INTO `xx` 
+	(`xx`,`xx`,`xx`,`xx`,`xx`,`xx`)
 	VALUES
 	(NULL,'$date','$ws','$temp','$hum','$z')";
 	mysql_query($sql,$con);

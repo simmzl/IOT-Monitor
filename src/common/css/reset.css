@@ -46,3 +46,7 @@ select {
 .no-padding {
   padding: 0;
 }
+
+hr{
+  margin: 20px 0;
+}

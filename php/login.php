@@ -16,13 +16,13 @@ function checkuser($username, $password){
    
   mysql_select_db($mysql_database); //打开数据库
 
-  $sql ="select * from admin where username = {$username}"; 
+  $sql ="select * from xx where xx = {$xx}"; 
    
   $row = mysql_query($sql,$conn); //查询
 
   $result = mysql_fetch_array($row);
 
-  if((!empty($result))&&$result['password']==$password){
+  if((!empty($result))&&$result['xx']==$xx){
     return $result;
   }else{
     return false;
@@ -32,17 +32,17 @@ function checkuser($username, $password){
 $auth = '';//存储当前登录账号信息
 $response = 0;
 
-if(empty($_POST['username']) || empty($_POST['password'])){
+if(empty($_POST['xx']) || empty($_POST['xx'])){
   $response = 0;
 }
 // 处理字符，防止注入
-$username = addslashes($_POST['username']);
-$password = addslashes($_POST['password']);
+$xx = addslashes($_POST['xx']);
+$xx = addslashes($_POST['xx']);
 
 // echo $response;
 if($auth = checkuser($username,$password)){
   $_SESSION['auth'] = $auth;
-  if($auth['type'] == 'admin'){
+  if($auth['type'] == 'xx'){
     $response = 1;
   }else{
     $response = 2;

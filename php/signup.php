@@ -1,6 +1,6 @@
 <?php
 
-function add_user($username, $password,$email,$type){
+function add_user($xx, $xx,$xx,$xx){
 
   $mysql_server_name='localhost';
    
@@ -16,25 +16,24 @@ function add_user($username, $password,$email,$type){
    
   mysql_select_db($mysql_database); //打开数据库
 
-  $sql = "insert into admin (username,password,email,type) values ('{$username}','{$password}','{$email}','{$type}')";
+  $sql = "insert into admin (xx,xx,xx,xx) values ('{$xx}','{$xx}','{$xx}','{$xx}')";
   // echo $sql;
   $result = mysql_query($sql,$conn); //执行
   return $result;
 }
 
 $response = 0;
-$username = addslashes($_POST['username']);
-$password = addslashes($_POST['password']);
-$email = addslashes($_POST['email']);
-$type = 'member';
+$xx = addslashes($_POST['xx']);
+$xx = addslashes($_POST['xx']);
+$xx = addslashes($_POST['xx']);
+$type = 'xx';
 
-$test = $username + $password + $email + $type;
 
-if(empty($username) || empty($password) || empty($email)){
+if(empty($xx) || empty($xx) || empty($xx)){
   $response = 0;
 }
 
-if(add_user($username,$password,$email,$type)){
+if(add_user($xx,$xx,$xx,$xx)){
   $response = 1;
 }else{
   $response = 0;

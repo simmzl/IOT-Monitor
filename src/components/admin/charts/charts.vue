@@ -108,7 +108,7 @@
         im: false,
 //        定时器
         timer: null,
-//        下一天上一天选择状态
+//        下一天上一天选择状态(1/-1)
         nextOrPast: 0,
 //        图标属性
         chartData: {
@@ -117,9 +117,10 @@
           myStartValue: '',
           seriesType: 'line'
         },
+//        所选日期
         selectYear: '',
-        selectMonth: '1',
-        selectDay: '1',
+        selectMonth: '',
+        selectDay: '',
         noData: false
       }
     },
@@ -392,6 +393,7 @@
     created() {
       this.updateDemoData();
       this.im = false;
+      this.initSelectDate();
     },
     deactivated() {
       this.im = false;
@@ -463,6 +465,7 @@
       },
 //      切换实时显示数据状态
       turnIm() {
+        this.initSelectDate();
         this.isToday = !this.isToday;
         this.im = !this.im;
         let self = this;
@@ -516,12 +519,19 @@
         this.isToday = false;
         this.im = false;
         if (str === 'next') {
-          this.nextOrPast++;
+          this.nextOrPast = 1;
         }else {
-          this.nextOrPast--;
+          this.nextOrPast = -1;
         }
-        let myDate = new Date();
-        let selectDay = myDate.getTime() + 86400000 * this.nextOrPast;
+//        将当前所在日期转成毫秒
+        let dateStr = `${this.selectYear}-${this.selectMonth}-${this.selectDay} 01:00:00`;
+        let selectDate = new Date(dateStr).getTime();
+        let selectDay = selectDate + 86400000 * this.nextOrPast;
+
+        this.selectYear = new Date(selectDay).getFullYear();
+        this.selectMonth = new Date(selectDay).getMonth() + 1;
+        this.selectDay = new Date(selectDay).getDate();
+
         selectDay = Math.floor(selectDay/1000);
         let data = { 'date': selectDay, 'uid': 2 };
         this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
@@ -537,9 +547,18 @@
           }
         });
       },
+//      将日期设为今天
       today() {
         this.im = false;
         this.updateDemoData();
+        this.initSelectDate();
+      },
+//      初始化当前所在日期
+      initSelectDate() {
+        let myDate = new Date();
+        this.selectYear = myDate.getFullYear();
+        this.selectMonth = myDate.getMonth() + 1;
+        this.selectDay = myDate.getDate();
       }
     }
   }
@@ -590,14 +609,6 @@
     width: 100%!important;
     height:400px;
   }
-  /*.humidity div, .humidity div canvas,  .temperature div, .temperature div canvas, .wind div, .wind div canvas{*/
-    /*width: 100%!important;*/
-  /*}*/
-  /*@media  screen and ( min-width: 992px) {*/
-    /*.dataChoose{*/
-      /*padding-left: 30px;*/
-    /*}*/
-  /*}*/
   @media  screen and ( max-width: 991px) {
     .charts .auto-padding{
       padding: 0;

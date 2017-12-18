@@ -1,10 +1,40 @@
 <template>
   <div class='equip_search_all'>
     <div class='equip_search'>
-      <input type="text" id='equip_search' placeholder='设备编号'><span class=""><i class="fa fa-search fa-lg"></i></span>
+      <input type="text" id='equip_search' placeholder='设备编号' v-model="queryId"><span @click="query"><i class="fa fa-search fa-lg"></i></span>
     </div>
+    <div class='table-responsive' v-show="!!queryRes.id">
+      <table class='table table-striped table-bordered table-hover'>
+        <thead>
+        <tr>
+          <th>设备名称</th>
+          <th>设备编号</th>
+          <th>生产日期</th>
+          <th>供应商</th>
+          <th>负责人</th>
+          <th>设备状态</th>
+          <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>{{queryRes.name}}</td>
+          <td>{{queryRes.id}}</td>
+          <td>{{queryRes.date}}</td>
+          <td>{{queryRes.vendor}}</td>
+          <td>{{queryRes.admin}}</td>
+          <td><span>{{queryRes.status}}</span></td>
+          <td><span class='pointer deleteWarn' @click="deleteItem">删除</span></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div v-show="!queryRes.id" class="deleteWarn">未找到设备...</div>
+
+    <hr>
+
     <div class="equip_all">
-      <input type="checkbox" class="showAllInput" v-model="isShowAll" @click.once="loadAllData"><span>显示所有设备</span>
+      <input type="checkbox" class="showAllInput" v-model="isShowAll" @click="loadAllData"><span>显示所有设备</span>
     </div>
     <div class='table-responsive' v-show="isShowAll">
       <table class='table table-striped table-bordered table-hover'>
@@ -15,19 +45,19 @@
           <th>生产日期</th>
           <th>供应商</th>
           <th>负责人</th>
-          <th>维修记录</th>
+          <th>设备状态</th>
           <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr  v-if="!!equipData[0]" v-for="item in equipData">
-          <td>{{item.name}}</td>
-          <td>{{item.id}}</td>
-          <td>{{item.date}}</td>
-          <td>{{item.vendor}}</td>
-          <td>{{item.manager}}</td>
-          <td class=''><span class='pointer'>查看</span></td>
-          <td><span class='pointer' @click="removeItem(item)">删除</span></td>
+        <tr  v-if="!!equipData[0]" v-for="equip in equipData">
+          <td>{{equip.name}}</td>
+          <td>{{equip.id}}</td>
+          <td>{{equip.date}}</td>
+          <td>{{equip.vendor}}</td>
+          <td>{{equip.admin}}</td>
+          <td><span class='pointer'>{{equip.status}}</span></td>
+          <td><span class='pointer' @click="removeItem(equip)">删除</span></td>
         </tr>
         </tbody>
       </table>
@@ -38,6 +68,10 @@
   export default {
     data() {
       return {
+        queryId: '',
+        queryRes: {
+          type: Object
+        },
         equipData:{
           type: Object
         },
@@ -45,34 +79,62 @@
       }
     },
     computed: {
-
     },
     methods: {
       loadAllData() {
-        this.$http.get('static/data/equipData/all.json').then((res) => {
-          this.equipData = res.body;
+//        if(this.isShowAll === false) return;
+        this.$http.post('./php/equipments/equipments.php', {'operation': 'queryAll'},{emulateJSON: true}).then((res) => {
+          if (res.body != 0) {
+            this.equipData = res.body;
+          }
         });
+      },
+      query() {
+        let data = {'operation': 'query', 'queryid': this.queryId};
+        this.$http.post('./php/equipments/equipments.php',data,{emulateJSON: true}).then((res) => {
+          if (res.body != 0) {
+            this.queryRes = res.body;
+          }else {
+            this.queryRes = '';
+          }
+        });
+      },
+      deleteItem() {
+        let conf = confirm("确认删除？");
+        if(conf) {
+          let data = { 'operation':'delete', 'deleteEquipId': this.queryRes.id};
+          this.$http.post('./php/equipments/equipments.php',data,{emulateJSON:true}).then((res) => {
+            if(res.body === '删除成功'){
+              this.queryRes = '';
+              alert('删除成功');
+            }else {
+              alert('删除失败');
+            }
+          });
+        }
       },
       removeItem(item) {
         let conf = confirm("确认删除？");
         if(conf) {
-          let index = this.equipData.indexOf(item);
-          this.equipData.splice(index, 1);
+          let data = { 'operation':'delete', 'deleteEquipId': item.id};
+          this.$http.post('./php/equipments/equipments.php',data,{emulateJSON:true}).then((res) => {
+            if(res.body === '删除成功'){
+              let index = this.equipData.indexOf(item);
+              this.equipData.splice(index,1);
+              alert('删除成功');
+            }else {
+              alert('删除失败');
+            }
+          });
         }
       }
-    },
-//    watch: {
-//      isShowAll: function (val) {
-//        if(val && !this.equipData[0]){
-//          this.$http.get('static/data/equipData/all.json').then((res) => {
-//            this.equipData = res.body;
-//          });
-//        }
-//      }
-//    }
+    }
   }
 </script>
 <style>
+  .deleteWarn{
+    color: #e4393c;
+  }
   .equip_search_all {
     padding: 30px;
     background-color: #ffffff;

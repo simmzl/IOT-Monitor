@@ -73,7 +73,8 @@ new Vue({
   components: { App },
   methods: {}
 });
-router.push('/');
+// router.push('/');
+router.push('/admin');
 
 Vue.prototype.isNumber = data => {
   return /^\d{1,10}$/.test(data);

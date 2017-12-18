@@ -1,17 +1,27 @@
-[ {
-    "name": "实验室操作手册",
-    "path": "../../../static/data/demo.txt"
+[
+  {
+    "id": "8",
+    "date": "2017-12-18 13:21:27",
+    "filename": "我的7k7k通行证.txt"
   },
   {
-    "name": "实验室设备管理条例",
-    "path": "../../../static/data/demo.txt"
+    "id": "6",
+    "date": "2017-12-18 11:44:34",
+    "filename": "陈泽龙.doc"
   },
   {
-    "name": "标本管理制度",
-    "path": "../../../static/data/demo.txt"
+    "id": "7",
+    "date": "2017-12-18 11:45:53",
+    "filename": "家访心得陈泽龙.doc"
   },
   {
-    "name": "设备使用指南",
-    "path": "../../../static/data/demo.txt"
+    "id": "9",
+    "date": "2017-12-18 13:21:40",
+    "filename": "cqsget.txt"
+  },
+  {
+    "id": "10",
+    "date": "2017-12-18 13:21:47",
+    "filename": "智能实验室管理系统.txt"
   }
 ]

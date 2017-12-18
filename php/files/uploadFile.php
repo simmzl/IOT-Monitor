@@ -11,14 +11,24 @@ $size=$_FILES['myFile']['size'];
 $allowExt=array("pdf","doc","docx","txt",'xls','ppt','pptx');
 // 10M
 $maxSize=10455040;
-// echo $filename;
+
+// 获取文件后缀名
 function getExt($filename) {
   return strtolower(end(explode(".",$filename)));
 }
 
+// 数据库操作
+function handleDB($sql){
+  $conn=mysql_connect('xxx','xxx','xxx') or die("error connecting") ; //连接数据库
+  mysql_query("set names 'utf8'"); //数据库输出编码
+  mysql_select_db('xxx'); //打开数据库
+  $result = mysql_query($sql,$conn); //执行
+  return $result;
+}
+
 //判断下错误信息
 if($error==UPLOAD_ERR_OK){
-  $ext=getExt($filename);
+  $ext=getExt($xx);
   // 限制上传文件类型
   if(!in_array($ext,$allowExt)){
     $mes = "非法文件类型";
@@ -31,14 +41,18 @@ if($error==UPLOAD_ERR_OK){
     exit;
   }
   //需要判断下文件是否是通过HTTP POST方式上传上来的
-  
   $path="uploads";
-  $destination=$path."/".$filename;
+  $destination=$path."/".$xx;
   if(is_uploaded_file($tmp_name)){
-    if(move_uploaded_file($tmp_name, $destination)){
-      $mes="文件上传成功";
+    if (handleDB("insert into xxx (xxx) values ('{$xx}')")) {
+      if(move_uploaded_file($tmp_name, $destination)){
+        $mes="文件上传成功";
+      }else{
+        handleDB("delete from xxx where xxx = '{$xx}'");
+        $mes="文件移动失败";
+      }
     }else{
-      $mes="文件移动失败";
+      $mes="文件已存在";
     }
   }else{
     $mes="文件不是通过HTTP POST方式上传上来的";
@@ -74,10 +88,3 @@ echo $mes;
 //2》;upload_tmp_dir =临时文件保存目录
 //3》upload_max_filesize = 2M默认值是2M，上传的最大大小2M
 //4》post_max_size = 8M，表单以POST方式发送数据的最大值，默认8M
-
-
-
-
-
-
-
