@@ -21,19 +21,20 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import VideoPlayer from 'vue-video-player/src/player';
-  require('videojs-flash/dist/videojs-flash');
-  require('video.js/dist/video-js.css');
-  require('vue-video-player/src/custom-theme.css');
+  import videoPlayer from 'vue-video-player/src/player';
+  import flash from 'videojs-flash';
+//  import 'videojs-flash/dist/videojs-flash.js';
+  import 'video.js/dist/video-js.css';
+  import 'vue-video-player/src/custom-theme.css';
 
   export default {
     components: {
-      VideoPlayer
+      videoPlayer
     },
     data () {
       return {
         typeOptions: {
-          techOrder: ['flash', 'html5'],
+          techOrder: ['flash'],
           controls: true,
           sources: [{
             type: 'rtmp/mp4',

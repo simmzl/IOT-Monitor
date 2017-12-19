@@ -28,6 +28,7 @@ module.exports = {
     }
   },
   module: {
+    // noParse: [/videojs-flash/],
     rules: [
       {
         test: /\.vue$/,

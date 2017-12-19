@@ -1,7 +1,7 @@
 <template>
   <div class='equip_search_all'>
     <div class='equip_search'>
-      <input type="text" id='equip_search' placeholder='设备编号' v-model="queryId"><span @click="query"><i class="fa fa-search fa-lg"></i></span>
+      <input type="text" id='equip_search' placeholder='设备编号' v-model="queryId" @keyup.enter="query"><span @click="query"><i class="fa fa-search fa-lg"></i></span>
     </div>
     <div class='table-responsive' v-show="!!queryRes.id">
       <table class='table table-striped table-bordered table-hover'>
@@ -10,6 +10,7 @@
           <th>设备名称</th>
           <th>设备编号</th>
           <th>生产日期</th>
+          <th>录入日期</th>
           <th>供应商</th>
           <th>负责人</th>
           <th>设备状态</th>
@@ -20,6 +21,7 @@
         <tr>
           <td>{{queryRes.name}}</td>
           <td>{{queryRes.id}}</td>
+          <td>{{queryRes.production_date}}</td>
           <td>{{queryRes.date}}</td>
           <td>{{queryRes.vendor}}</td>
           <td>{{queryRes.admin}}</td>
@@ -29,7 +31,7 @@
         </tbody>
       </table>
     </div>
-    <div v-show="!queryRes.id" class="deleteWarn">未找到设备...</div>
+    <div v-show="!queryRes.id" class="deleteWarn">{{resWarn}}</div>
 
     <hr>
 
@@ -43,6 +45,7 @@
           <th>设备名称</th>
           <th>设备编号</th>
           <th>生产日期</th>
+          <th>录入日期</th>
           <th>供应商</th>
           <th>负责人</th>
           <th>设备状态</th>
@@ -53,11 +56,12 @@
         <tr  v-if="!!equipData[0]" v-for="equip in equipData">
           <td>{{equip.name}}</td>
           <td>{{equip.id}}</td>
+          <td>{{equip.production_date}}</td>
           <td>{{equip.date}}</td>
           <td>{{equip.vendor}}</td>
           <td>{{equip.admin}}</td>
           <td><span class='pointer'>{{equip.status}}</span></td>
-          <td><span class='pointer' @click="removeItem(equip)">删除</span></td>
+          <td><span class='pointer deleteWarn' @click="removeItem(equip)">删除</span></td>
         </tr>
         </tbody>
       </table>
@@ -75,10 +79,12 @@
         equipData:{
           type: Object
         },
+        resWarn: '',
         isShowAll: false
       }
     },
     computed: {
+
     },
     methods: {
       loadAllData() {
@@ -90,12 +96,19 @@
         });
       },
       query() {
+        if(this.queryId === '') {
+          this.resWarn = '请输入设备编号...';
+          return;
+        }
         let data = {'operation': 'query', 'queryid': this.queryId};
         this.$http.post('./php/equipments/equipments.php',data,{emulateJSON: true}).then((res) => {
-          if (res.body != 0) {
+          console.log(res);
+          if (!!res.body.id) {
             this.queryRes = res.body;
           }else {
             this.queryRes = '';
+            this.resWarn = '未找到设备...';
+            console.log(this.resWarn);
           }
         });
       },
@@ -106,7 +119,7 @@
           this.$http.post('./php/equipments/equipments.php',data,{emulateJSON:true}).then((res) => {
             if(res.body === '删除成功'){
               this.queryRes = '';
-              alert('删除成功');
+//              alert('删除成功');
             }else {
               alert('删除失败');
             }
@@ -121,7 +134,7 @@
             if(res.body === '删除成功'){
               let index = this.equipData.indexOf(item);
               this.equipData.splice(index,1);
-              alert('删除成功');
+//              alert('删除成功');
             }else {
               alert('删除失败');
             }

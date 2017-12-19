@@ -6,7 +6,7 @@
           <router-link to="/admin/equipment/equipInput">设备录入</router-link>
           <router-link to="/admin/equipment/equipSearch">设备查询</router-link>
           <router-link to="/admin/equipment/equipRepair">设备维修</router-link>
-          <router-link to="/equipRepair">设备地图</router-link>
+          <router-link to="/admin/equipment/equipMap">设备地图</router-link>
         </div>
       </div>
     </div>

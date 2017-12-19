@@ -109,50 +109,6 @@ select, .dropLabel {
   margin-top: -3px !important;
   height: 21px;
 }
-
-/* 地图 */
-
-@media screen and (min-width: 450px) {
-  #l-map {
-    height: 700px;
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 449px) {
-  #l-map {
-    height: 550px;
-    width: 100%;
-  }
-}
-
-.BMap_bubble_title {
-  text-align: center;
-}
-
-.map-table {
-  width: 100%;
-  height: 100px;
-}
-
-.map-table td {
-  text-align: center;
-  color: #fff;
-  font-size: 20px;
-  width: 33%;
-}
-
-.map-table td span {
-  height: 100%;
-  width: 90%;
-  line-height: 34px;
-  font-size: 16px;
-  font-weight: 700;
-  display: inline-block;
-  padding-top: 10px;
-  background: #1163b9;
-}
-
 /*manage*/
 .input_group .info {
   margin: 20px;

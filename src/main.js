@@ -14,6 +14,7 @@ import labVideo from './components/admin/video/labvideo';
 import equipment from './components/admin/equipment/equipment';
 import equipInput from './components/admin/equipment/equipinput';
 import equipSearch from './components/admin/equipment/equipsearch';
+import equipMap from './components/admin/equipment/equipmap';
 import equipRepair from './components/admin/equipment/equiprepair';
 import file from './components/admin/file/file';
 
@@ -44,6 +45,7 @@ let routes = [
         children: [
           { path: 'equipInput', components: {equip :equipInput}},
           { path: 'equipSearch', components: {equip :equipSearch}},
+          { path: 'equipMap', components: {equip :equipMap}},
           { path: 'equipRepair', components: {equip :equipRepair}}
         ]},
       { path: 'file', component: file }
