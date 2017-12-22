@@ -28,12 +28,12 @@
       this.pwd = uPwd;
       /*如果cookie不存在，则跳转到登录页*/
       if(uName === ""){
-        this.$router.push('/');
+//        this.$router.push('/');
       }else {
         let data = {'username':this.name,'password':this.pwd};
-        this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
+        this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
           if(res.data !== '2'){
-            this.$router.push('/');
+//            this.$router.push('/');
           }
         });
       }
@@ -41,7 +41,7 @@
     methods: {
       check() {
         let data = {'username':this.name,'password':this.pwd};
-        this.$http.post('./login.php', data,{emulateJSON:true}).then((res)=>{
+        this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
           console.log(res);
           console.log('res.data === \'2\ 之前'+ res.data === '2');
           return res.data === '2';

@@ -177,6 +177,7 @@
   }
   .fileWarn{
     color: #e4393c;
+    padding-left: 20px;
   }
   .hr{
     opacity: 0;

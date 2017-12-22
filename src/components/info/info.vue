@@ -9,12 +9,20 @@
         <h3 class="title">基础资料</h3>
       </div>
       <div class="myInfoData">
-        <span>学号：</span>
-        <span id="id">{{info.name}}</span>
+        <span>用户名：</span>
+        <span>{{info.username}}</span>
       </div>
       <div class="myInfoData">
         <span>注册邮箱:</span>
-        <span id="email">{{info.email}}</span>
+        <span>{{info.email}}</span>
+      </div>
+      <div class="myInfoData">
+        <span>注册日期：</span>
+        <span>{{info.date}}</span>
+      </div>
+      <div class="myInfoData">
+        <span>账号类别:</span>
+        <span>{{userType}}</span>
       </div>
     </div>
     <div id='edit_info' v-show="isShowEdit">
@@ -25,20 +33,20 @@
         </div>
         <form action="">
           <div class="info">
-            <span>学号:</span>
-            <input type="text" id="edit_id" :placeholder="info.id" v-model="edit.id">
+            <span>用户名:</span>
+            <input type="text" id="edit_id" v-model="edit.id">
           </div>
           <div class="info">
             <span>注册邮箱:</span>
-            <input type="text" id="edit_email" :placeholder="info.email" v-model="edit.email">
+            <input type="text" id="edit_email" v-model="edit.email">
           </div>
           <div class="info err_info" v-show="edit.errShow">
             <span></span>
-            <div id="error" class="error_reg">{{edit.err}}</div>
+            <div id="error" class="error_reg" :class="{'submitSuccess': edit.isSubmitSuccess}">{{edit.err}}</div>
           </div>
           <div class="info">
             <span></span>
-            <input type="submit" class='submit' id="submit_info" @click="canSubmit" value="提交">
+            <input type="submit" class='submit' id="submit_info" @click.stop.prevent="canSubmit" value="提交">
           </div>
         </form>
       </div>
@@ -64,11 +72,11 @@
               </div>
               <div class="info err_info" v-show="editPwd.errShow">
                 <span></span>
-                <div id="error_pwd" class="error_reg">{{editPwd.err}}</div>
+                <div id="error_pwd" class="error_reg" :class="{'submitSuccess': editPwd.isSubmitSuccess}">{{editPwd.err}}</div>
               </div>
               <div class="info">
                 <span></span>
-                <input type="submit" class='submit' id="submit_pwd" @click="canPwdSubmit" value="提交">
+                <input type="submit" class='submit' id="submit_pwd" @click.stop.prevent="canPwdSubmit" value="提交">
               </div>
             </form>
           </div>
@@ -79,6 +87,9 @@
 </div>
 </template>
 <script type="text/ecmascript-6">
+import {setCookie, getCookie} from '../../common/js/cookie.js'
+import md from 'md5'
+
 export default {
   data() {
     return {
@@ -91,7 +102,8 @@ export default {
         id: "",
         email: "",
         err: "",
-        errShow: false
+        errShow: false,
+        isSubmitSuccess: false
       },
       editPwd: {
         content: '展开',
@@ -99,69 +111,119 @@ export default {
         pwd: '',
         pwdConf: '',
         err: "",
-        errShow: false
+        errShow: false,
+        isSubmitSuccess: false
+      }
+    }
+  },
+  computed: {
+    userType() {
+      if(this.info.type === 'member'){
+        return '学生用户';
+      }else {
+        return '管理员';
       }
     }
   },
   created() {
-    this.$http.get('static/data/admininfo.json').then((res) => {
+    let data = {'operation': 'echo'};
+    this.$http.post('./php/info/info.php', data, {emulateJSON:true}).then((res) => {
       this.info = res.body;
+      this.initEdit();
     });
   },
   methods: {
     showEdit() {
+      this.initEdit();
       return this.isShowEdit = !this.isShowEdit;
     },
     showPwd() {
       if (this.editPwd.content === "展开") {
         this.editPwd.content = "关闭";
       }else {
+        this.initPwdEdit();
         this.editPwd.content = "展开";
       }
       return this.isShowPwd = !this.isShowPwd;
     },
 //    修改资料前验证
-    canSubmit(e) {
-      let result = () =>{
-        if(!this.edit.id || !this.edit.email){
-          this.edit.errShow = true;
-          this.edit.err = "请完成输入";
-          return false;
+    canSubmit() {
+      if(!this.edit.id || !this.edit.email){
+        if(this.edit.isSubmitSuccess) this.edit.isSubmitSuccess = false;
+        this.edit.errShow = true;
+        this.edit.err = "请完成输入";
+      }else {
+        if(this.isNumber(this.edit.id) && this.isEmail(this.edit.email)){
+          let data = {'operation': 'editinfo', 'new_username': this.edit.id, 'new_email': this.edit.email};
+          this.$http.post('./php/info/info.php', data, {emulateJSON:true}).then( (res) => {
+            console.log(res.body);
+            if(res.body === '修改成功'){
+              this.edit.errShow = true;
+              this.edit.isSubmitSuccess = true;
+              this.edit.err = "修改成功";
+              this.info.username = this.edit.id;
+              this.info.email = this.edit.email;
+              setCookie('username',this.edit.id,1000*60);
+            }else {
+              if(this.edit.isSubmitSuccess) this.edit.isSubmitSuccess = false;
+              this.edit.errShow = true;
+              this.edit.err = "修改失败";
+            }
+          });
         }else {
-          if(this.isNumber(this.edit.id) && this.isEmail(this.edit.email)){
-            if(this.edit.errShow === true) this.edit.errShow = false;
-            return true;
-          }else {
-            this.edit.errShow = true;
-            this.edit.err = "请输入正确的学号格式或邮箱格式";
-            return false;
-          }
+          if(this.edit.isSubmitSuccess) this.edit.isSubmitSuccess = false;
+          this.edit.errShow = true;
+          this.edit.err = "请输入正确的学号格式或邮箱格式";
         }
-      };
-      if(!result()) e.preventDefault();
+      }
     },
 //    修改密码前验证
-    canPwdSubmit(e) {
-      let result = () =>{
-        if(!this.editPwd.oriPwd || !this.editPwd.pwd || !this.editPwd.pwdConf){
+    canPwdSubmit() {
+      if(!this.editPwd.oriPwd || !this.editPwd.pwd || !this.editPwd.pwdConf){
+        if(this.editPwd.isSubmitSuccess) this.editPwd.isSubmitSuccess = false;
+        this.editPwd.errShow = true;
+        this.editPwd.err = "请完成输入";
+      }else if(md(this.editPwd.oriPwd) !== getCookie('info')) {
+        if(this.editPwd.isSubmitSuccess) this.editPwd.isSubmitSuccess = false;
+        this.editPwd.errShow = true;
+        this.editPwd.err = "原密码错误";
+      }else if(this.editPwd.pwd === this.editPwd.pwdConf){
+        if(this.editPwd.pwd.length<6){
+          if(this.editPwd.isSubmitSuccess) this.editPwd.isSubmitSuccess = false;
           this.editPwd.errShow = true;
-          this.editPwd.err = "请完成输入";
-          return false;
-        }else if(this.editPwd.pwd === this.editPwd.pwdConf){
-          if(this.editPwd.pwd.length<6){
-            this.editPwd.errShow = true;
-            this.editPwd.err = "密码不能少于6个字符";
-            return false;
-          }else {
-            this.editPwd.errShow = false;
-            return true;
-          }
+          this.editPwd.err = "密码不能少于6个字符";
         }else {
-          this.editPwd.err = "两次输入的密码不同";
-          return false;
+          let data = {'operation': 'editpwd', 'new_pwd': md(this.editPwd.pwd)};
+          this.$http.post('./php/info/info.php', data, {emulateJSON:true}).then( (res) => {
+            console.log(res.body);
+            if(res.body === '修改成功'){
+              this.editPwd.errShow = true;
+              this.editPwd.isSubmitSuccess = true;
+              this.editPwd.err = "修改成功";
+              setCookie('info',md(this.editPwd.pwd),1000*60);
+            }else {
+              if(this.editPwd.isSubmitSuccess) this.editPwd.isSubmitSuccess = false;
+              this.editPwd.errShow = true;
+              this.editPwd.err = "修改失败";
+            }
+          });
         }
-        };
-      if(!result()) e.preventDefault();
+      }else {
+        if(this.editPwd.isSubmitSuccess) this.editPwd.isSubmitSuccess = false;
+        this.editPwd.errShow = true;
+        this.editPwd.err = "两次输入的密码不同";
+      }
+    },
+    initEdit() {
+      this.edit.id = this.info.username;
+      this.edit.email = this.info.email;
+      this.edit.errShow = false;
+    },
+    initPwdEdit() {
+      this.editPwd.oriPwd = '';
+      this.editPwd.pwdConf = '';
+      this.editPwd.pwd = '';
+      this.editPwd.errShow = false;
     }
   }
 }
@@ -268,5 +330,10 @@ export default {
     width: 20px;
     margin-left: 10px;
     cursor: pointer;
+  }
+  .submitSuccess {
+    border: none!important;
+    color: #fff!important;
+    background: #5cb85c!important;
   }
 </style>

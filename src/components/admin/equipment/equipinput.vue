@@ -74,18 +74,18 @@
             if (res.body == 1) {
               this.edit.isSubmitSuccess = true;
               this.edit.errShow = true;
-
-              this.edit.id = '';
-              this.edit.name = '';
-              this.edit.date = '';
-              this.edit.vendor = '';
-              this.edit.person = '';
+//              清空输入
+//              this.edit.id = '';
+//              this.edit.name = '';
+//              this.edit.date = '';
+//              this.edit.vendor = '';
+//              this.edit.person = '';
 
               this.edit.err = '提交成功';
             } else if (res.body == 0) {
               this.edit.isSubmitSuccess = false;
               this.edit.errShow = true;
-              this.edit.err = '提交失败';
+              this.edit.err = '提交失败，设备编号已存在';
             }
           });
           return true;

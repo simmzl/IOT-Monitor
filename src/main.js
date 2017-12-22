@@ -76,7 +76,7 @@ new Vue({
   methods: {}
 });
 // router.push('/');
-router.push('/admin');
+router.push('/user');
 
 Vue.prototype.isNumber = data => {
   return /^\d{1,10}$/.test(data);
