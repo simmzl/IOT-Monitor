@@ -3,7 +3,9 @@
   <user-nav></user-nav>
   <div class='container main clearfix'>
     <div class="containter-main clearfix">
-      <router-view></router-view>
+      <keep-alice>
+        <router-view></router-view>
+      </keep-alice>
     </div>
   </div>
   <lab-footer></lab-footer>

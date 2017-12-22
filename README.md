@@ -160,5 +160,8 @@ service crond restart
 ```
 参考：[PHP实现执行定时任务的几种思路详解](https://segmentfault.com/a/1190000002955509)
 
+### 文件上传
+关于文件上传功能的实现，我写了一篇博客：[利用FormData对象实现AJAX文件上传功能及后端实现](http://blog.simmzl.cn/2017/12/%E5%88%A9%E7%94%A8FormData%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0AJAX%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8A%9F%E8%83%BD%E5%8F%8A%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6.html)
+
 
 
