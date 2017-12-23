@@ -3,7 +3,7 @@
   <div class="col-lg-9 col-md-9 auto-padding">
     <div class="video-wrapper" style="width: 100%">
       <div class="video-title">视频监控</div>
-      <video-player class="vjs-custom-skin" ref="videoPlayer" :options="typeOptions">
+      <video-player class="vjs-custom-skin" ref="videoPlayer" :options="playerOptions">
       </video-player>
       <div class="video-footer">
         地点：工学院；时间：2017/11/24
@@ -22,35 +22,93 @@
 
 <script type="text/ecmascript-6">
   import videoPlayer from 'vue-video-player/src/player';
-  import flash from 'videojs-flash';
-//  import 'videojs-flash/dist/videojs-flash.js';
+//  require('videojs-flash/dist/videojs-flash');
+//  import flash from 'videojs-flash';
+//  import flash from 'videojs-flash/dist/videojs-flash';
   import 'video.js/dist/video-js.css';
   import 'vue-video-player/src/custom-theme.css';
 
-  export default {
+//  export default {
+//    components: {
+//      videoPlayer
+//    },
+//    data () {
+//      return {
+//        playerOptions: {
+//          techOrder: ['flash'],
+//          controls: true,
+//          sources: [{
+//            type: 'rtmp/mp4',
+//            src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks'
+//          }],
+//          live: true,
+//          controlBar: {
+//            volumeMenuButton: {
+//              inline: false,
+//              vertical: true
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+
+//  export default {
+//    data() {
+//      return {
+//        playerOptions: {
+//          sources: [{
+//            type: "rtmp/mp4",
+//            src: "rtmp://184.72.239.149/vod/&mp4:BigBuckBunny_115k.mov",
+//            withCredentials: false
+//          }],
+//          techOrder: ['flash'],
+//          autoplay: true,
+//          controls: true
+//        }
+//      }
+//    },
+//    components: {
+//      videoPlayer
+//    },
+//  }
+
+require('videojs-contrib-hls/dist/videojs-contrib-hls');
+export default {
+  data() {
+    return {
+      playerOptions: {
+        // videojs and plugin options
+        sources: [{
+          withCredentials: false,
+          type: "application/x-mpegURL",
+          src: "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
+        }],
+        controlBar: {
+          timeDivider: false,
+          durationDisplay: false
+        },
+        flash: { hls: { withCredentials: false }},
+        html5: { hls: { withCredentials: false }},
+        poster: "/static/images/author-5.jpg"
+      }
+    }
+  },
     components: {
       videoPlayer
     },
-    data () {
-      return {
-        typeOptions: {
-          techOrder: ['flash'],
-          controls: true,
-          sources: [{
-            type: 'rtmp/mp4',
-            src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks'
-          }],
-          live: true,
-          controlBar: {
-            volumeMenuButton: {
-              inline: false,
-              vertical: true
-            }
-          }
-        }
+  methods: {
+    playerReadied(player) {
+      var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
+      player.tech_.hls.xhr.beforeRequest = function(options) {
+        // console.log(options)
+        return options
       }
     }
   }
+}
+
+
 </script>
 <style>
   .video-wrapper{
@@ -95,6 +153,9 @@
   }
   .video-js:hover .vjs-big-play-button, .vjs-custom-skin > .video-js .vjs-big-play-button:focus, .vjs-custom-skin > .video-js .vjs-big-play-button:active{
     background: rgba(0,0,0,0.4)!important;
+  }
+  .vjs-custom-skin>.video-js .vjs-big-play-button{
+    margin-left: -1em!important;
   }
   @media  screen and ( max-width: 991px) {
     .labvideo .auto-padding{

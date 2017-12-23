@@ -23,7 +23,13 @@ import user from './components/user/user';
 import userFiles from './components/user/userFiles/userFiles'
 import bookRepair from './components/user/bookRepair/bookRepair'
 
+// import videojs from 'video.js';
+import VueVideoPlayer from 'vue-video-player';
+Vue.use(VueVideoPlayer);
+// Vue.use(videojs);
+
 Vue.config.productionTip = false;
+// videojs.options.flash.swf = 'videojs-flash/node_modules/videojs-swf/dist/video-js.swf';
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
@@ -76,7 +82,7 @@ new Vue({
   methods: {}
 });
 // router.push('/');
-router.push('/user');
+router.push('/admin');
 
 Vue.prototype.isNumber = data => {
   return /^\d{1,10}$/.test(data);
