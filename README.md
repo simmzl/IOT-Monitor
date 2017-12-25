@@ -1,7 +1,8 @@
 # lab
 
-> A Vue.js project
+> A Vue.js project 
 
+Demo: [lab.simmzl.cn](http://lab.simmzl.cn/)
 ## Build Setup
 
 ``` bash
