@@ -12,27 +12,34 @@
             <table class='table table-striped table-bordered table-hover'>
               <thead>
               <tr>
-                <th>设备名称</th>
+                <th>序号</th>
                 <th>设备编号</th>
-                <th>生产日期</th>
-                <th>录入日期</th>
-                <th>供应商</th>
-                <th>负责人</th>
-                <th>维修状态</th>
+                <th>报修日期</th>
+                <th>故障描述</th>
+                <th>报修人</th>
+                <th>报修人手机</th>
+                <th title="当前维修状态">维修状态</th>
+                <th>状态更改</th>
                 <th>操作</th>
               </tr>
               </thead>
-              <!--<tbody>-->
-              <!--&lt;!&ndash;<tr  v-if="!!normal[0]" v-for="equip in normal">&ndash;&gt;-->
-                <!--&lt;!&ndash;<td>{{equip.name}}</td>&ndash;&gt;-->
-                <!--&lt;!&ndash;<td>{{equip.id}}</td>&ndash;&gt;-->
-                <!--&lt;!&ndash;<td>{{equip.date}}</td>&ndash;&gt;-->
-                <!--&lt;!&ndash;<td>{{equip.vendor}}</td>&ndash;&gt;-->
-                <!--&lt;!&ndash;<td>{{equip.admin}}</td>&ndash;&gt;-->
-                <!--&lt;!&ndash;<td class=''><span>{{equip.status}}</span></td>&ndash;&gt;-->
-                <!--&lt;!&ndash;<td><span class='pointer deleteWarn' @click="removeItem(equip,'待维修')">设为待维修</span></td>&ndash;&gt;-->
-              <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-              <!--</tbody>-->
+              <tbody>
+              <tr  v-if="!!book[0]" v-for="equip in book">
+                <td>{{equip.index}}</td>
+                <td>{{equip.id}}</td>
+                <td>{{equip.date}}</td>
+                <td>{{equip.description}}</td>
+                <td>{{equip.person}}</td>
+                <td>{{equip.tel}}</td>
+                <td class=''><span>{{equip.status}}</span></td>
+                <td>
+                  <span class='pointer deleteWarn' @click="removeItem(equip,'待维修');removeBookItem(equip,'no')">设为待维修</span>
+                </td>
+                <td>
+                  <span class='pointer deleteWarn' @click="removeBookItem(equip,'yes')">删除</span>
+                </td>
+              </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -122,6 +129,9 @@
 export default {
   data() {
     return {
+      book: {
+        type: Object
+      },
       normal: {
         type: Object
       },
@@ -139,6 +149,7 @@ export default {
     initAllList() {
       this.getRepairList();
       this.getNormalList();
+      this.getBookList();
     },
     removeItem(item,str) {
       if(confirm('是否将设备状态更改为' + str + '?')){
@@ -146,9 +157,40 @@ export default {
         this.$http.post('./php/equipments/equipments.php',data,{emulateJSON:true}).then((res) => {
           if(res.body == '更改成功'){
             this.initAllList();
-//            alert('已将设备状态更改为' + str);
           }else {
             alert('更改失败');
+          }
+        });
+      }
+    },
+    getBookList() {
+      this.$http.post('./php/book/book.php',{'operation': 'echo'},{emulateJSON: true}).then((res) => {
+        if(res.body !== '' && res.body !== '维修失败'){
+          this.book = res.body;
+        }else {
+          this.book = '';
+        }
+      });
+    },
+    removeBookItem(equ,str) {
+      if( str === 'yes'){
+        if(confirm('是否将该报修信息删除？')){
+          let data = { 'operation':'removeBookItem', 'bookItemIndex': equ.index};
+          this.$http.post('./php/book/book.php',data,{emulateJSON:true}).then((res) => {
+            if(res.body === '删除成功'){
+              this.getBookList();
+            }else {
+              alert('删除失败');
+            }
+          });
+        }
+      }else {
+        let data = { 'operation':'removeBookItem', 'bookItemIndex': equ.index};
+        this.$http.post('./php/book/book.php',data,{emulateJSON:true}).then((res) => {
+          if(res.body === '删除成功'){
+            this.getBookList();
+          }else {
+            alert('删除失败');
           }
         });
       }

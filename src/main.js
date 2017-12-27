@@ -82,10 +82,10 @@ new Vue({
   methods: {}
 });
 // router.push('/');
-router.push('/admin');
+router.push('/user');
 
 Vue.prototype.isNumber = data => {
-  return /^\d{1,10}$/.test(data);
+  return /^[0-9]+.?[0-9]*$/.test(data);
 };
 Vue.prototype.isEmail = data => {
   return   /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(data);

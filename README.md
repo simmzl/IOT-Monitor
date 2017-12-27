@@ -146,6 +146,9 @@ vue的生命周期中有`activated`和`deactivated`这两个生命周期钩子�
 
 参考：[stackoverflow](https://stackoverflow.com/questions/35104770/how-to-destroy-a-component-when-building-spa-with-vue-js-and-vue-router)
 [keep-alive官方文档](https://cn.vuejs.org/v2/api/#keep-alive)
+
+### VUE一个DOM节点添加多个事件
+添加一个事件时直接使用`@click="a()"`即可，需要添加多个事件时则使用`@click="a();b()"`；
 ## 后端PHP
 ### 定时执行PHP程序
 php没有自带定时器，在centos系统中可以使用crontab执行php定时任务:
