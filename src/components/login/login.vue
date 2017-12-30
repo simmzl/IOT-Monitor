@@ -80,6 +80,8 @@
           this.$router.push('/admin');
         }else if(res.data === '2'){
           this.$router.push('/user');
+        }else if(res.data === '3'){
+          this.$router.push('/serviceman');
         }
       });
     },

@@ -13,17 +13,15 @@
       </div>
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav navbar-right main-nav">
-          <!--<li><router-link to="/user/bookRepair">设备报修</router-link></li>-->
-          <li><router-link to="/user/charts">数据监测</router-link></li>
-          <li><router-link to="/user/video">视频监控</router-link></li>
-          <li><router-link to="/user/userFiles">文档中心</router-link></li>
+          <li><router-link to="/serviceman/bookRepair">设备报修</router-link></li>
+          <li><router-link to="/serviceman/equipment">设备管理</router-link></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               个人中心
               <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><router-link to="/user/info">个人信息</router-link></li>
+              <li><router-link to="/serviceman/info">个人信息</router-link></li>
               <li><a href="javascript:;" @click="quit">退出登录</a></li>
             </ul>
           </li>

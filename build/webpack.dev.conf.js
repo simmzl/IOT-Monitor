@@ -10,7 +10,7 @@ const portfinder = require('portfinder')
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
-    // noParse: [/videojs-flash/],
+    noParse: [/videojs-contrib-hls/],
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
   },
   // cheap-module-eval-source-map is faster for development

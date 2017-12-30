@@ -17,6 +17,7 @@
           <li><router-link to="/admin/charts">数据监测</router-link></li>
           <li><router-link to="/admin/video">视频监控</router-link></li>
           <li><router-link to="/admin/file">文档管理</router-link></li>
+          <li><router-link to="/admin/userManage">用户管理</router-link></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">个人中心<b class="caret"></b>
             </a>

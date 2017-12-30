@@ -17,6 +17,10 @@ import equipSearch from './components/admin/equipment/equipsearch';
 import equipMap from './components/admin/equipment/equipmap';
 import equipRepair from './components/admin/equipment/equiprepair';
 import file from './components/admin/file/file';
+import userManage from './components/admin/userManage/userManage';
+
+// serviceman
+import serviceman from './components/serviceman/serviceman';
 
 // user
 import user from './components/user/user';
@@ -54,7 +58,8 @@ let routes = [
           { path: 'equipMap', components: {equip :equipMap}},
           { path: 'equipRepair', components: {equip :equipRepair}}
         ]},
-      { path: 'file', component: file }
+      { path: 'file', component: file },
+      { path: 'userManage', component: userManage },
     ]
   },
   {
@@ -64,7 +69,28 @@ let routes = [
     children: [
       { path: 'info', component: info },
       { path: 'userFiles', component: userFiles },
-      { path: 'bookRepair', component: bookRepair }
+      // { path: 'bookRepair', component: bookRepair },
+      { path: 'charts', component: charts },
+      { path: 'video', component: labVideo },
+    ]
+  },
+  {
+    path: '/serviceman',
+    component: serviceman,
+    redirect: '/serviceman/equipment',
+    children: [
+      { path: 'info', component: info },
+      { path: 'bookRepair', component: bookRepair },
+      {
+        path: 'equipment',
+        component: equipment,
+        redirect: '/serviceman/equipment/equipInput',
+        children: [
+          { path: 'equipInput', components: {equip :equipInput}},
+          { path: 'equipSearch', components: {equip :equipSearch}},
+          { path: 'equipMap', components: {equip :equipMap}},
+          { path: 'equipRepair', components: {equip :equipRepair}}
+        ]},
     ]
   }
 ];
@@ -82,7 +108,8 @@ new Vue({
   methods: {}
 });
 // router.push('/');
-router.push('/user');
+// router.push('/serviceman');
+router.push('/admin');
 
 Vue.prototype.isNumber = data => {
   return /^[0-9]+.?[0-9]*$/.test(data);

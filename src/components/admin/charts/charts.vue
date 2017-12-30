@@ -4,6 +4,24 @@
     <div class="col-lg-3 col-md-3 auto-padding">
       <div class="dataChoose paddingWrapper" >
         <div class="btn-group">
+          <a class="dropdown-toggle a_title" data-toggle="dropdown"><span><i class='fa fa-bar-chart-o'></i></span>选择设备</a>
+          <ul class="dropdown-menu" role="menu" >
+            <li @click.stop="">
+              <a class="historyActive">请选择设备：</a>
+              <div class="dropSelectsId">
+                <select v-model="selectedId" v-if="allUids">
+                  <option v-for="id in allUids" :value="id">{{id}}</option>
+                  <!--<option value="00000001">00000001</option>-->
+                  <!--<option value="00000002">00000002</option>-->
+                  <!--<option value="00000003">00000003</option>-->
+                  <!--<option value="00000004">00000004</option>-->
+                </select>
+                <button type="button" class="btn btn-primary btn-xs button-font" @click="updateDemoData">确定</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="btn-group">
           <a  class="dropdown-toggle a_title" data-toggle="dropdown" style='width: 100%'>
             <span><i class='fa fa-calendar-check-o history'></i></span>
             历史数据 </a>
@@ -100,6 +118,8 @@
   export default {
     data() {
       return {
+        selectedId: '',
+        allUids: [],
         demoData: {
           type: Array
         },
@@ -391,15 +411,18 @@
       }
     },
     created() {
-      this.updateDemoData();
-      this.im = false;
-      this.initSelectDate();
+      this.getUidList();
+//      if(this.selectedId){
+//        this.updateDemoData();
+//        this.im = false;
+//        this.initSelectDate();
+//      }
     },
     deactivated() {
       this.im = false;
       this.clearAllTimer();
       let myDate = new Date();
-      this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+      this.chartData.subText = this.selectedId + "\n" + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
       this.myInit();
     },
     methods: {
@@ -441,13 +464,41 @@
           }
         }
       },
+//      获取所有设备id列表
+      getUidList() {
+//        this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/uids').then((res) => {
+//          console.log(res.body);
+////          res.body.map( (item) => {
+////            this.allUids.push(item);
+////          });
+//          this.allUids = res.body;
+//          console.log(this.allUids);
+//          this.selectedId = this.allUids[2];
+//        });
+
+        this.$http.post('./php/charts/allUid.php').then((res) => {
+          console.log(res.body);
+//          res.body.map( (item) => {
+//            this.allUids.push(item.table_name);
+//          });
+          if(res.body[0]){
+            this.allUids = res.body;
+            console.log(this.allUids);
+            this.selectedId = this.allUids[0];
+
+            this.updateDemoData();
+            this.im = false;
+            this.initSelectDate();
+          }
+        })
+      },
 //      请求并更新数据
       updateDemoData() {
         this.nextOrPast = 0;
         this.isToday = true;
         let myDate = new Date();
         let sqlDate = Math.floor(myDate.getTime()/1000);
-        let data = { 'date': sqlDate, 'uid': 2 };
+        let data = { 'date': sqlDate, 'uid': this.selectedId };
         this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
           console.log(res);
           this.demoData = res.data;
@@ -456,7 +507,7 @@
           }else {
             if(this.noData) this.noData=false;
             if(!this.im){
-              this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+              this.chartData.subText = this.selectedId + "\n" + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
             }
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
             this.myInit();
@@ -472,7 +523,7 @@
         let myDate = new Date();
         if(this.im){
           this.clearAllTimer();
-          this.chartData.subText = this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
+          this.chartData.subText = this.selectedId + "\n" + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
           this.myInit();
           if(!this.timer){
             this.timer = setInterval(function () {
@@ -484,7 +535,7 @@
         }else {
           this.clearAllTimer();
           this.im = false;
-          this.chartData.subText = myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+          this.chartData.subText = this.selectedId + "\n" + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
           this.myInit();
         }
       },
@@ -501,7 +552,7 @@
         let dateStr = `${this.selectYear}-${this.selectMonth}-${this.selectDay} 01:00:00`;
         let selectDate = new Date(dateStr).getTime();
         selectDate = Math.floor(selectDate/1000);
-        let data = { 'date': selectDate, 'uid': 2 };
+        let data = { 'date': selectDate, 'uid': this.selectedId };
         this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
           console.log(res);
           this.demoData = res.data;
@@ -509,7 +560,7 @@
             if(!this.noData) this.noData=true;
           }else {
             if(this.noData) this.noData=false;
-            this.chartData.subText = this.selectYear + '/' + this.addZero(this.selectMonth) + '/' + this.addZero(this.selectDay);
+            this.chartData.subText = this.selectedId + "\n" + this.selectYear + '/' + this.addZero(this.selectMonth) + '/' + this.addZero(this.selectDay);
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
             this.myInit();
           }
@@ -533,7 +584,7 @@
         this.selectDay = new Date(selectDay).getDate();
 
         selectDay = Math.floor(selectDay/1000);
-        let data = { 'date': selectDay, 'uid': 2 };
+        let data = { 'date': selectDay, 'uid': this.selectedId };
         this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
           console.log(res);
           this.demoData = res.data;
@@ -541,7 +592,7 @@
             if(!this.noData) this.noData=true;
           }else {
             if(this.noData) this.noData=false;
-            this.chartData.subText = new Date(selectDay*1000).getFullYear() + '/' + this.addZero(new Date(selectDay*1000).getMonth()+1) + '/' + this.addZero(new Date(selectDay*1000).getDate());
+            this.chartData.subText = this.selectedId + "\n" + new Date(selectDay*1000).getFullYear() + '/' + this.addZero(new Date(selectDay*1000).getMonth()+1) + '/' + this.addZero(new Date(selectDay*1000).getDate());
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
             this.myInit();
           }
@@ -589,6 +640,11 @@
   .dropSelects{
     padding-bottom: 8px;
     margin-bottom: 0;
+  }
+  .dropSelectsId{
+    padding-bottom: 8px;
+    padding-top: 8px;
+    text-align: center;
   }
   .charts .auto-padding{
     padding-right: 30px;

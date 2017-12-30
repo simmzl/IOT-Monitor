@@ -14,7 +14,7 @@ const env = require('../config/prod.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
-    // noParse: [/videojs-flash/],
+    noParse: [/videojs-contrib-hls/],
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
       extract: true,
