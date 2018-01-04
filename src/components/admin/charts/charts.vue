@@ -11,12 +11,8 @@
               <div class="dropSelectsId">
                 <select v-model="selectedId" v-if="allUids">
                   <option v-for="id in allUids" :value="id">{{id}}</option>
-                  <!--<option value="00000001">00000001</option>-->
-                  <!--<option value="00000002">00000002</option>-->
-                  <!--<option value="00000003">00000003</option>-->
-                  <!--<option value="00000004">00000004</option>-->
                 </select>
-                <button type="button" class="btn btn-primary btn-xs button-font" @click="updateDemoData">确定</button>
+                <button type="button" class="btn btn-primary btn-xs button-font" @click="getDataByDateAndEquip">确定</button>
               </div>
             </li>
           </ul>
@@ -412,11 +408,6 @@
     },
     created() {
       this.getUidList();
-//      if(this.selectedId){
-//        this.updateDemoData();
-//        this.im = false;
-//        this.initSelectDate();
-//      }
     },
     deactivated() {
       this.im = false;
@@ -539,16 +530,8 @@
           this.myInit();
         }
       },
-      clearAllTimer() {
-        if(!!this.timer){
-          for(let i=1; i<this.timer;i++){
-            clearInterval(i);
-          }
-        }
-      },
-      pastDay() {
-        this.isToday = false;
-        this.im = false;
+//      根据所选日期及设备编号获取数据
+      getDataByDateAndEquip() {
         let dateStr = `${this.selectYear}-${this.selectMonth}-${this.selectDay} 01:00:00`;
         let selectDate = new Date(dateStr).getTime();
         selectDate = Math.floor(selectDate/1000);
@@ -565,6 +548,34 @@
             this.myInit();
           }
         });
+      },
+      clearAllTimer() {
+        if(!!this.timer){
+          for(let i=1; i<this.timer;i++){
+            clearInterval(i);
+          }
+        }
+      },
+      pastDay() {
+        this.isToday = false;
+        this.im = false;
+        this.getDataByDateAndEquip();
+//        let dateStr = `${this.selectYear}-${this.selectMonth}-${this.selectDay} 01:00:00`;
+//        let selectDate = new Date(dateStr).getTime();
+//        selectDate = Math.floor(selectDate/1000);
+//        let data = { 'date': selectDate, 'uid': this.selectedId };
+//        this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
+//          console.log(res);
+//          this.demoData = res.data;
+//          if(!this.demoData[0]){
+//            if(!this.noData) this.noData=true;
+//          }else {
+//            if(this.noData) this.noData=false;
+//            this.chartData.subText = this.selectedId + "\n" + this.selectYear + '/' + this.addZero(this.selectMonth) + '/' + this.addZero(this.selectDay);
+//            this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
+//            this.myInit();
+//          }
+//        });
       },
       nextOrPastDay(str) {
         this.isToday = false;

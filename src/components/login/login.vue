@@ -125,6 +125,15 @@
               setTimeout(function(){
                 this.$router.push('/user');
               }.bind(this),1000);
+            }else if(res.data === '3'){
+              this.isLoginSuccess = true;
+              this.err = "登录成功";
+              this.errShow = true;
+              setCookie('username',this.username,1000*60);
+              setCookie('info',this.mdPwd,1000*60);
+              setTimeout(function(){
+                this.$router.push('/serviceman');
+              }.bind(this),1000);
             }else {
               this.err = "登录失败";
               this.errShow = true;
