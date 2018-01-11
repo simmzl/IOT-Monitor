@@ -9,8 +9,12 @@
         <h3 class="title">基础资料</h3>
       </div>
       <div class="myInfoData">
-        <span>用户名：</span>
+        <span>手机号：</span>
         <span>{{info.username}}</span>
+      </div>
+      <div class="myInfoData">
+        <span>姓名：</span>
+        <span>{{info.name}}</span>
       </div>
       <div class="myInfoData">
         <span>注册邮箱:</span>
@@ -33,8 +37,12 @@
         </div>
         <form action="">
           <div class="info">
-            <span>用户名:</span>
-            <input type="text" id="edit_id" v-model="edit.id">
+            <span>手机号:</span>
+            <input type="text" v-model="edit.id">
+          </div>
+          <div class="info">
+            <span>姓名:</span>
+            <input type="text" v-model="edit.name">
           </div>
           <div class="info">
             <span>注册邮箱:</span>
@@ -99,6 +107,7 @@ export default {
       isShowEdit: false,
       isShowPwd: false,
       edit: {
+        name: "",
         id: "",
         email: "",
         err: "",
@@ -120,8 +129,10 @@ export default {
     userType() {
       if(this.info.type === 'member'){
         return '学生用户';
-      }else {
+      }else if(this.info.type === 'admin'){
         return '管理员';
+      }else if(this.info.type === 'serviceman'){
+        return '维修人员';
       }
     }
   },
@@ -148,21 +159,22 @@ export default {
     },
 //    修改资料前验证
     canSubmit() {
-      if(!this.edit.id || !this.edit.email){
+      if(!this.edit.id || !this.edit.email || !this.edit.name){
         if(this.edit.isSubmitSuccess) this.edit.isSubmitSuccess = false;
         this.edit.errShow = true;
         this.edit.err = "请完成输入";
       }else {
-        if(this.isNumber(this.edit.id) && this.isEmail(this.edit.email)){
-          let data = {'operation': 'editinfo', 'new_username': this.edit.id, 'new_email': this.edit.email};
+        if(this.isNumber(this.edit.id) && this.edit.id.length === 11 && this.isEmail(this.edit.email)){
+          let data = {'operation': 'editinfo', 'new_username': this.edit.id, 'new_email': this.edit.email, 'new_name': this.edit.name};
           this.$http.post('./php/info/info.php', data, {emulateJSON:true}).then( (res) => {
-            console.log(res.body);
+//            console.log(res.body);
             if(res.body === '修改成功'){
               this.edit.errShow = true;
               this.edit.isSubmitSuccess = true;
               this.edit.err = "修改成功";
               this.info.username = this.edit.id;
               this.info.email = this.edit.email;
+              this.info.name = this.edit.name;
               setCookie('username',this.edit.id,1000*60);
             }else {
               if(this.edit.isSubmitSuccess) this.edit.isSubmitSuccess = false;
@@ -173,7 +185,7 @@ export default {
         }else {
           if(this.edit.isSubmitSuccess) this.edit.isSubmitSuccess = false;
           this.edit.errShow = true;
-          this.edit.err = "请输入正确的学号格式或邮箱格式";
+          this.edit.err = "请输入正确的手机号或邮箱";
         }
       }
     },
@@ -217,6 +229,7 @@ export default {
     initEdit() {
       this.edit.id = this.info.username;
       this.edit.email = this.info.email;
+      this.edit.name = this.info.name;
       this.edit.errShow = false;
     },
     initPwdEdit() {

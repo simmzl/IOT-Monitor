@@ -20,12 +20,12 @@ $operation = $_POST['operation'];
 $username = $_COOKIE['username'];
 $pwd = $_COOKIE['info'];
 
-$row = handleDB("xx","select * from admin where username = '{$username}'");
+$row = handleDB("fume-hood-monitor","select * from admin where username = '{$username}'");
 $result = mysql_fetch_array($row);
 if($result['password'] == $pwd){
   if($operation == 'getServiceman') {
     $sql = "select * from admin where type='serviceman' order by date asc";
-    if ($row = handleDB('xx',$sql)) {
+    if ($row = handleDB('fume-hood-monitor',$sql)) {
       while($tmp[] = mysql_fetch_assoc($row)){};
       array_pop($tmp);
       $arrlength=count($tmp);
@@ -36,8 +36,8 @@ if($result['password'] == $pwd){
       echo $response;
     }
   }elseif ($operation == 'getUsers') {
-    $sql = "select * from xx where type='member' order by date asc";
-    if ($row = handleDB('xx',$sql)) {
+    $sql = "select * from admin where type='member' order by date asc";
+    if ($row = handleDB('fume-hood-monitor',$sql)) {
       while($tmp[] = mysql_fetch_assoc($row)){};
       array_pop($tmp);
       $arrlength=count($tmp);
@@ -48,9 +48,9 @@ if($result['password'] == $pwd){
       echo $response;
     }
   }elseif ($operation == 'getEquipList') {
-    $name = $_POST['username'];
-    $sql = "select * from xx where owner = '{$name}'";
-    if ($row = handleDB('xx',$sql)) {
+    $username = $_POST['username'];
+    $sql = "select * from equip_data where owner = '{$username}'";
+    if ($row = handleDB('fume-hood-monitor',$sql)) {
       $res = array();
       while($tmp = mysql_fetch_array($row)){
         array_push($res,$tmp['id']);
@@ -59,4 +59,3 @@ if($result['password'] == $pwd){
     }
   }
 }
-

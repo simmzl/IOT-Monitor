@@ -6,7 +6,7 @@
         <div class="login" v-show="!isSignUp">
           <h4 class='content_title'>智能实验室管理系统</h4>
           <form class="from">
-            <input  placeholder='学号' type="text" v-model="username" maxlength="10" required="required">
+            <input  placeholder='手机号' type="text" v-model="username" maxlength="11" required="required">
             <input type="password" class="password" placeholder='密码' v-model="password" maxlength="16" required="required">
             <div class="loginError" :class="{'loginSuccess': isLoginSuccess}" v-show="errShow">{{err}}</div>
             <div class='content_footer'>
@@ -18,17 +18,18 @@
           <div class="text_center">
             <a class='reg' @click="showSignUp">没有账号？点我注册</a>
           </div>
-          <div style="font-size: 12px; color:#aaaaaabd;margin-top: 10px">
-            测试：管理员账号：1495131008 密码：abcdef 普通用户可以自行注册
+          <div style="font-size: 12px; color:#aaaaaa;margin-top: 10px">
+            测试：管理员账号：13055667788 密码：abcdef 普通用户可以自行注册
           </div>
         </div>
         <div class="signup" v-show="isSignUp">
           <h4 class='content_title'>智能实验室管理系统</h4>
           <form class="from">
-            <input  placeholder='学号' type="text" v-model="signUp.username" maxlength="10" required="required">
-            <input  placeholder='邮箱' type="email" v-model="signUp.email" maxlength="16" required="required">
+            <input  placeholder='手机号' type="text" v-model="signUp.username" maxlength="11" required="required">
+            <input  placeholder='姓名' type="text" v-model="signUp.name" maxlength="10" required="required">
             <input type="password" class="password" placeholder='密码' v-model="signUp.pwd" maxlength="16" required="required">
             <input type="password" class="password" placeholder='确认密码' v-model="signUp.pwdConf" maxlength="16" required="required">
+            <input  placeholder='邮箱' type="email" v-model="signUp.email" maxlength="16" required="required">
             <div class="loginError" :class="{'signUpSuccess': signUp.isSignUpSuccess}" v-show="signUp.errShow">{{signUp.err}}</div>
             <div class='content_footer'>
               <button type="submit" class='login_btn fr' @click.stop.prevent="_signUp">注册</button>
@@ -57,6 +58,7 @@
         isLoginSuccess: false,
         signUp: {
           username: '',
+          name: '',
           email: '',
           pwd: '',
           mdPwd: '',
@@ -76,6 +78,7 @@
       let uPwd = getCookie('info');
       let data = {'username':uName,'password':uPwd};
       this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
+//      this.$http.post('http://lab.simmzl.cn/php/login.php', data,{emulateJSON:true}).then((res)=>{
         if(res.data === '1'){
           this.$router.push('/admin');
         }else if(res.data === '2'){
@@ -94,10 +97,10 @@
       },
       _login() {
         if(!this.username || !this.password){
-          this.err = ("请输入学号或密码");
+          this.err = ("请输入手机号或密码");
           this.errShow = true;
-        }else if (!this.isNumber(this.username) || this.username.length < 8){
-          this.err = ("请输入正确的学号（8-10位数字）");
+        }else if (!this.isNumber(this.username) || this.username.length !== 11){
+          this.err = ("请输入正确的手机号");
           if(this.errShow !== true)  this.errShow = true;
         }else {
           this.mdPwd = md(this.password);
@@ -105,7 +108,7 @@
           this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
 //            0 错误 1 admin 2 user
             if(res.data === '0'){
-              this.err = "用户名或密码错误";
+              this.err = "手机号或密码错误";
               this.errShow = true;
             }else if(res.data === '1'){
               this.isLoginSuccess = true;
@@ -143,11 +146,11 @@
         }
       },
       _signUp() {
-        if(!this.signUp.username || !this.signUp.email || !this.signUp.pwd || !this.signUp.pwdConf){
+        if(!this.signUp.username || !this.signUp.name || !this.signUp.email || !this.signUp.pwd || !this.signUp.pwdConf){
           this.signUp.err = ("请完成输入");
           if(this.signUp.errShow === false )this.signUp.errShow = true;
-        }else if(!this.isNumber(this.signUp.username) || this.signUp.username.length < 8){
-          this.signUp.err = ("请输入正确的学号（8-10位数字）");
+        }else if(!this.isNumber(this.signUp.username) || this.signUp.username.length !== 11){
+          this.signUp.err = ("请输入正确的手机号");
           if(this.signUp.errShow === false )this.signUp.errShow = true;
         }else if(!this.isEmail(this.signUp.email)){
           this.signUp.err = ("邮箱格式错误");
@@ -160,7 +163,7 @@
           if(this.signUp.errShow === false )this.signUp.errShow = true;
         }else{
           this.signUp.mdPwd = md(this.signUp.pwd);
-          let data = {'username':this.signUp.username, 'email':this.signUp.email, 'password':this.signUp.mdPwd};
+          let data = {'username':this.signUp.username, 'email':this.signUp.email, 'password':this.signUp.mdPwd, 'name': this.signUp.name};
           this.$http.post('./php/signup.php',data,{emulateJSON:true}).then((res)=>{
             if(res.data === "1"){
               this.signUp.err = "注册成功";
@@ -177,7 +180,7 @@
                 this.signUp.errShow = false;
               }.bind(this),1000);
             }else{
-              this.signUp.err = "用户名已存在";
+              this.signUp.err = "手机号已存在";
               this.signUp.errShow = true;
             }
           })

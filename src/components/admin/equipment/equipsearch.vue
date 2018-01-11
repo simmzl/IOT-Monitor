@@ -61,7 +61,10 @@
           <td>{{equip.vendor}}</td>
           <td>{{equip.admin}}</td>
           <td><span class='pointer'>{{equip.status}}</span></td>
-          <td><span class='pointer deleteWarn' @click="removeItem(equip)">删除</span></td>
+          <td>
+            <button type="button" class="btn btn-danger btn-xs" @click="removeItem(equip)">删除</button>
+            <!--<span class='pointer deleteWarn' @click="removeItem(equip)">删除</span>-->
+          </td>
         </tr>
         </tbody>
       </table>

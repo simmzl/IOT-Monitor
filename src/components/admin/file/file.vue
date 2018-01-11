@@ -36,8 +36,11 @@
           <tr  v-if="!!fileList.length" v-for="file in fileList">
             <td>{{file.filename}}</td>
             <td>{{file.date}}</td>
-            <td><a target="_blank" :href="'http://lab.simmzl.cn/php/files/uploads/'+ file.filename">查看</a></td>
-            <td><span class='pointer fileWarn' @click="deleteFile(file)">删除</span></td>
+            <td><a class="btn btn-primary btn-xs" target="_blank" :href="'http://lab.simmzl.cn/php/files/uploads/'+ file.filename" :download="file.filename">下载</a></td>
+            <td>
+              <button type="button" class="btn btn-danger btn-xs" @click="deleteFile(file)">删除</button>
+              <!--<span class='pointer fileWarn' @click="deleteFile(file)">删除</span>-->
+            </td>
           </tr>
           </tbody>
         </table>
@@ -83,7 +86,6 @@
           this.err = '警告：未选择任何文件。';
         }else {
           let myData = new FormData();
-//          console.log(this.$refs.upload.files[0]);
           let selectFile = this.$refs.upload.files[0];
           myData.append('myFile',selectFile);
           let allowArray = ['text/plain','application/pdf',
@@ -120,7 +122,7 @@
           let index = this.fileList.indexOf(file);
           this.fileList.splice(index,1);
           let data = { 'operation':'delete', 'deleteFileName': file.filename };
-          this.$http.post('./php/files/deleteAndEcho.php',data,{emulateJSON:true}).then(() => {
+          this.$http.post('./php/files/deleteOrEcho.php',data,{emulateJSON:true}).then(() => {
             alert('删除成功');
           });
         }

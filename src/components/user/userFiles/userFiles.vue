@@ -15,10 +15,10 @@
           </tr>
           </thead>
           <tbody>
-          <tr  v-if="!!fileList.length" v-for="file in fileList">
+          <tr v-if="!!fileList.length" v-for="file in fileList">
             <td>{{file.filename}}</td>
             <td>{{file.date}}</td>
-            <td><a target="_blank" :href="'http://lab.simmzl.cn/php/files/uploads/'+ file.filename">打开</a></td>
+            <td><a target="_blank" :href="'http://lab.simmzl.cn/php/files/uploads/'+ file.filename" :download="file.filename"><button class="btn-primary btn-xs">下载</button></a></td>
           </tr>
           </tbody>
         </table>

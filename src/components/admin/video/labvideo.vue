@@ -1,5 +1,17 @@
 <template>
 <div class="labvideo">
+  <div class='col-lg-3 col-md-3 auto-padding video-info'>
+    <div class="video-title">监控信息</div>
+    <div class="video-info-wrapper">
+      <p class="video-info-wrapper-title">选择设备：</p>
+      <div class="dropSelectsId">
+        <select v-model="selectedId" v-if="allUids">
+          <option v-for="id in allUids" :value="id">{{id}}</option>
+        </select>
+        <button type="button" class="btn btn-primary btn-xs button-font" @click="">确定</button>
+      </div>
+    </div>
+  </div>
   <div class="col-lg-9 col-md-9 auto-padding">
     <div class="video-wrapper" style="width: 100%">
       <div class="video-title">视频监控</div>
@@ -8,13 +20,6 @@
       <div class="video-footer">
         地点：工学院；时间：2017/11/24
       </div>
-    </div>
-  </div>
-  <div class='col-lg-3 col-md-3 auto-padding'>
-    <div class="video-title">监控信息</div>
-    <div class="video-info-wrapper">
-      <p>地点：工学院</p>
-      <p>时间：2017/11/24</p>
     </div>
   </div>
 </div>
@@ -77,6 +82,10 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls');
 export default {
   data() {
     return {
+      allUids: {
+        type: Object
+      },
+      selectedId: '',
       playerOptions: {
         // videojs and plugin options
         sources: [{
@@ -94,9 +103,12 @@ export default {
       }
     }
   },
-    components: {
-      videoPlayer
-    },
+  created() {
+    this.getUidList();
+  },
+  components: {
+    videoPlayer
+  },
   methods: {
     playerReadied(player) {
       var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
@@ -104,13 +116,31 @@ export default {
         // console.log(options)
         return options
       }
-    }
+    },
+    getUidList() {
+        this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/uids').then((res) => {
+          console.log(res.body);
+          this.allUids = res.body;
+          console.log(this.allUids);
+          this.selectedId = this.allUids[0];
+        });
+
+//      this.$http.post('./php/charts/allUid.php').then((res) => {
+//        console.log(res.body);
+//        if(res.body[0]){
+//          this.allUids = res.body;
+//          console.log(this.allUids);
+//          this.selectedId = this.allUids[0];
+//        }
+//      })
+    },
   }
 }
-
-
 </script>
 <style>
+  .video-info{
+    margin-bottom: 20px;
+  }
   .video-wrapper{
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     background: #fff;
@@ -119,8 +149,8 @@ export default {
   }
   .video-title{
     font-size: 14px;
-    height: 48px;
-    line-height: 48px;
+    height: 40px;
+    line-height: 40px;
     padding-left: 10px;
     border-bottom: 1px solid #f0f0f0;
     background-color: #fff;
@@ -131,16 +161,17 @@ export default {
     border-top: 1px solid #f0f0f0;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    height: 48px;
+    height: 40px;
     font-size: 14px;
-    line-height: 48px;
+    line-height: 40px;
     padding-left: 10px;
   }
   .video-info-wrapper{
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     padding: 10px;
     width: 100%;
-    height: 408px;
+    height: 398px;
+    /*height: auto;*/
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     background-color: #ffffff;
@@ -160,6 +191,15 @@ export default {
   @media  screen and ( max-width: 991px) {
     .labvideo .auto-padding{
       padding: 0;
+    }
+    .video-info-wrapper{
+      height: auto;
+    }
+    .video-info-wrapper-title,.dropSelectsId{
+      display: inline;
+    }
+    .dropSelectsId{
+      margin-left: 0;
     }
   }
 </style>

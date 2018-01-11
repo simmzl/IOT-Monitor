@@ -57,7 +57,18 @@
     </div>
     <!--数据展示区-->
     <div class="col-lg-9 col-md-9 no-padding">
-      <div class="no-data paddingWrapper" v-show="noData">暂无数据...</div>
+      <div class="no-data paddingWrapper" v-show="noData">暂无数据...
+        <div class='text-center pre_next'>
+           <span @click="nextOrPastDay('past')">
+             <span class='pre_day'  >上一天</span>
+             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
+           </span>
+          <span @click="nextOrPastDay('next')">
+              <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
+              <span class='next_day' >下一天</span>
+            </span>
+        </div>
+      </div>
       <!--数据展示-->
       <div id="showData" v-show="!noData">
         <!--温度数据-->
@@ -413,7 +424,7 @@
       this.im = false;
       this.clearAllTimer();
       let myDate = new Date();
-      this.chartData.subText = this.selectedId + "\n" + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+      this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
       this.myInit();
     },
     methods: {
@@ -498,7 +509,7 @@
           }else {
             if(this.noData) this.noData=false;
             if(!this.im){
-              this.chartData.subText = this.selectedId + "\n" + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+              this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
             }
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
             this.myInit();
@@ -514,7 +525,7 @@
         let myDate = new Date();
         if(this.im){
           this.clearAllTimer();
-          this.chartData.subText = this.selectedId + "\n" + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
+          this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate()) +  '（每三分钟自动更新数据）';
           this.myInit();
           if(!this.timer){
             this.timer = setInterval(function () {
@@ -526,7 +537,7 @@
         }else {
           this.clearAllTimer();
           this.im = false;
-          this.chartData.subText = this.selectedId + "\n" + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+          this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
           this.myInit();
         }
       },
@@ -543,7 +554,7 @@
             if(!this.noData) this.noData=true;
           }else {
             if(this.noData) this.noData=false;
-            this.chartData.subText = this.selectedId + "\n" + this.selectYear + '/' + this.addZero(this.selectMonth) + '/' + this.addZero(this.selectDay);
+            this.chartData.subText = this.selectedId + " " + this.selectYear + '/' + this.addZero(this.selectMonth) + '/' + this.addZero(this.selectDay);
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
             this.myInit();
           }
@@ -560,22 +571,6 @@
         this.isToday = false;
         this.im = false;
         this.getDataByDateAndEquip();
-//        let dateStr = `${this.selectYear}-${this.selectMonth}-${this.selectDay} 01:00:00`;
-//        let selectDate = new Date(dateStr).getTime();
-//        selectDate = Math.floor(selectDate/1000);
-//        let data = { 'date': selectDate, 'uid': this.selectedId };
-//        this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
-//          console.log(res);
-//          this.demoData = res.data;
-//          if(!this.demoData[0]){
-//            if(!this.noData) this.noData=true;
-//          }else {
-//            if(this.noData) this.noData=false;
-//            this.chartData.subText = this.selectedId + "\n" + this.selectYear + '/' + this.addZero(this.selectMonth) + '/' + this.addZero(this.selectDay);
-//            this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
-//            this.myInit();
-//          }
-//        });
       },
       nextOrPastDay(str) {
         this.isToday = false;
@@ -603,7 +598,7 @@
             if(!this.noData) this.noData=true;
           }else {
             if(this.noData) this.noData=false;
-            this.chartData.subText = this.selectedId + "\n" + new Date(selectDay*1000).getFullYear() + '/' + this.addZero(new Date(selectDay*1000).getMonth()+1) + '/' + this.addZero(new Date(selectDay*1000).getDate());
+            this.chartData.subText = this.selectedId + " " + new Date(selectDay*1000).getFullYear() + '/' + this.addZero(new Date(selectDay*1000).getMonth()+1) + '/' + this.addZero(new Date(selectDay*1000).getDate());
             this.chartData.myStartValue = (this.demoData[0].date * 1000).toLocaleString();
             this.myInit();
           }

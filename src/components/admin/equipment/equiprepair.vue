@@ -33,10 +33,14 @@
                 <td>{{equip.tel}}</td>
                 <td class=''><span>{{equip.status}}</span></td>
                 <td>
-                  <span class='pointer deleteWarn' @click="removeItem(equip,'待维修');removeBookItem(equip,'no')">设为待维修</span>
+                  <button type="button" class="btn btn-primary btn-xs" @click="removeItem(equip,'待维修');removeBookItem(equip,'no')">设为待维修</button>
+
+                  <!--<span class='pointer deleteWarn' @click="removeItem(equip,'待维修');removeBookItem(equip,'no')">设为待维修</span>-->
                 </td>
                 <td>
-                  <span class='pointer deleteWarn' @click="removeBookItem(equip,'yes')">删除</span>
+                  <button type="button" class="btn btn-danger btn-xs" @click="removeBookItem(equip,'yes')">删除</button>
+
+                  <!--<span class='pointer deleteWarn' @click="removeBookItem(equip,'yes')">删除</span>-->
                 </td>
               </tr>
               </tbody>
@@ -76,7 +80,10 @@
                 <td>{{equip.vendor}}</td>
                 <td>{{equip.admin}}</td>
                 <td class=''><span>{{equip.status}}</span></td>
-                <td><span class='pointer alertSuccess' @click="removeItem(equip,'正常')">设为正常</span></td>
+                <td>
+                  <button type="button" class="btn btn-primary btn-xs" @click="removeItem(equip,'正常')">设为正常</button>
+                  <!--<span class='pointer alertSuccess' @click="removeItem(equip,'正常')">设为正常</span>-->
+                </td>
               </tr>
               </tbody>
             </table>
@@ -115,7 +122,11 @@
                 <td>{{equip.vendor}}</td>
                 <td>{{equip.admin}}</td>
                 <td class=''><span>{{equip.status}}</span></td>
-                <td><span class='pointer deleteWarn' @click="removeItem(equip,'待维修')">设为待维修</span></td>
+                <td>
+                  <button type="button" class="btn btn-primary btn-xs" @click="removeItem(equip,'待维修')">设为待维修</button>
+
+                  <!--<span class='pointer deleteWarn' @click="removeItem(equip,'待维修')">设为待维修</span>-->
+                </td>
               </tr>
               </tbody>
             </table>
