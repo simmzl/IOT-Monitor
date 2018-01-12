@@ -28,35 +28,35 @@
 <script type="text/ecmascript-6">
   import videoPlayer from 'vue-video-player/src/player';
 //  require('videojs-flash/dist/videojs-flash');
-//  import flash from 'videojs-flash';
+  import flash from 'videojs-flash';
 //  import flash from 'videojs-flash/dist/videojs-flash';
   import 'video.js/dist/video-js.css';
   import 'vue-video-player/src/custom-theme.css';
 
-//  export default {
-//    components: {
-//      videoPlayer
-//    },
-//    data () {
-//      return {
-//        playerOptions: {
-//          techOrder: ['flash'],
-//          controls: true,
-//          sources: [{
-//            type: 'rtmp/mp4',
-//            src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks'
-//          }],
-//          live: true,
-//          controlBar: {
-//            volumeMenuButton: {
-//              inline: false,
-//              vertical: true
-//            }
-//          }
-//        }
-//      }
-//    }
-//  }
+  export default {
+    components: {
+      videoPlayer
+    },
+    data () {
+      return {
+        playerOptions: {
+          techOrder: ['flash'],
+          controls: true,
+          sources: [{
+            type: 'rtmp/mp4',
+            src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks'
+          }],
+          live: true,
+          controlBar: {
+            volumeMenuButton: {
+              inline: false,
+              vertical: true
+            }
+          }
+        }
+      }
+    }
+  }
 
 //  export default {
 //    data() {
@@ -78,64 +78,64 @@
 //    },
 //  }
 
-require('videojs-contrib-hls/dist/videojs-contrib-hls');
-export default {
-  data() {
-    return {
-      allUids: {
-        type: Object
-      },
-      selectedId: '',
-      playerOptions: {
-        // videojs and plugin options
-        sources: [{
-          withCredentials: false,
-          type: "application/x-mpegURL",
-          src: "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
-        }],
-        controlBar: {
-          timeDivider: false,
-          durationDisplay: false
-        },
-        flash: { hls: { withCredentials: false }},
-        html5: { hls: { withCredentials: false }},
-        poster: "/static/images/author-5.jpg"
-      }
-    }
-  },
-  created() {
-    this.getUidList();
-  },
-  components: {
-    videoPlayer
-  },
-  methods: {
-    playerReadied(player) {
-      var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
-      player.tech_.hls.xhr.beforeRequest = function(options) {
-        // console.log(options)
-        return options
-      }
-    },
-    getUidList() {
-        this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/uids').then((res) => {
-          console.log(res.body);
-          this.allUids = res.body;
-          console.log(this.allUids);
-          this.selectedId = this.allUids[0];
-        });
-
-//      this.$http.post('./php/charts/allUid.php').then((res) => {
-//        console.log(res.body);
-//        if(res.body[0]){
+//require('videojs-contrib-hls/dist/videojs-contrib-hls');
+//export default {
+//  data() {
+//    return {
+//      allUids: {
+//        type: Object
+//      },
+//      selectedId: '',
+//      playerOptions: {
+//        // videojs and plugin options
+//        sources: [{
+//          withCredentials: false,
+//          type: "application/x-mpegURL",
+//          src: "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
+//        }],
+//        controlBar: {
+//          timeDivider: false,
+//          durationDisplay: false
+//        },
+//        flash: { hls: { withCredentials: false }},
+//        html5: { hls: { withCredentials: false }},
+//        poster: "/static/images/author-5.jpg"
+//      }
+//    }
+//  },
+//  created() {
+//    this.getUidList();
+//  },
+//  components: {
+//    videoPlayer
+//  },
+//  methods: {
+//    playerReadied(player) {
+//      var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
+//      player.tech_.hls.xhr.beforeRequest = function(options) {
+//        // console.log(options)
+//        return options
+//      }
+//    },
+//    getUidList() {
+//        this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/uids').then((res) => {
+//          console.log(res.body);
 //          this.allUids = res.body;
 //          console.log(this.allUids);
 //          this.selectedId = this.allUids[0];
-//        }
-//      })
-    },
-  }
-}
+//        });
+//
+////      this.$http.post('./php/charts/allUid.php').then((res) => {
+////        console.log(res.body);
+////        if(res.body[0]){
+////          this.allUids = res.body;
+////          console.log(this.allUids);
+////          this.selectedId = this.allUids[0];
+////        }
+////      })
+//    },
+//  }
+//}
 </script>
 <style>
   .video-info{

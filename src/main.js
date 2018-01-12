@@ -107,9 +107,9 @@ new Vue({
   components: { App },
   methods: {}
 });
-router.push('/');
+// router.push('/');
 // router.push('/serviceman');
-// router.push('/admin/video');
+router.push('/admin/video');
 
 Vue.prototype.isNumber = data => {
   return /^[0-9]+.?[0-9]*$/.test(data);

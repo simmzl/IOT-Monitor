@@ -28,7 +28,7 @@ module.exports = {
     }
   },
   module: {
-    noParse: [/videojs-contrib-hls/],
+    // noParse: [/videojs-contrib-hls/],
     rules: [
       {
         test: /\.vue$/,
