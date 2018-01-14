@@ -14,7 +14,7 @@
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav navbar-right main-nav">
           <li><router-link to="/serviceman/bookRepair">设备报修</router-link></li>
-          <li><router-link to="/serviceman/equipment">设备管理</router-link></li>
+          <li><router-link to="/serviceman/repair">设备管理</router-link></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               个人中心

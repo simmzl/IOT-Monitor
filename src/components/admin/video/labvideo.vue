@@ -8,15 +8,14 @@
         <select v-model="selectedId" v-if="allUids">
           <option v-for="id in allUids" :value="id">{{id}}</option>
         </select>
-        <button type="button" class="btn btn-primary btn-xs button-font" @click="">确定</button>
+        <button type="button" class="btn btn-primary btn-xs button-font" @click="initPlayer()" ref="playById">确定</button>
       </div>
     </div>
   </div>
   <div class="col-lg-9 col-md-9 auto-padding">
     <div class="video-wrapper" style="width: 100%">
       <div class="video-title">视频监控</div>
-      <video-player class="vjs-custom-skin" ref="videoPlayer" :options="playerOptions">
-      </video-player>
+      <div id="playercontainer"></div>
       <div class="video-footer">
         地点：工学院；时间：2017/11/24
       </div>
@@ -26,118 +25,70 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import videoPlayer from 'vue-video-player/src/player';
-//  require('videojs-flash/dist/videojs-flash');
-  import flash from 'videojs-flash';
-//  import flash from 'videojs-flash/dist/videojs-flash';
-  import 'video.js/dist/video-js.css';
-  import 'vue-video-player/src/custom-theme.css';
-
-  export default {
-    components: {
-      videoPlayer
-    },
-    data () {
-      return {
-        playerOptions: {
-          techOrder: ['flash'],
-          controls: true,
-          sources: [{
-            type: 'rtmp/mp4',
-            src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks'
-          }],
-          live: true,
-          controlBar: {
-            volumeMenuButton: {
-              inline: false,
-              vertical: true
-            }
-          }
-        }
+export default {
+  data() {
+    return {
+      allUids: {
+        type: Object
+      },
+      selectedId: '',
+      player: null,
+      playerOptions: {
+        width : 500,
+        height : 433,
+        backcolor : "#FFFFFF",
+        stretching : "uniform",
+        file : "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+        ak : "116bdbd482b147928a542c053aae4eb7",
+        autoStart : true,
+        repeat : false,
+        volume : 100,
+        controls : "over"
       }
     }
-  }
-
-//  export default {
-//    data() {
-//      return {
-//        playerOptions: {
-//          sources: [{
-//            type: "rtmp/mp4",
-//            src: "rtmp://184.72.239.149/vod/&mp4:BigBuckBunny_115k.mov",
-//            withCredentials: false
-//          }],
-//          techOrder: ['flash'],
-//          autoplay: true,
-//          controls: true
-//        }
-//      }
-//    },
-//    components: {
-//      videoPlayer
-//    },
-//  }
-
-//require('videojs-contrib-hls/dist/videojs-contrib-hls');
-//export default {
-//  data() {
-//    return {
-//      allUids: {
-//        type: Object
-//      },
-//      selectedId: '',
-//      playerOptions: {
-//        // videojs and plugin options
-//        sources: [{
-//          withCredentials: false,
-//          type: "application/x-mpegURL",
-//          src: "http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8"
-//        }],
-//        controlBar: {
-//          timeDivider: false,
-//          durationDisplay: false
-//        },
-//        flash: { hls: { withCredentials: false }},
-//        html5: { hls: { withCredentials: false }},
-//        poster: "/static/images/author-5.jpg"
-//      }
-//    }
-//  },
-//  created() {
+  },
+  created() {
+    this.getUidList();
+//    this.initPlayer();
+  },
+//  mounted
+  activated () {
 //    this.getUidList();
-//  },
-//  components: {
-//    videoPlayer
-//  },
-//  methods: {
-//    playerReadied(player) {
-//      var hls = player.tech({ IWillNotUseThisInPlugins: true }).hls
-//      player.tech_.hls.xhr.beforeRequest = function(options) {
-//        // console.log(options)
-//        return options
-//      }
-//    },
-//    getUidList() {
-//        this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/uids').then((res) => {
+//    let player = cyberplayer("playercontainer").setup(this.playerOptions);
+    this.initPlayer();
+  },
+  methods: {
+    initPlayer() {
+      let player = cyberplayer("playercontainer").setup(this.playerOptions);
+    },
+    getUidList() {
+        this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/uids').then((res) => {
 //          console.log(res.body);
+          this.allUids = res.body;
+//          console.log(this.allUids);
+          this.selectedId = this.allUids[0];
+//          this.$refs.playById.click();
+        });
+
+//      this.$http.post('./php/charts/allUid.php').then((res) => {
+//        console.log(res.body);
+//        if(res.body[0]){
 //          this.allUids = res.body;
 //          console.log(this.allUids);
 //          this.selectedId = this.allUids[0];
-//        });
-//
-////      this.$http.post('./php/charts/allUid.php').then((res) => {
-////        console.log(res.body);
-////        if(res.body[0]){
-////          this.allUids = res.body;
-////          console.log(this.allUids);
-////          this.selectedId = this.allUids[0];
-////        }
-////      })
-//    },
-//  }
-//}
+//        }
+//      })
+    },
+  }
+}
 </script>
 <style>
+  #playercontainer{
+    width: 100% !important;
+  }
+  .jwplayer .jw-icon-barlogo-new{
+    display: none;
+  }
   .video-info{
     margin-bottom: 20px;
   }
@@ -170,8 +121,7 @@
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     padding: 10px;
     width: 100%;
-    height: 398px;
-    /*height: auto;*/
+    height: auto;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     background-color: #ffffff;
@@ -195,10 +145,10 @@
     .video-info-wrapper{
       height: auto;
     }
-    .video-info-wrapper-title,.dropSelectsId{
+    .video-info-wrapper .video-info-wrapper-title,.video-info-wrapper .dropSelectsId{
       display: inline;
     }
-    .dropSelectsId{
+    .video-info-wrapper .dropSelectsId{
       margin-left: 0;
     }
   }

@@ -34,13 +34,10 @@
                 <td class=''><span>{{equip.status}}</span></td>
                 <td>
                   <button type="button" class="btn btn-primary btn-xs" @click="removeItem(equip,'待维修');removeBookItem(equip,'no')">设为待维修</button>
-
-                  <!--<span class='pointer deleteWarn' @click="removeItem(equip,'待维修');removeBookItem(equip,'no')">设为待维修</span>-->
                 </td>
                 <td>
                   <button type="button" class="btn btn-danger btn-xs" @click="removeBookItem(equip,'yes')">删除</button>
 
-                  <!--<span class='pointer deleteWarn' @click="removeBookItem(equip,'yes')">删除</span>-->
                 </td>
               </tr>
               </tbody>

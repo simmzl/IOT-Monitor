@@ -105,13 +105,13 @@
         }
         let data = {'operation': 'query', 'queryid': this.queryId};
         this.$http.post('./php/equipments/equipments.php',data,{emulateJSON: true}).then((res) => {
-          console.log(res);
+//          console.log(res);
           if (!!res.body.id) {
             this.queryRes = res.body;
           }else {
             this.queryRes = '';
             this.resWarn = '未找到设备...';
-            console.log(this.resWarn);
+//            console.log(this.resWarn);
           }
         });
       },

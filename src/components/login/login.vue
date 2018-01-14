@@ -19,7 +19,13 @@
             <a class='reg' @click="showSignUp">没有账号？点我注册</a>
           </div>
           <div style="font-size: 12px; color:#aaaaaa;margin-top: 10px">
-            测试：管理员账号：13055667788 密码：abcdef 普通用户可以自行注册
+            Demo:
+            <br>
+            管理员账号：13055667788 密码：abcdef
+            <br>
+            维修人员：13055668877 密码：123456
+            <br>
+            普通用户：13055665566 密码：123456
           </div>
         </div>
         <div class="signup" v-show="isSignUp">

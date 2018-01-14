@@ -212,7 +212,7 @@ export default {
 //      this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/echousers').then(res =>{
       this.$http.post('./php/usermanage/usersOrEquipList.php',data,{emulateJSON:true}).then(res => {
 
-        console.log(res);
+//        console.log(res);
         this.users = res.body;
       });
     },
@@ -220,7 +220,7 @@ export default {
       let data = {'operation': 'getServiceman'};
 //      this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/serviceman').then(res =>{
       this.$http.post('./php/usermanage/usersOrEquipList.php',data,{emulateJSON:true}).then(res => {
-        console.log(res);
+//        console.log(res);
         this.serviceman = res.body;
       });
     },
@@ -262,7 +262,7 @@ export default {
         'email': this.changeInfo.email
       };
       this.$http.post('./php/usermanage/moreOperation.php',data,{emulateJSON:true}).then(res => {
-        console.log(res.body);
+//        console.log(res.body);
         if(res.body === 'success'){
           this.getServicemanData();
           this.$refs.closeChangeInfo.click();
@@ -280,7 +280,7 @@ export default {
       this.changeInfo = tmp;
       this.changeInfo.pwd = '';
       this.changeInfo.operation = 'changeInfo';
-      console.log(this.changeInfo);
+//      console.log(this.changeInfo);
     },
 
 //    删除维修人员账号
@@ -292,10 +292,10 @@ export default {
       }
     },
     canDelete() {
-      console.log(this.changeInfo);
+//      console.log(this.changeInfo);
       let data = {'operation': 'deleteServiceman', 'username': this.changeInfo.username};
       this.$http.post('./php/usermanage/moreOperation.php',data,{emulateJSON:true}).then(res => {
-        console.log(res.body);
+//        console.log(res.body);
         if(res.body === '删除成功'){
           let index = this.serviceman.indexOf(this.changeInfo);
           this.serviceman.splice(index, 1);
@@ -312,7 +312,7 @@ export default {
 //      this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/list').then(res =>{
       this.$http.post('./php/usermanage/usersOrEquipList.php',data,{emulateJSON:true}).then(res => {
 
-        console.log(res);
+//        console.log(res);
         this.equipList = res.body;
       });
     },
@@ -330,13 +330,13 @@ export default {
       }
       let data = {'operation': 'addEquipForUser', 'equipID': this.numOfAddEquip, 'owner': this.addEquipOwner};
       this.$http.post('./php/usermanage/moreOperation.php',data,{emulateJSON:true}).then(res => {
-        console.log(res.body);
+//        console.log(res.body);
         if(res.body === '没有该设备'){
           this.addEquipWarning = '没有该设备';
         }else if(res.body === '添加设备失败') {
           this.addEquipWarning = '添加设备失败';
         }else {
-          console.log(this.$refs.closeAddEquip);
+//          console.log(this.$refs.closeAddEquip);
           this.$refs.closeAddEquip.click();
           this.addEquipWarning = '';
         }
@@ -347,7 +347,7 @@ export default {
     deleteEquipForUser(equipID) {
       let data = {'operation': 'deleteEquipForUser', 'equipID': equipID};
       this.$http.post('./php/usermanage/moreOperation.php',data,{emulateJSON:true}).then(res => {
-        console.log(res.body);
+//        console.log(res.body);
         if(res.body === '删除设备成功'){
           let index = this.equipList.indexOf(equipID);
           this.equipList.splice(index, 1);

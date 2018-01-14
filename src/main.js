@@ -21,6 +21,7 @@ import userManage from './components/admin/userManage/userManage';
 
 // serviceman
 import serviceman from './components/serviceman/serviceman';
+// import repair from './components/serviceman/equipment/repair';
 
 // user
 import user from './components/user/user';
@@ -28,8 +29,8 @@ import userFiles from './components/user/userFiles/userFiles'
 import bookRepair from './components/user/bookRepair/bookRepair'
 
 // import videojs from 'video.js';
-import VueVideoPlayer from 'vue-video-player';
-Vue.use(VueVideoPlayer);
+// import VueVideoPlayer from 'vue-video-player';
+// Vue.use(VueVideoPlayer);
 // Vue.use(videojs);
 
 Vue.config.productionTip = false;
@@ -65,32 +66,33 @@ let routes = [
   {
     path: '/user',
     component: user,
-    redirect: '/user/userFiles',
+    redirect: '/user/charts',
     children: [
       { path: 'info', component: info },
       { path: 'userFiles', component: userFiles },
       // { path: 'bookRepair', component: bookRepair },
       { path: 'charts', component: charts },
-      { path: 'video', component: labVideo },
+      { path: 'video', component: labVideo }
     ]
   },
   {
     path: '/serviceman',
     component: serviceman,
-    redirect: '/serviceman/equipment',
+    redirect: '/serviceman/repair',
     children: [
       { path: 'info', component: info },
       { path: 'bookRepair', component: bookRepair },
-      {
-        path: 'equipment',
-        component: equipment,
-        redirect: '/serviceman/equipment/equipInput',
-        children: [
-          { path: 'equipInput', components: {equip :equipInput}},
-          { path: 'equipSearch', components: {equip :equipSearch}},
-          { path: 'equipMap', components: {equip :equipMap}},
-          { path: 'equipRepair', components: {equip :equipRepair}}
-        ]},
+      { path: 'repair', component: equipRepair },
+      // {
+      //   path: 'equipment',
+      //   component: equipment,
+      //   redirect: '/serviceman/equipment/equipInput',
+      //   children: [
+      //     { path: 'equipInput', components: {equip :equipInput}},
+      //     { path: 'equipSearch', components: {equip :equipSearch}},
+      //     { path: 'equipMap', components: {equip :equipMap}},
+      //     { path: 'equipRepair', components: {equip :equipRepair}}
+      //   ]},
     ]
   }
 ];
@@ -107,9 +109,9 @@ new Vue({
   components: { App },
   methods: {}
 });
-// router.push('/');
+router.push('/');
 // router.push('/serviceman');
-router.push('/admin/video');
+// router.push('/admin');
 
 Vue.prototype.isNumber = data => {
   return /^[0-9]+.?[0-9]*$/.test(data);

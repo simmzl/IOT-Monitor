@@ -30,12 +30,12 @@
       this.name = uName;
       this.pwd = uPwd;
       if(uName === ""){
-//        this.$router.push('/');
+        this.$router.push('/');
       }else {
         let data = {'username':this.name,'password':this.pwd};
         this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
           if(res.data !== '1'){
-//            this.$router.push('/');
+            this.$router.push('/');
           }
         });
       }

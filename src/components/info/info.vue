@@ -128,7 +128,7 @@ export default {
   computed: {
     userType() {
       if(this.info.type === 'member'){
-        return '学生用户';
+        return '普通用户';
       }else if(this.info.type === 'admin'){
         return '管理员';
       }else if(this.info.type === 'serviceman'){
@@ -207,7 +207,7 @@ export default {
         }else {
           let data = {'operation': 'editpwd', 'new_pwd': md(this.editPwd.pwd)};
           this.$http.post('./php/info/info.php', data, {emulateJSON:true}).then( (res) => {
-            console.log(res.body);
+//            console.log(res.body);
             if(res.body === '修改成功'){
               this.editPwd.errShow = true;
               this.editPwd.isSubmitSuccess = true;

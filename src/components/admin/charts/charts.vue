@@ -4,8 +4,8 @@
     <div class="col-lg-3 col-md-3 auto-padding">
       <div class="dataChoose paddingWrapper" >
         <div class="btn-group">
-          <a class="dropdown-toggle a_title" data-toggle="dropdown"><span><i class='fa fa-bar-chart-o'></i></span>选择设备</a>
-          <ul class="dropdown-menu" role="menu" >
+          <a class="dropdown-toggle a_title" data-toggle="dropdown"><span><i class='fa fa-cog selectById'></i></span>选择设备</a>
+          <ul class="dropdown-menu" role="menu">
             <li @click.stop="">
               <a class="historyActive">请选择设备：</a>
               <div class="dropSelectsId">
@@ -57,15 +57,17 @@
     </div>
     <!--数据展示区-->
     <div class="col-lg-9 col-md-9 no-padding">
-      <div class="no-data paddingWrapper" v-show="noData">暂无数据...
+      <div class="no-data paddingWrapper" v-show="noEquipment">您当前账号尚无设备绑定，请联系管理员绑定设备。</div>
+      <div class="no-data paddingWrapper" v-show="!noEquipment && noData">
+        暂无数据...
         <div class='text-center pre_next'>
            <span @click="nextOrPastDay('past')">
-             <span class='pre_day'  >上一天</span>
+             <span class='pre_day'>上一天</span>
              <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
            </span>
           <span @click="nextOrPastDay('next')">
               <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
-              <span class='next_day' >下一天</span>
+              <span class='next_day'>下一天</span>
             </span>
         </div>
       </div>
@@ -148,7 +150,8 @@
         selectYear: '',
         selectMonth: '',
         selectDay: '',
-        noData: false
+        noData: false,
+        noEquipment: false
       }
     },
     computed: {
@@ -420,12 +423,17 @@
     created() {
       this.getUidList();
     },
+    activated() {
+//      let myDate = new Date();
+//      this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+//      this.myInit();
+    },
     deactivated() {
       this.im = false;
       this.clearAllTimer();
-      let myDate = new Date();
-      this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
-      this.myInit();
+//      let myDate = new Date();
+//      this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
+//      this.myInit();
     },
     methods: {
 //      初始化图表
@@ -479,18 +487,23 @@
 //        });
 
         this.$http.post('./php/charts/allUid.php').then((res) => {
-          console.log(res.body);
+//          console.log(res.body);
 //          res.body.map( (item) => {
 //            this.allUids.push(item.table_name);
 //          });
           if(res.body[0]){
             this.allUids = res.body;
-            console.log(this.allUids);
+//            console.log(this.allUids);
             this.selectedId = this.allUids[0];
 
             this.updateDemoData();
+            this.noData = false;
+            this.noEquipment = false;
             this.im = false;
             this.initSelectDate();
+          }else {
+            this.noData = true;
+            this.noEquipment = true;
           }
         })
       },
@@ -502,7 +515,7 @@
         let sqlDate = Math.floor(myDate.getTime()/1000);
         let data = { 'date': sqlDate, 'uid': this.selectedId };
         this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
-          console.log(res);
+//          console.log(res);
           this.demoData = res.data;
           if(!this.demoData[0]){
             if(!this.noData) this.noData=true;
@@ -548,7 +561,7 @@
         selectDate = Math.floor(selectDate/1000);
         let data = { 'date': selectDate, 'uid': this.selectedId };
         this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
-          console.log(res);
+//          console.log(res);
           this.demoData = res.data;
           if(!this.demoData[0]){
             if(!this.noData) this.noData=true;
@@ -592,7 +605,7 @@
         selectDay = Math.floor(selectDay/1000);
         let data = { 'date': selectDay, 'uid': this.selectedId };
         this.$http.post('./php/charts/echoDemoData.php', data,{emulateJSON:true}).then((res)=>{
-          console.log(res);
+//          console.log(res);
           this.demoData = res.data;
           if(!this.demoData[0]){
             if(!this.noData) this.noData=true;
@@ -623,6 +636,12 @@
 <style>
   .im{
     color: #5cb85c;
+  }
+  .next_day, .pre_day{
+    user-select: none;
+  }
+  .dataChoose i.selectById{
+    margin-right: 6px;
   }
   .no-data{
     color: #e4393c;

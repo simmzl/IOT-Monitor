@@ -81,7 +81,7 @@
 
           let data = { 'operation': 'insert','id': this.id, 'tel': this.tel, 'person': this.person, 'desc': this.desc };
           this.$http.post('./php/book/book.php', data, {emulateJSON: true}).then((res) => {
-            console.log(res);
+//            console.log(res);
             if(res.body === "报修成功"){
               this.errShow = true;
               this.isSubmitSuccess = true;

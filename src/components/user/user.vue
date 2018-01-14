@@ -3,9 +3,9 @@
   <user-nav></user-nav>
   <div class='container main clearfix'>
     <div class="containter-main clearfix">
-      <keep-alice>
+      <keep-alive>
         <router-view></router-view>
-      </keep-alice>
+      </keep-alive>
     </div>
   </div>
   <lab-footer></lab-footer>
@@ -30,12 +30,12 @@
       this.pwd = uPwd;
       /*如果cookie不存在，则跳转到登录页*/
       if(uName === ""){
-//        this.$router.push('/');
+        this.$router.push('/');
       }else {
         let data = {'username':this.name,'password':this.pwd};
         this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
           if(res.data !== '2'){
-//            this.$router.push('/');
+            this.$router.push('/');
           }
         });
       }
@@ -44,8 +44,8 @@
       check() {
         let data = {'username':this.name,'password':this.pwd};
         this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
-          console.log(res);
-          console.log('res.data === \'2\ 之前'+ res.data === '2');
+//          console.log(res);
+//          console.log('res.data === \'2\ 之前'+ res.data === '2');
           return res.data === '2';
 
         })
