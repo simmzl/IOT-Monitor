@@ -8,7 +8,8 @@
         <select v-model="selectedId" v-if="allUids">
           <option v-for="id in allUids" :value="id">{{id}}</option>
         </select>
-        <button type="button" class="btn btn-primary btn-xs button-font" @click="initPlayer()" ref="playById">确定</button>
+        <button type="button" class="btn btn-primary btn-xs button-font" @click="changeRtmp()" ref="playById">确定</button>
+        <button type="button" class="btn btn-warning btn-xs button-font" @click="initPlayer()" ref="playById">刷新</button>
       </div>
     </div>
   </div>
@@ -28,7 +29,8 @@
 export default {
   data() {
     return {
-      allUids: {
+      allUids: [],
+      uidList: {
         type: Object
       },
       selectedId: '',
@@ -38,7 +40,7 @@ export default {
         height : 433,
         backcolor : "#FFFFFF",
         stretching : "uniform",
-        file : "rtmp://live.hkstv.hk.lxdns.com/live/hks",
+        file : "",
         ak : "116bdbd482b147928a542c053aae4eb7",
         autoStart : true,
         repeat : false,
@@ -53,32 +55,45 @@ export default {
   },
 //  mounted
   activated () {
-//    this.getUidList();
 //    let player = cyberplayer("playercontainer").setup(this.playerOptions);
-    this.initPlayer();
+    !!this.playerOptions.file && this.initPlayer();
   },
   methods: {
     initPlayer() {
       let player = cyberplayer("playercontainer").setup(this.playerOptions);
     },
     getUidList() {
-        this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/uids').then((res) => {
-//          console.log(res.body);
-          this.allUids = res.body;
-//          console.log(this.allUids);
-          this.selectedId = this.allUids[0];
-//          this.$refs.playById.click();
-        });
-
-//      this.$http.post('./php/charts/allUid.php').then((res) => {
-//        console.log(res.body);
-//        if(res.body[0]){
+//        this.$http.post('https://www.easy-mock.com/mock/5a475a5da1af5e2dfae2c8d3/alluids/uids').then((res) => {
+////          console.log(res.body);
 //          this.allUids = res.body;
-//          console.log(this.allUids);
+////          console.log(this.allUids);
 //          this.selectedId = this.allUids[0];
-//        }
-//      })
+////          this.$refs.playById.click();
+//        });
+
+      this.$http.post('./php/video/addr.php').then((res) => {
+        console.log(res.body);
+        if(res.body[0]){
+          this.uidList = res.body;
+          this.uidList.map( item => {
+            this.allUids.push(item.id);
+          });
+          console.log(this.allUids);
+          this.selectedId = this.allUids[0];
+          this.playerOptions.file = this.uidList[0].rtmp;
+          this.initPlayer();
+        }
+      })
     },
+    changeRtmp() {
+      this.uidList.map(item =>{
+        if(this.selectedId === item.id) {
+          console.log(item.rtmp);
+          this.playerOptions.file = item.rtmp;
+        }
+      });
+      this.initPlayer();
+    }
   }
 }
 </script>
