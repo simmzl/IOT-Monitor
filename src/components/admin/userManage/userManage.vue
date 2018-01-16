@@ -54,6 +54,7 @@
               <th>序号</th>
               <th>手机号码</th>
               <th>姓名</th>
+              <th>单位</th>
               <th>邮箱</th>
               <th>注册时间</th>
               <th>设备信息</th>
@@ -65,6 +66,7 @@
               <td>{{index+1}}</td>
               <td>{{user.username}}</td>
               <td>{{user.name}}</td>
+              <td>{{user.company}}</td>
               <td>{{user.email}}</td>
               <td>{{user.date}}</td>
               <td><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#showDetail" @click="showEquipList(user.username)">查看</button></td>
@@ -237,7 +239,7 @@ export default {
       this.changeInfo.operation = 'addServiceman';
     },
     canSubmitInfo() {
-      if(!this.changeInfo.username || !this.changeInfo.name || !this.changeInfo.email || !this.changeInfo.pwd){
+      if(!this.changeInfo.username || !this.changeInfo.company || !this.changeInfo.email || !this.changeInfo.pwd){
         this.changeInfoWarning = '尚有未填项';
         return;
       }else if(!this.isNumber(this.changeInfo.username) && this.changeInfo.username.length !== 11){
@@ -258,7 +260,7 @@ export default {
         'operation': operation,
         'username': this.changeInfo.username,
         'pwd': md(this.changeInfo.pwd),
-        'name': this.changeInfo.name,
+        'company': this.changeInfo.company,
         'email': this.changeInfo.email
       };
       this.$http.post('./php/usermanage/moreOperation.php',data,{emulateJSON:true}).then(res => {
@@ -366,6 +368,10 @@ export default {
         button
           margin-top -2px!important
     .modal-body
+      .input-group-addon
+        background-color #ffffff!important
+      .form-control
+        box-shadow none!important
       .list-group
         margin-bottom 0
     .modal-footer

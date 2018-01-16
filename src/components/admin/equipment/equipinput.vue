@@ -2,25 +2,38 @@
   <div class="input_group equip_input" id="equip_input">
     <form action="">
       <div class="info">
-        <span>设备名称:</span>
-        <input type="text" v-model="edit.name">
-      </div>
-      <div class="info">
         <span>设备编号:</span>
         <input type="text" v-model="edit.id">
       </div>
       <div class="info">
-        <span>生产日期:</span>
-        <input type="text" placeholder="格式：19700101" v-model="edit.date">
+        <span>设备类型:</span>
+        <input type="text" v-model="edit.type">
       </div>
       <div class="info">
-        <span>供应商:</span>
-        <input type="text" v-model="edit.vendor">
+        <span>设备型号:</span>
+        <input type="text" placeholder="格式：19700101" v-model="edit.version">
       </div>
       <div class="info">
-        <span>负责人:</span>
-        <input type="text" v-model="edit.person">
+        <span>安装日期:</span>
+        <input type="text" v-model="edit.install_date">
       </div>
+      <div class="info">
+        <span>使用单位:</span>
+        <input type="text" v-model="edit.company">
+      </div>
+      <div class="info">
+        <span>单位地址:</span>
+        <input type="text" v-model="edit.co_addr">
+      </div>
+      <div class="info">
+        <span>单位联系人:</span>
+        <input type="text" v-model="edit.co_linkman">
+      </div>
+      <div class="info">
+        <span>联系人电话:</span>
+        <input type="text" v-model="edit.co_tel">
+      </div>
+
       <div class="info err_info" v-show="edit.errShow">
         <span></span>
         <div id="error" :class="{'submitSuccess': edit.isSubmitSuccess}" class="error_reg">{{edit.err}}</div>
@@ -37,11 +50,14 @@
     data() {
       return {
         edit: {
-          name: '',
           id: '',
-          date: '',
-          vendor: '',
-          person: '',
+          type: '',
+          version: '',
+          install_date: '',
+          company: '',
+          co_addr: '',
+          co_linkman: '',
+          co_tel: '',
           err: '',
           errShow: false,
           isSubmitSuccess: false
@@ -51,7 +67,8 @@
     computed: {},
     methods: {
       canSubmit() {
-        if (!this.edit.id || !this.edit.name || !this.edit.date || !this.edit.vendor || !this.edit.person) {
+        if (!this.edit.id || !this.edit.type || !this.edit.version || !this.edit.install_date || !this.edit.company
+          || !this.edit.co_addr || !this.edit.co_linkman || !this.edit.co_tel) {
           this.edit.errShow = true;
           this.edit.isSubmitSuccess = false;
           this.edit.err = "请完成输入";
@@ -69,7 +86,18 @@
           this.edit.err = `请输入正确的日期（如：${rightFormat}）`;
           return false;
         } else {
-          let data = {'operation': 'inputs', 'name': this.edit.name, 'id': this.edit.id, 'date': this.edit.date, 'vendor': this.edit.vendor, 'admin': 'person'};
+          let data = {
+            'operation': 'inputs',
+            'id': this.edit.id,
+            'type': this.edit.type,
+            'version': this.edit.version,
+            'install_date': this.edit.install_date,
+            'company': this.edit.company,
+            'co_addr': this.edit.co_addr,
+            'co_linkman': this.edit.co_linkman,
+            'co_tel': this.edit.co_tel
+          };
+//            'admin': 'person'
           this.$http.post('./php/equipments/equipments.php', data, {emulateJSON: true}).then((res) => {
             if (res.body == 1) {
               this.edit.isSubmitSuccess = true;
@@ -102,6 +130,10 @@
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   }
 
+  .input_group span{
+    width: 80px!important;
+  }
+
   .input_group .info {
     margin: 20px;
     font-size: 0;
@@ -114,7 +146,7 @@
 
   .input_group input {
     border-radius: 4px 4px;
-    margin: 0 0 0 10px;
+    margin: 0!important;
     height: 36px;
     width: 240px;
     border: 1px solid #e6e6e6;

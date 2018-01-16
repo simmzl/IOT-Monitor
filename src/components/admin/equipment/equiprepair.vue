@@ -34,13 +34,9 @@
                 <td class=''><span>{{equip.status}}</span></td>
                 <td>
                   <button type="button" class="btn btn-primary btn-xs" @click="removeItem(equip,'待维修');removeBookItem(equip,'no')">设为待维修</button>
-
-                  <!--<span class='pointer deleteWarn' @click="removeItem(equip,'待维修');removeBookItem(equip,'no')">设为待维修</span>-->
                 </td>
                 <td>
                   <button type="button" class="btn btn-danger btn-xs" @click="removeBookItem(equip,'yes')">删除</button>
-
-                  <!--<span class='pointer deleteWarn' @click="removeBookItem(equip,'yes')">删除</span>-->
                 </td>
               </tr>
               </tbody>
@@ -61,24 +57,32 @@
             <table class='table table-striped table-bordered table-hover '>
               <thead>
               <tr>
-                <th>设备名称</th>
+
                 <th>设备编号</th>
-                <th>生产日期</th>
-                <th>录入日期</th>
-                <th>供应商</th>
-                <th>负责人</th>
-                <th>维修状态</th>
+                <th>设备类型</th>
+                <th>设备型号</th>
+                <th>安装日期</th>
+                <th>使用单位</th>
+                <th>单位地址</th>
+                <th>单位联系人</th>
+                <th>联系人电话</th>
+                <th>设备状态</th>
+
                 <th>操作</th>
               </tr>
               </thead>
               <tbody>
               <tr  v-if="!!repaired[0]" v-for="equip in repaired">
-                <td>{{equip.name}}</td>
+
                 <td>{{equip.id}}</td>
-                <td>{{equip.production_date}}</td>
-                <td>{{equip.date}}</td>
-                <td>{{equip.vendor}}</td>
-                <td>{{equip.admin}}</td>
+                <td>{{equip.type}}</td>
+                <td>{{equip.version}}</td>
+                <td>{{equip.install_date}}</td>
+                <td>{{equip.company}}</td>
+                <td>{{equip.co_addr}}</td>
+                <td>{{equip.co_linkman}}</td>
+                <td>{{equip.co_tel}}</td>
+
                 <td class=''><span>{{equip.status}}</span></td>
                 <td>
                   <button type="button" class="btn btn-primary btn-xs" @click="removeItem(equip,'正常')">设为正常</button>
@@ -103,29 +107,35 @@
             <table class='table table-striped table-bordered table-hover '>
               <thead>
               <tr>
-                <th>设备名称</th>
+
                 <th>设备编号</th>
-                <th>生产日期</th>
-                <th>录入日期</th>
-                <th>供应商</th>
-                <th>负责人</th>
-                <th>维修状态</th>
+                <th>设备类型</th>
+                <th>设备型号</th>
+                <th>安装日期</th>
+                <th>使用单位</th>
+                <th>单位地址</th>
+                <th>单位联系人</th>
+                <th>联系人电话</th>
+                <th>设备状态</th>
+
                 <th>操作</th>
               </tr>
               </thead>
               <tbody>
               <tr  v-if="!!normal[0]" v-for="equip in normal">
-                <td>{{equip.name}}</td>
+
                 <td>{{equip.id}}</td>
-                <td>{{equip.production_date}}</td>
-                <td>{{equip.date}}</td>
-                <td>{{equip.vendor}}</td>
-                <td>{{equip.admin}}</td>
+                <td>{{equip.type}}</td>
+                <td>{{equip.version}}</td>
+                <td>{{equip.install_date}}</td>
+                <td>{{equip.company}}</td>
+                <td>{{equip.co_addr}}</td>
+                <td>{{equip.co_linkman}}</td>
+                <td>{{equip.co_tel}}</td>
+
                 <td class=''><span>{{equip.status}}</span></td>
                 <td>
                   <button type="button" class="btn btn-primary btn-xs" @click="removeItem(equip,'待维修')">设为待维修</button>
-
-                  <!--<span class='pointer deleteWarn' @click="removeItem(equip,'待维修')">设为待维修</span>-->
                 </td>
               </tr>
               </tbody>

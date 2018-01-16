@@ -17,6 +17,10 @@
         <span>{{info.name}}</span>
       </div>
       <div class="myInfoData">
+        <span>单位：</span>
+        <span>{{info.company}}</span>
+      </div>
+      <div class="myInfoData">
         <span>注册邮箱:</span>
         <span>{{info.email}}</span>
       </div>

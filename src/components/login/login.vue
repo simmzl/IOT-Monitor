@@ -33,9 +33,10 @@
           <form class="from">
             <input  placeholder='手机号' type="text" v-model="signUp.username" maxlength="11" required="required">
             <input  placeholder='姓名' type="text" v-model="signUp.name" maxlength="10" required="required">
+            <input  placeholder='单位' type="text" v-model="signUp.company" maxlength="40" required="required">
+            <input  placeholder='邮箱' type="email" v-model="signUp.email" maxlength="16" required="required">
             <input type="password" class="password" placeholder='密码' v-model="signUp.pwd" maxlength="16" required="required">
             <input type="password" class="password" placeholder='确认密码' v-model="signUp.pwdConf" maxlength="16" required="required">
-            <input  placeholder='邮箱' type="email" v-model="signUp.email" maxlength="16" required="required">
             <div class="loginError" :class="{'signUpSuccess': signUp.isSignUpSuccess}" v-show="signUp.errShow">{{signUp.err}}</div>
             <div class='content_footer'>
               <button type="submit" class='login_btn fr' @click.stop.prevent="_signUp">注册</button>
@@ -66,6 +67,7 @@
           username: '',
           name: '',
           email: '',
+          company: '',
           pwd: '',
           mdPwd: '',
           pwdConf: '',
@@ -152,7 +154,7 @@
         }
       },
       _signUp() {
-        if(!this.signUp.username || !this.signUp.name || !this.signUp.email || !this.signUp.pwd || !this.signUp.pwdConf){
+        if(!this.signUp.username || !this.signUp.name || !this.signUp.email || !this.signUp.company || !this.signUp.pwd || !this.signUp.pwdConf){
           this.signUp.err = ("请完成输入");
           if(this.signUp.errShow === false )this.signUp.errShow = true;
         }else if(!this.isNumber(this.signUp.username) || this.signUp.username.length !== 11){
@@ -169,7 +171,13 @@
           if(this.signUp.errShow === false )this.signUp.errShow = true;
         }else{
           this.signUp.mdPwd = md(this.signUp.pwd);
-          let data = {'username':this.signUp.username, 'email':this.signUp.email, 'password':this.signUp.mdPwd, 'name': this.signUp.name};
+          let data = {
+            'username':this.signUp.username,
+            'company': this.signUp.company,
+            'name': this.signUp.name,
+            'email':this.signUp.email,
+            'password':this.signUp.mdPwd,
+          };
           this.$http.post('./php/signup.php',data,{emulateJSON:true}).then((res)=>{
             if(res.data === "1"){
               this.signUp.err = "注册成功";
@@ -228,12 +236,14 @@
       width 360px
       height 480px
       .content
+        .signup
+          margin-top 40px
        .content_title
         font-weight: bold
       .from
-        margin 10px auto 40px auto
+        margin 10px auto
         input
-          margin 10px 0
+          margin 7px 0
           height 36px
           width 250px
           border 1px solid #e6e6e6
