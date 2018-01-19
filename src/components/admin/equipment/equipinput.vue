@@ -1,6 +1,6 @@
 <template>
   <div class="input_group equip_input" id="equip_input">
-    <form action="">
+    <form>
       <div class="info">
         <span>设备编号:</span>
         <input type="text" v-model="edit.id">
@@ -11,19 +11,26 @@
       </div>
       <div class="info">
         <span>设备型号:</span>
-        <input type="text" placeholder="格式：19700101" v-model="edit.version">
+        <input type="text" placeholder="" v-model="edit.version">
       </div>
       <div class="info">
         <span>安装日期:</span>
-        <input type="text" v-model="edit.install_date">
+        <input type="text" v-model="edit.install_date" placeholder="格式：2018-01-01">
       </div>
       <div class="info">
         <span>使用单位:</span>
         <input type="text" v-model="edit.company">
       </div>
-      <div class="info">
+      <div class="info addr-select">
         <span>单位地址:</span>
-        <input type="text" v-model="edit.co_addr">
+        <div data-toggle="distpicker" class="select-group">
+          <select data-province="---- 选择省 ----" v-model="edit.co_addr.province" class="addr-province"></select>
+          <select data-city="---- 选择市 ----" v-model="edit.co_addr.city" class="addr-city"></select>
+          <select data-district="---- 选择区 ----" v-model="edit.co_addr.district" class="addr-district"></select>
+        </div>
+        <div class="addr-detail">
+          <input type="text" placeholder="详细地址" v-model="edit.co_addr.detail">
+        </div>
       </div>
       <div class="info">
         <span>单位联系人:</span>
@@ -55,7 +62,15 @@
           version: '',
           install_date: '',
           company: '',
-          co_addr: '',
+          co_addr: {
+            str: '',
+            lng: '',
+            lat: '',
+            province: '',
+            city: '',
+            district: '',
+            detail: ''
+          },
           co_linkman: '',
           co_tel: '',
           err: '',
@@ -64,27 +79,57 @@
         }
       }
     },
-    computed: {},
+    computed: {
+//      rightDate() {
+//        let myDate = new Date;
+//        return "格式：" + myDate.getFullYear() + '-' + myDate.addZero(myDate.getMonth() + 1) + '-' + myDate.addZero(myDate.getDate());
+//      }
+    },
     methods: {
+//      loadScript: function loadScript() {
+//        function init() {
+//          alert(1);
+//          this.edit.co_addr.str = this.edit.co_addr.province + this.edit.co_addr.city + this.edit.co_addr.district + this.edit.co_addr.detail;
+//          myGeo.getPoint("北京市海淀区上地10街10号", function(point){
+//              if (point) {
+//                alert(point);
+//              }
+//            },
+//            "北京市");
+//        }
+//        function aa() {
+//          let script = document.createElement("script");
+//          script.src = "http://api.map.baidu.com/api?v=2.0&ak=Eo0Ga2S25iAqZ8DyWdpyUge97LqqLBob&callback=init";
+//          document.body.appendChild(script);
+//        }
+//        aa();
+//      },
       canSubmit() {
+        this.edit.co_addr.str = this.edit.co_addr.province + this.edit.co_addr.city + this.edit.co_addr.district + this.edit.co_addr.detail;
+        let myGeo = new BMap.Geocoder();
+        myGeo.getPoint(this.edit.co_addr.str, point =>{
+            if (point) {
+              this.edit.co_addr.lng = point.lng;
+              this.edit.co_addr.lat = point.lat;
+            }
+          },
+          this.edit.co_addr.city);
+
         if (!this.edit.id || !this.edit.type || !this.edit.version || !this.edit.install_date || !this.edit.company
-          || !this.edit.co_addr || !this.edit.co_linkman || !this.edit.co_tel) {
+          || !this.edit.co_addr.str || !this.edit.co_linkman || !this.edit.co_tel) {
           this.edit.errShow = true;
           this.edit.isSubmitSuccess = false;
           this.edit.err = "请完成输入";
-          return false;
         } else if (!this.isNumber(this.edit.id)) {
           this.edit.isSubmitSuccess = false;
           this.edit.errShow = true;
           this.edit.err = "请输入正确的编号（纯数字）";
-          return false;
-        } else if (!this.isDate(this.edit.date)) {
+        } else if (!this.isDate(this.edit.install_date)) {
           this.edit.isSubmitSuccess = false;
           this.edit.errShow = true;
           let myDate = new Date;
-          let rightFormat = myDate.getFullYear() + '' + (myDate.getMonth() + 1) + '' + myDate.addZero(myDate.getDate());
+          let rightFormat = myDate.getFullYear() + '-' + myDate.addZero(myDate.getMonth() + 1) + '-' + myDate.addZero(myDate.getDate());
           this.edit.err = `请输入正确的日期（如：${rightFormat}）`;
-          return false;
         } else {
           let data = {
             'operation': 'inputs',
@@ -93,7 +138,9 @@
             'version': this.edit.version,
             'install_date': this.edit.install_date,
             'company': this.edit.company,
-            'co_addr': this.edit.co_addr,
+            'co_addr': this.edit.co_addr.str,
+            'lng': this.edit.co_addr.lng,
+            'lat': this.edit.co_addr.lat,
             'co_linkman': this.edit.co_linkman,
             'co_tel': this.edit.co_tel
           };
@@ -116,7 +163,6 @@
               this.edit.err = '提交失败，设备编号已存在';
             }
           });
-          return true;
         }
       }
     }
@@ -128,10 +174,6 @@
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  }
-
-  .input_group span{
-    width: 80px!important;
   }
 
   .input_group .info {
@@ -172,6 +214,10 @@
     font-size: 14px;
   }
 
+  .equip_input .info span{
+    width: 80px!important;
+  }
+
   #error.error_reg {
     display: inline-block;
     box-sizing: border-box;
@@ -187,6 +233,10 @@
     border-radius: 2px 2px;
   }
 
+  .equip_input #error.error_reg {
+    margin-left: 0!important;
+  }
+
   .err_info.info {
     margin-top: -15px;
     margin-bottom: -15px;
@@ -196,5 +246,44 @@
     border: none!important;
     color: #fff!important;
     background: #5cb85c!important;
+  }
+  .info.addr-select select{
+    height: 36px;
+    border-radius: 4px;
+    margin-right: 5px;
+    border: solid 1px #e6e6e6!important;
+  }
+  .info.addr-select .select-group,.info.addr-select .addr-detail{
+    display: inline;
+  }
+
+  @media screen and (max-width: 991px) and (min-width: 550px){
+    .info.addr-select .addr-detail{
+      display: block;
+    }
+    .info.addr-select .addr-detail input{
+      margin-left: 80px!important;
+      margin-top: 10px!important;
+    }
+  }
+  @media screen and (max-width: 550px) {
+    .info.addr-select .addr-detail{
+      display: block;
+    }
+    .info.addr-select .addr-detail input , .addr-city , .addr-district{
+      display: block;
+      margin-left: 80px!important;
+      margin-top: 10px!important;
+    }
+  }
+  @media screen and (max-width: 437px) {
+    .info.addr-select .addr-detail{
+      display: block;
+    }
+    .info.addr-select .addr-detail input , .addr-province, .addr-city, .addr-district{
+      display: block;
+      margin-left: 0!important;
+      margin-top: 10px!important;
+    }
   }
 </style>
