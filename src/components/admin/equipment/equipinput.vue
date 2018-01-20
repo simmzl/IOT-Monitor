@@ -18,6 +18,10 @@
         <input type="text" v-model="edit.install_date" placeholder="格式：2018-01-01">
       </div>
       <div class="info">
+        <span>监控链接:</span>
+        <input type="text" v-model="edit.rtmp">
+      </div>
+      <div class="info">
         <span>使用单位:</span>
         <input type="text" v-model="edit.company">
       </div>
@@ -73,11 +77,24 @@
           },
           co_linkman: '',
           co_tel: '',
+          rtmp: '',
           err: '',
           errShow: false,
           isSubmitSuccess: false
         }
       }
+    },
+    activated() {
+      let scripts = document.getElementsByTagName('script');
+      for (let i=0;i<scripts.length;i++){
+        if(scripts[i].src === "https://cdn.staticfile.org/distpicker/2.0.0-rc/distpicker.min.js"){
+          document.body.removeChild(scripts[i]);
+          break;
+        }
+      }
+      let script = document.createElement("script");
+      script.src = "https://cdn.staticfile.org/distpicker/2.0.0-rc/distpicker.min.js";
+      document.body.appendChild(script);
     },
     computed: {
 //      rightDate() {
@@ -86,24 +103,6 @@
 //      }
     },
     methods: {
-//      loadScript: function loadScript() {
-//        function init() {
-//          alert(1);
-//          this.edit.co_addr.str = this.edit.co_addr.province + this.edit.co_addr.city + this.edit.co_addr.district + this.edit.co_addr.detail;
-//          myGeo.getPoint("北京市海淀区上地10街10号", function(point){
-//              if (point) {
-//                alert(point);
-//              }
-//            },
-//            "北京市");
-//        }
-//        function aa() {
-//          let script = document.createElement("script");
-//          script.src = "http://api.map.baidu.com/api?v=2.0&ak=Eo0Ga2S25iAqZ8DyWdpyUge97LqqLBob&callback=init";
-//          document.body.appendChild(script);
-//        }
-//        aa();
-//      },
       canSubmit() {
         this.edit.co_addr.str = this.edit.co_addr.province + this.edit.co_addr.city + this.edit.co_addr.district + this.edit.co_addr.detail;
         let myGeo = new BMap.Geocoder();
@@ -115,7 +114,7 @@
           },
           this.edit.co_addr.city);
 
-        if (!this.edit.id || !this.edit.type || !this.edit.version || !this.edit.install_date || !this.edit.company
+        if (!this.edit.id || !this.edit.type || !this.edit.version || !this.edit.install_date || !this.edit.rtmp || !this.edit.company
           || !this.edit.co_addr.str || !this.edit.co_linkman || !this.edit.co_tel) {
           this.edit.errShow = true;
           this.edit.isSubmitSuccess = false;
@@ -133,10 +132,12 @@
         } else {
           let data = {
             'operation': 'inputs',
+            'detail': 'input',
             'id': this.edit.id,
             'type': this.edit.type,
             'version': this.edit.version,
             'install_date': this.edit.install_date,
+            'rtmp': this.edit.rtmp,
             'company': this.edit.company,
             'co_addr': this.edit.co_addr.str,
             'lng': this.edit.co_addr.lng,
@@ -157,6 +158,11 @@
 //              this.edit.person = '';
 
               this.edit.err = '提交成功';
+              setTimeout( () => {
+                this.edit.isSubmitSuccess = false;
+                this.edit.errShow = false;
+                this.edit.err = '';
+              },2000)
             } else if (res.body == 0) {
               this.edit.isSubmitSuccess = false;
               this.edit.errShow = true;

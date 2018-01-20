@@ -16,27 +16,31 @@
         let map = new BMap.Map("baiduMap", {
           enableMapClick: false
         });
-        let point = new BMap.Point(118.652182, 24.938167);
-        map.centerAndZoom(point, 18); //初始化地图，设置中心点坐标和地图级别
+        let point = new BMap.Point(104.388611,37.993911);
+        map.centerAndZoom(point,5); //初始化地图，设置中心点坐标和地图级别
+//        map.setCenter("全国");
         map.enableScrollWheelZoom(true); //可缩放
-        this.$http.get('https://www.easy-mock.com/mock/598c46ffa1d30433d85d21b6/map/map').then((res) => {
+//        切换城市
+        var size = new BMap.Size(10, 20);
+        map.addControl(new BMap.CityListControl({
+          anchor: BMAP_ANCHOR_TOP_LEFT,
+          offset: size,
+        }));
+
+//        this.$http.get('https://www.easy-mock.com/mock/598c46ffa1d30433d85d21b6/map/map').then((res) => {
+        this.$http.get('./php/map/map.php').then((res) => {
+//        this.$http.get('../../../static/mao.json').then((res) => {
           let data = res.body;
+//          let data = [{"id":"00000001","co_addr":" xx\u7701xx\u5e02xx\u533axx","co_lng":"","co_lat":""},{"id":"00000002","co_addr":"xx\u7701xx\u5e02xx\u533axx","co_lng":"","co_lat":""},{"id":"00000003","co_addr":"xx\u7701xx\u5e02xx\u533axx","co_lng":"","co_lat":""},{"id":"00000005","co_addr":"\u798f\u5efa\u7701\u6cc9\u5dde\u5e02\u4e30\u6cfd\u533a\u534e\u4fa8\u5927\u5b66","co_lng":"118.651759","co_lat":"24.940229"},{"id":"00000004","co_addr":"\u798f\u5efa\u7701\u6cc9\u5dde\u5e02\u4e30\u6cfd\u533a\u534e\u4fa8\u5927\u5b66\u5de5\u5b66\u9662","co_lng":"118.991759","co_lat":"24.940229"}];
           for (let i in data) {
-            let marker = new BMap.Marker(new BMap.Point(data[i].mapLocal[0], data[i].mapLocal[1])); // 创建标注
+            let marker = new BMap.Marker(new BMap.Point(data[i].co_lng, data[i].co_lat)); // 创建标注
             map.addOverlay(marker); //将标注添加到地图中
+            marker.disableDragging(); //不可拖拽
 //            marker.setAnimation(BMAP_ANIMATION_BOUNCE); //动画
 
             (function (i) {
-              let title = {
-                title: '<span style="font-size:14px;color:#0A8021">' + data[i].mapName + '</span>'
-              };
-              let body = "<table class='map-table'><tr><td> " +
-                "<span class='table-temp' id='tableTemp'>温度<br>" + data[i].mapTemp + "℃</span></td>" +
-                "<td><span class='table-humi' id='tableHumi'>湿度<br>" + data[i].mapHumi + "%</span></td>" +
-                "<td><span class='table-wind' id='tableWind'>风速<br>" + data[i].mapSpeed + "m/s</span></td></tr></table>" +
-                "<span style='float: right;'><a href='javascript:;'>详情>></a></span>";
-
-              let infoWindow0 = new BMap.InfoWindow(body, title);
+              let body = '<div>设备ID：' + data[i]['id'] + '</div>' + '<div>所在地址：'+ data[i]['co_addr'] +'</div>';
+              let infoWindow0 = new BMap.InfoWindow(body);
               marker.addEventListener("click", function () {
                 this.openInfoWindow(infoWindow0);
               });
@@ -55,7 +59,7 @@
     box-shadow 0 15px 30px rgba(0, 0, 0, 0.1)
     border-radius 10px
     #baiduMap
-      height 600px
+      height 700px
       width 100%
       border-radius 10px
 
@@ -91,5 +95,14 @@
     #baiduMap {
       height: 500px;
     }
+  }
+  .citylist_popup_main .city_content_top{
+    height: 46px!important;
+  }
+  #selCityWd{
+    height: 23px!important;
+    padding-top: 1px!important;
+    padding-bottom: 1px!important;
+
   }
 </style>
