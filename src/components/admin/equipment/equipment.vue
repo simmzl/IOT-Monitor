@@ -18,7 +18,12 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-  export default {}
+  export default {
+    activated() {
+    },
+    methods: {
+    }
+  }
 </script>
 <style scoped>
   .equipment .dataChoose .link-wrapper a{

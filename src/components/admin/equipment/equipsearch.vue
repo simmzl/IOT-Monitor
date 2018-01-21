@@ -62,7 +62,7 @@
           <th>联系人电话</th>
           <th class="equip-status">设备状态</th>
           <th>监控链接</th>
-          <th class="operation">操作</th>
+          <th class="operation-td nowrap">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -152,7 +152,7 @@
               </div>
               <div class="info">
                 <span>原地址:</span>
-                <input type="text" v-model="edit.co_addr.str" readonly="readonly">
+                <input type="text" v-model="edit.co_addr.str" class="origin-addr" readonly="readonly">
               </div>
               <div class="info">
                 <span>单位联系人:</span>
@@ -219,12 +219,8 @@
         }
       }
     },
-    computed: {
-
-    },
     methods: {
       loadAllData() {
-//        if(this.isShowAll === false) return;
         this.$http.post('./php/equipments/equipments.php', {'operation': 'queryAll'},{emulateJSON: true}).then((res) => {
           if (res.body != 0) {
             this.equipData = res.body;
@@ -277,8 +273,6 @@
         this.selectedRtmp = item;
       },
       changeEquipInfo(obj) {
-        console.log(obj);
-        console.log(this.edit);
         let scripts = document.getElementsByTagName('script');
         for (let i=0;i<scripts.length;i++){
           if(scripts[i].src === "https://cdn.staticfile.org/distpicker/2.0.0-rc/distpicker.min.js"){
@@ -303,7 +297,6 @@
         this.edit.co_addr.detail = '';
 
         this.edit.co_addr.str = obj.co_addr;
-        console.log(this.edit);
       },
       canSubmit() {
         let tmp = this.edit.co_addr.province + this.edit.co_addr.city + this.edit.co_addr.district + this.edit.co_addr.detail;
@@ -446,12 +439,12 @@
       padding: 20px;
     }
   }
-  .equip-status{
-    width: 78px;
-  }
-  .operation{
-    width: 98px;
-  }
+  /*.equip-status{*/
+    /*width: 78px;*/
+  /*}*/
+  /*.operation{*/
+    /*width: 98px;*/
+  /*}*/
   .operation-td{
     font-size: 0;
   }
@@ -460,5 +453,8 @@
   }
   table th,.nowrap{
     white-space: nowrap!important;
+  }
+  .origin-addr{
+    border: none!important;
   }
 </style>

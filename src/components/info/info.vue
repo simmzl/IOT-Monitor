@@ -5,7 +5,7 @@
   <div class="col-lg-10 col-md-10 no-padding">
     <div class="basicInfo" v-show="!isShowEdit">
       <div class="myInfoData">
-        <a class="pull-right editInfo" id='edit' href="javascript:;" title="编辑" @click="showEdit"><i class="fa fa-pencil"></i>编辑</a>
+        <a class="pull-right editInfo" id='edit' href="javascript:;" title="编辑" @click="showEdit"><i class="glyphicon glyphicon-pencil"></i>编辑</a>
         <h3 class="title">基础资料</h3>
       </div>
       <div class="myInfoData">
@@ -36,7 +36,7 @@
     <div id='edit_info' v-show="isShowEdit">
       <div class="editInfoWrapper input_group">
         <div class="myInfoData">
-          <a class="pull-right editInfo" id='back' href="javascript:;" title='返回' @click="showEdit"><i class="fa fa-reply"></i>返回</a>
+          <a class="pull-right editInfo" id='back' href="javascript:;" title='返回' @click="showEdit"><i class="glyphicon glyphicon-backward"></i>返回</a>
           <h3 class="title">编辑资料</h3>
         </div>
         <form action="">
@@ -65,7 +65,7 @@
       <div class="input_group">
         <div class="edit_pwd">
           <div class="myInfoData">
-            <a class="pull-right editInfo" id='edit_pwd' href="javascript:;" title='' @click="showPwd"><i id="edit_pwd_turn" class="fa fa-pencil"></i><span class="edit_desc">{{editPwd.content}}</span></a>
+            <a class="pull-right editInfo" id='edit_pwd' href="javascript:;" title='' @click="showPwd"><i id="edit_pwd_turn" class="glyphicon glyphicon-pencil"></i><span class="edit_desc">{{editPwd.content}}</span></a>
             <h3 class="title">更改密码</h3>
           </div>
           <div class="edit_pwd_wrapper" v-show="isShowPwd">
@@ -269,12 +269,12 @@ export default {
     margin-top: 15px;
     margin-right: 20px;
   }
-  .fa {
+  .glyphicon {
     margin-right: 10px;
     width: 16px;
     height: 14px;
   }
-  .editInfo>i.fa{
+  .editInfo>i.glyphicon-pencil{
     margin-right: 5px;
   }
 
@@ -306,7 +306,6 @@ export default {
     text-align: center;
     display: inline-block;
     font-size: 14px;
-    /*margin-left: 99px!important;*/
     background-color: #000000;
     color: #fff;
     height: 40px!important;
@@ -329,8 +328,6 @@ export default {
     margin-top: -15px;
     margin-bottom: -15px;
   }
-  /*.err_info.info error*/
-  /*search*/
   .equip_search input{
     max-width: 720px;
     width: calc(100% - 30px);

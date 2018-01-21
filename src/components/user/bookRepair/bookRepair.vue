@@ -18,7 +18,7 @@
           </div>
           <div class="textarea info" >
             <span>故障描述:</span>
-            <textarea cols="30" rows="10" v-model="desc" placeholder="150字以内"></textarea>
+            <textarea cols="30" rows="10" v-model="desc" placeholder="150字以内" maxlength="150"></textarea>
           </div>
           <div class="info err_info" v-show="errShow">
             <span></span>
@@ -124,7 +124,7 @@
         width 60%
         min-width 240px
         border-radius 4px 4px
-        margin 0 0 0 10px
+        margin-left 0!important
         outline none
         padding-left 8px
         /*border 1px solid #949494*/

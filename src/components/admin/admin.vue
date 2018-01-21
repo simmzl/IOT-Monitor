@@ -48,6 +48,9 @@
 </script>
 
 <style>
+  th{
+    white-space: nowrap;
+  }
   .container{
     padding-left: 10px;
     padding-right: 10px;

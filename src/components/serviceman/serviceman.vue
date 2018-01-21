@@ -44,8 +44,6 @@
       check() {
         let data = {'username':this.name,'password':this.pwd};
         this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
-//          console.log(res);
-//          console.log('res.data === \'2\ 之前'+ res.data === '2');
           return res.data === '2';
         })
       }
@@ -59,6 +57,9 @@
   }
 </script>
 <style scoped>
+  th{
+    white-space: nowrap;
+  }
   .container{
     padding-left: 10px;
     padding-right: 10px;

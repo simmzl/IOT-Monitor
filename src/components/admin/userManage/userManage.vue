@@ -363,6 +363,8 @@ export default {
   .user-manage
     .table
       margin-bottom 0
+    .panel-body
+      padding 0!important
     .panel-success
       .panel-title
         button

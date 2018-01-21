@@ -1,6 +1,7 @@
 <template>
   <div class="index">
-    <img class='fl index_l' src="../../../static/img/art.png">
+    <!--<img class='fl index_l' src="../../../static/img/art.png">-->
+    <img class='fl index_l' src="http://static.simmzl.cn/blog/180121/Bgf66eI9jH.png?imageslim">
     <div class="fr index_r">
       <div class='content'>
         <div class="login" v-show="!isSignUp">
@@ -82,6 +83,7 @@
       }
     },
     created() {
+      console.log('目前处于开发阶段，完成度90%，console较多');
       let uName = getCookie('username');
       let uPwd = getCookie('info');
       let data = {'username':uName,'password':uPwd};

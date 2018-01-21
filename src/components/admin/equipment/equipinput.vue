@@ -86,21 +86,16 @@
     },
     activated() {
       let scripts = document.getElementsByTagName('script');
+      let src = 'https://cdn.staticfile.org/distpicker/2.0.0-rc/distpicker.min.js';
       for (let i=0;i<scripts.length;i++){
-        if(scripts[i].src === "https://cdn.staticfile.org/distpicker/2.0.0-rc/distpicker.min.js"){
+        if(scripts[i].src === src){
           document.body.removeChild(scripts[i]);
           break;
         }
       }
       let script = document.createElement("script");
-      script.src = "https://cdn.staticfile.org/distpicker/2.0.0-rc/distpicker.min.js";
+      script.src = src;
       document.body.appendChild(script);
-    },
-    computed: {
-//      rightDate() {
-//        let myDate = new Date;
-//        return "格式：" + myDate.getFullYear() + '-' + myDate.addZero(myDate.getMonth() + 1) + '-' + myDate.addZero(myDate.getDate());
-//      }
     },
     methods: {
       canSubmit() {

@@ -4,37 +4,34 @@ import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 
 import login from './components/login/login';
-
-import info from './components/info/info';
+const Info = () => import ('./components/info/info');
 
 // admin
-import admin from './components/admin/admin'
-import charts from './components/admin/charts/charts';
-import labVideo from './components/admin/video/labvideo';
-import equipment from './components/admin/equipment/equipment';
-import equipInput from './components/admin/equipment/equipinput';
-import equipSearch from './components/admin/equipment/equipsearch';
-import equipMap from './components/admin/equipment/equipmap';
-import equipRepair from './components/admin/equipment/equiprepair';
-import file from './components/admin/file/file';
-import userManage from './components/admin/userManage/userManage';
+const Admin = () => import ('./components/admin/admin');
+
+// import charts from './components/admin/charts/charts';
+const Charts = () => import ('./components/admin/charts/charts');
+
+const LabVideo = () => import ('./components/admin/video/labvideo');
+
+const Equipment = () => import ('./components/admin/equipment/equipment');
+const EquipInput = () => import ('./components/admin/equipment/equipinput');
+const EquipSearch = () => import ('./components/admin/equipment/equipsearch');
+const EquipMap = () => import ('./components/admin/equipment/equipmap');
+const EquipRepair = () => import ('./components/admin/equipment/equiprepair');
+
+const File = () => import ('./components/admin/file/file');
+const UserManage = () => import ('./components/admin/userManage/userManage');
 
 // serviceman
-import serviceman from './components/serviceman/serviceman';
-// import repair from './components/serviceman/equipment/repair';
+const Serviceman = () => import ('./components/serviceman/serviceman');
 
 // user
-import user from './components/user/user';
-import userFiles from './components/user/userFiles/userFiles'
-import bookRepair from './components/user/bookRepair/bookRepair'
-
-// import videojs from 'video.js';
-// import VueVideoPlayer from 'vue-video-player';
-// Vue.use(VueVideoPlayer);
-// Vue.use(videojs);
+const User = () => import ('./components/user/user');
+const UserFiles = () => import ('./components/user/userFiles/userFiles');
+const BookRepair = () => import ('./components/user/bookRepair/bookRepair');
 
 Vue.config.productionTip = false;
-// videojs.options.flash.swf = 'videojs-flash/node_modules/videojs-swf/dist/video-js.swf';
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
@@ -43,46 +40,46 @@ let routes = [
   { path: '/', component: login },
   {
     path: '/admin',
-    component: admin,
+    component: Admin,
     redirect: '/admin/charts',
     children: [
-      { path: 'info', component: info },
-      { path: 'charts', component: charts },
-      { path: 'video', component: labVideo },
+      { path: 'info', component: Info },
+      { path: 'charts', component: Charts },
+      { path: 'video', component: LabVideo },
       {
         path: 'equipment',
-        component: equipment,
+        component: Equipment,
         redirect: '/admin/equipment/equipInput',
         children: [
-          { path: 'equipInput', components: {equip :equipInput}},
-          { path: 'equipSearch', components: {equip :equipSearch}},
-          { path: 'equipMap', components: {equip :equipMap}},
-          { path: 'equipRepair', components: {equip :equipRepair}}
+          { path: 'equipInput', components: {equip :EquipInput}},
+          { path: 'equipSearch', components: {equip :EquipSearch}},
+          { path: 'equipMap', components: {equip :EquipMap}},
+          { path: 'equipRepair', components: {equip :EquipRepair}}
         ]},
-      { path: 'file', component: file },
-      { path: 'userManage', component: userManage },
+      { path: 'file', component: File },
+      { path: 'userManage', component: UserManage },
     ]
   },
   {
     path: '/user',
-    component: user,
+    component: User,
     redirect: '/user/charts',
     children: [
-      { path: 'info', component: info },
-      { path: 'userFiles', component: userFiles },
+      { path: 'info', component: Info },
+      { path: 'userFiles', component: UserFiles },
       // { path: 'bookRepair', component: bookRepair },
-      { path: 'charts', component: charts },
-      { path: 'video', component: labVideo }
+      { path: 'charts', component: Charts },
+      { path: 'video', component: LabVideo }
     ]
   },
   {
     path: '/serviceman',
-    component: serviceman,
+    component: Serviceman,
     redirect: '/serviceman/repair',
     children: [
-      { path: 'info', component: info },
-      { path: 'bookRepair', component: bookRepair },
-      { path: 'repair', component: equipRepair },
+      { path: 'info', component: Info },
+      { path: 'bookRepair', component: BookRepair },
+      { path: 'repair', component: EquipRepair },
       // {
       //   path: 'equipment',
       //   component: equipment,
@@ -90,7 +87,7 @@ let routes = [
       //   children: [
       //     { path: 'equipInput', components: {equip :equipInput}},
       //     { path: 'equipSearch', components: {equip :equipSearch}},
-      //     { path: 'equipMap', components: {equip :equipMap}},
+      //     { path: 'equipMap', components: {equip :EquipMap}},
       //     { path: 'equipRepair', components: {equip :equipRepair}}
       //   ]},
     ]

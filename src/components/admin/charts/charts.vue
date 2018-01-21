@@ -4,7 +4,7 @@
     <div class="col-lg-3 col-md-3 auto-padding">
       <div class="dataChoose paddingWrapper" >
         <div class="btn-group">
-          <a class="dropdown-toggle a_title" data-toggle="dropdown"><span><i class='fa fa-cog selectById'></i></span>选择设备</a>
+          <a class="dropdown-toggle a_title" data-toggle="dropdown"><span><i class='glyphicon glyphicon-cog selectById'></i></span>选择设备</a>
           <ul class="dropdown-menu" role="menu">
             <li @click.stop="">
               <a class="historyActive">请选择设备：</a>
@@ -19,7 +19,7 @@
         </div>
         <div class="btn-group">
           <a  class="dropdown-toggle a_title" data-toggle="dropdown" style='width: 100%'>
-            <span><i class='fa fa-calendar-check-o history'></i></span>
+            <span><i class='glyphicon glyphicon-calendar history'></i></span>
             历史数据 </a>
           <ul class="dropdown-menu" role="menu" style="min-width: 300px">
             <li id="today" class="today" @click="today"><a class="pointer" :class="{'historyActive': isToday}">今天</a></li>
@@ -44,9 +44,9 @@
           </ul>
         </div>
         <a class="realTimeBtn a_title btn-group" :class="{'im':im}" @click="turnIm" title="每三分钟自动刷新">
-          <span><i class='fa fa-clock-o' ></i></span>实时数据</a>
+          <span><i class='glyphicon glyphicon-time' ></i></span>实时数据</a>
         <div class="btn-group chart_type">
-          <a class="dropdown-toggle a_title" data-toggle="dropdown"><span><i class='fa fa-bar-chart-o'></i></span>图表类型</a>
+          <a class="dropdown-toggle a_title" data-toggle="dropdown"><span><i class='glyphicon glyphicon-stats'></i></span>图表类型</a>
           <ul class="dropdown-menu" role="menu" >
             <li><a class="pointer series0" @click="turnSeriesType('line',$event)" :class="{aActive: this.chartData.seriesType === 'line'}">折线图</a></li>
             <li><a class="pointer series1" @click="turnSeriesType('bar',$event)" :class="{'aActive': this.chartData.seriesType === 'bar'}">柱形图</a></li>
@@ -63,10 +63,10 @@
         <div class='text-center pre_next'>
            <span @click="nextOrPastDay('past')">
              <span class='pre_day'>上一天</span>
-             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
+             <span><i class='glyphicon glyphicon-chevron-left'></i></span>
            </span>
           <span @click="nextOrPastDay('next')">
-              <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
+              <span><i class='glyphicon glyphicon-chevron-right'></i></span>
               <span class='next_day'>下一天</span>
             </span>
         </div>
@@ -79,10 +79,10 @@
           <div class='text-center pre_next'>
            <span @click="nextOrPastDay('past')">
              <span class='pre_day'  >上一天</span>
-             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
+             <span><i class='glyphicon glyphicon-chevron-left'></i></span>
            </span>
            <span @click="nextOrPastDay('next')">
-              <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
+              <span><i class='glyphicon glyphicon-chevron-right'></i></span>
               <span class='next_day' >下一天</span>
             </span>
           </div>
@@ -94,10 +94,10 @@
           <div class='text-center pre_next'>
             <span @click="nextOrPastDay('past')">
              <span class='pre_day'>上一天</span>
-             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
+             <span><i class='glyphicon glyphicon-chevron-left'></i></span>
             </span>
             <span @click="nextOrPastDay('next')">
-              <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
+              <span><i class='glyphicon glyphicon-chevron-right'></i></span>
               <span class='next_day' >下一天</span>
             </span>
           </div>
@@ -109,11 +109,11 @@
           <div class='text-center pre_next'>
             <span @click="nextOrPastDay('past')">
              <span class='pre_day'  >上一天</span>
-             <span><i class='fa fa-chevron-circle-left fa-lg'></i></span>
+             <span><i class='glyphicon glyphicon-chevron-left'></i></span>
             </span>
             <span @click="nextOrPastDay('next')">
-              <span><i class='fa fa-chevron-circle-right fa-lg'></i></span>
-              <span class='next_day' >下一天</span>
+              <span><i class='glyphicon glyphicon-chevron-right'></i></span>
+              <span class='next_day'>下一天</span>
             </span>
           </div>
         </div>
@@ -424,16 +424,11 @@
       this.getUidList();
     },
     activated() {
-//      let myDate = new Date();
-//      this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
-//      this.myInit();
+      this.loadScriptOnce('http://lab.simmzl.cn/player/cyberplayer.js');
     },
     deactivated() {
       this.im = false;
       this.clearAllTimer();
-//      let myDate = new Date();
-//      this.chartData.subText = this.selectedId + " " + myDate.getFullYear() + '/' + this.addZero(myDate.getMonth()+1) + '/' + this.addZero(myDate.getDate());
-//      this.myInit();
     },
     methods: {
 //      初始化图表
@@ -629,6 +624,22 @@
         this.selectYear = myDate.getFullYear();
         this.selectMonth = myDate.getMonth() + 1;
         this.selectDay = myDate.getDate();
+      },
+      loadScriptOnce(src) {
+        let scripts = document.getElementsByTagName('script');
+        let res = 0;
+        for (let i = 0; i < scripts.length; i++) {
+          if (scripts[i].src === src) {
+            res = 1;
+            break;
+          }
+        }
+        if (res === 0) {
+          let script = document.createElement("script");
+          script.src = src;
+          document.body.appendChild(script);
+          console.log('script loading');
+        }
       }
     }
   }
@@ -657,10 +668,9 @@
   .pre_next span{
     cursor: pointer;
   }
-  .pre_next .fa, .pre_next .fa{
-    margin-right: 0;
-    padding-left: 10px;
-    padding-right: 20px;
+  .pre_next .glyphicon{
+    font-size: 14px;
+    margin: 0 10px;
   }
   .dropSelects{
     padding-bottom: 8px;
@@ -679,9 +689,6 @@
   }
   .pre_next .pre_day, .pre_next .next_day {
     font-size: 14px;
-  }
-  .pre_next .fa-lg{
-    font-size: 18px;
   }
   .realTimeBtn.a_title.btn-group.im:hover{
     color: #5cb85c!important;
