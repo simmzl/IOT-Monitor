@@ -31,6 +31,8 @@ const User = () => import ('./components/user/user');
 const UserFiles = () => import ('./components/user/userFiles/userFiles');
 const BookRepair = () => import ('./components/user/bookRepair/bookRepair');
 
+import { getCookie } from './common/js/cookie.js'
+
 Vue.config.productionTip = false;
 
 Vue.use(VueResource);
@@ -104,9 +106,27 @@ new Vue({
   router,
   template: '<App/>',
   components: { App },
-  methods: {}
+  created() {
+    let uName = getCookie('username');
+    let uPwd = getCookie('info');
+    if(uName === ""){
+      router.push('/');
+    }else {
+      let data = {'username':uName,'password':uPwd};
+      this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
+        if(res.data === '1'){
+          router.push('/admin');
+        }else if(res.data === '2'){
+          router.push('/user');
+        }else if(res.data === '3'){
+          router.push('/serviceman');
+        }
+      });
+    }
+  }
 });
-router.push('/');
+
+// router.push('/');
 // router.push('/serviceman');
 // router.push('/admin/equipment/equipInput');
 // router.push('/admin/charts');

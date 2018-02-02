@@ -24,7 +24,7 @@
         pwd: ''
       }
     },
-    beforeCreate() {
+    created() {
       let uName = getCookie('username');
       let uPwd = getCookie('info');
       this.name = uName;
@@ -34,8 +34,12 @@
       }else {
         let data = {'username':this.name,'password':this.pwd};
         this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
-          if(res.data !== '1'){
-            this.$router.push('/');
+          if(res.data === '1'){
+            this.$router.push('/admin');
+          }else if(res.data === '2'){
+            this.$router.push('/user');
+          }else if(res.data === '3'){
+            this.$router.push('/serviceman');
           }
         });
       }

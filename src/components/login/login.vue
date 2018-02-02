@@ -88,7 +88,6 @@
       let uPwd = getCookie('info');
       let data = {'username':uName,'password':uPwd};
       this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
-//      this.$http.post('http://lab.simmzl.cn/php/login.php', data,{emulateJSON:true}).then((res)=>{
         if(res.data === '1'){
           this.$router.push('/admin');
         }else if(res.data === '2'){

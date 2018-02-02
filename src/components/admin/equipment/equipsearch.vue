@@ -1,7 +1,8 @@
 <template>
   <div class='equip_search_all'>
-    <div class='equip_search'>
-      <input type="text" id='equip_search' placeholder='设备编号' v-model="queryId" @keyup.enter="query"><span @click="query"><i class="fa fa-search fa-lg"></i></span>
+    <div class="input-group equip_search_input">
+      <input type="text" class="form-control" placeholder="8位设备编号" v-model="queryId" @keyup.enter="query">
+      <span class="input-group-addon" @click="query"><i class="glyphicon glyphicon-search"></i></span>
     </div>
     <div class='table-responsive' v-show="!!queryRes.id">
       <table class='table table-striped table-bordered table-hover'>
@@ -17,7 +18,7 @@
           <th>联系人电话</th>
           <th class="equip-status">设备状态</th>
           <th>监控链接</th>
-          <th class="operation">操作</th>
+          <th class="operation nowrap">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -35,7 +36,7 @@
             <span v-if="!queryRes.rtmp">无</span>
             <button type="button" data-toggle="modal" data-target="#showRTMPDetail" class="btn btn-primary btn-xs" v-if="!!queryRes.rtmp" @click="showRTMPAddr(queryRes.rtmp)">查看</button>
           </td>
-          <td class="operation-td">
+          <td class="operation-td nowrap">
             <button type="button" data-toggle="modal" data-target="#changeEquipInfo" class="btn btn-warning btn-xs operation-change" @click="changeEquipInfo(queryRes)">修改</button>
             <button type="button" class="btn btn-danger btn-xs" @click="deleteItem">删除</button>
           </td>
@@ -62,7 +63,7 @@
           <th>联系人电话</th>
           <th class="equip-status">设备状态</th>
           <th>监控链接</th>
-          <th class="operation-td nowrap">操作</th>
+          <th class="operation nowrap">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -389,22 +390,20 @@
     border-radius: 10px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   }
-  .equip_search input{
-    max-width: 720px;
-    width: calc(100% - 30px);
-    height: 40px;
-    border: 1px solid #e6e6e6;
-    outline: none;
-    padding-left: 8px;
-    border-radius: 4px 4px;
-    display: inline!important;
+  .equip_search_input{
     margin-bottom: 20px;
   }
-  .equip_search span{
-    display: inline-block;
-    width: 20px;
-    margin-left: 10px;
+  .equip_search_input input{
+    box-shadow: none!important;
+    height: 39px;
+  }
+  .equip_search_input span{
+    background-color: #ffffff;
     cursor: pointer;
+  }
+  .equip_search_input .glyphicon{
+    font-size: 16px;
+    margin-right: 0!important;
   }
   .equip_all{
     margin-bottom: 20px;
