@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 
 import login from './components/login/login';
+const Error_404 = () => import ('./components/404');
 const Info = () => import ('./components/info/info');
 
 // admin
@@ -40,13 +41,14 @@ Vue.use(VueRouter);
 
 let routes = [
   { path: '/', component: login },
+  { path: '/404', component: Error_404 },
   {
     path: '/admin',
     component: Admin,
     redirect: '/admin/charts',
     children: [
-      { path: 'info', component: Info },
       { path: 'charts', component: Charts },
+      { path: 'info', component: Info },
       { path: 'video', component: LabVideo },
       {
         path: 'equipment',
@@ -67,10 +69,10 @@ let routes = [
     component: User,
     redirect: '/user/charts',
     children: [
+      { path: 'charts', component: Charts },
       { path: 'info', component: Info },
       { path: 'userFiles', component: UserFiles },
       // { path: 'bookRepair', component: bookRepair },
-      { path: 'charts', component: Charts },
       { path: 'video', component: LabVideo }
     ]
   },
@@ -79,9 +81,9 @@ let routes = [
     component: Serviceman,
     redirect: '/serviceman/repair',
     children: [
+      { path: 'repair', component: EquipRepair },
       { path: 'info', component: Info },
       { path: 'bookRepair', component: BookRepair },
-      { path: 'repair', component: EquipRepair },
       // {
       //   path: 'equipment',
       //   component: equipment,
@@ -109,24 +111,22 @@ new Vue({
   created() {
     let uName = getCookie('username');
     let uPwd = getCookie('info');
-    if(uName === ""){
-      router.push('/');
-    }else {
-      let data = {'username':uName,'password':uPwd};
-      this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
-        if(res.data === '1'){
-          router.push('/admin');
-        }else if(res.data === '2'){
-          router.push('/user');
-        }else if(res.data === '3'){
-          router.push('/serviceman');
-        }
-      });
-    }
+    if(uName === "") return router.push('/');
+    console.log(1);
+    // let data = {'username':uName,'password':uPwd};
+    // this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
+    //   if(res.data === '1'){
+    //     router.push('/admin');
+    //   }else if(res.data === '2'){
+    //     router.push('/user');
+    //   }else if(res.data === '3'){
+    //     router.push('/serviceman');
+    //   }
+    // });
   }
 });
 
-// router.push('/');
+// router.push('/404');
 // router.push('/serviceman');
 // router.push('/admin/equipment/equipInput');
 // router.push('/admin/charts');

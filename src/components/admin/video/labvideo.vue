@@ -3,14 +3,23 @@
   <div class='col-lg-3 col-md-3 auto-padding video-info'>
     <div class="video-title">监控信息</div>
     <div class="video-info-wrapper">
-      <p class="video-info-wrapper-title">选择设备：</p>
-      <div class="dropSelectsId">
-        <select v-model="selectedId" v-if="allUids">
-          <option v-for="id in allUids" :value="id">{{id}}</option>
-        </select>
-        <button type="button" class="btn btn-primary btn-xs button-font" @click="changeRtmp()" ref="playById">确定</button>
-        <button type="button" class="btn btn-warning btn-xs button-font" @click="initPlayer()" ref="playById">刷新</button>
+      <div>
+        <p class="video-info-wrapper-title">选择设备：</p>
+        <div class="dropSelectsId">
+          <select v-model="selectedId" v-if="allUids">
+            <option v-for="id in allUids" :value="id">{{id}}</option>
+          </select>
+          <button type="button" class="btn btn-primary btn-xs button-font" @click="changeRtmp()" ref="playById">确定</button>
+          <button type="button" class="btn btn-warning btn-xs button-font" @click="initPlayer()" ref="playById">刷新</button>
+        </div>
       </div>
+      <!-- <div data-toggle="distpicker" class="select-group">
+          <select data-province="---- 选择省 ----" v-model="edit.co_addr.province" class="addr-province"></select>
+          <select data-city="---- 选择市 ----" v-model="edit.co_addr.city" class="addr-city"></select>
+          <select data-district="---- 选择区 ----" v-model="edit.co_addr.district" class="addr-district"></select>
+          <button type="button" class="btn btn-primary btn-xs button-font" @click="changeRtmp()" ref="playById">确定</button>
+          <button type="button" class="btn btn-warning btn-xs button-font" @click="initPlayer()" ref="playById">刷新</button>
+      </div> -->
     </div>
   </div>
   <div class="col-lg-9 col-md-9 auto-padding">

@@ -23,26 +23,16 @@
       return {
       }
     },
-    created() {
+    activated() {
       let uName = getCookie('username');
       let uPwd = getCookie('info');
       this.name = uName;
       this.pwd = uPwd;
       /*如果cookie不存在，则跳转到登录页*/
-      if(uName === ""){
-        this.$router.push('/');
-      }else {
-        let data = {'username':this.name,'password':this.pwd};
-        this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
-          if(res.data === '1'){
-            this.$router.push('/admin');
-          }else if(res.data === '2'){
-            this.$router.push('/user');
-          }else if(res.data === '3'){
-            this.$router.push('/serviceman');
-          }
-        });
-      }
+      if(uName === "") return this.$router.push('/');
+      this.$http.post('./php/login.php', data,{emulateJSON:true}).then((res)=>{
+        if(res.data !== '3') this.$router.push('/404');
+      });
     },
     methods: {},
     components: {
